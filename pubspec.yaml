@@ -20,6 +20,7 @@ flutter:
   assets:
     - assets/images/profilePage/
     - assets/images/authenticationPage/
+    - assets/images/medReminderPage/
   fonts:
     - family: Poppins
       fonts:

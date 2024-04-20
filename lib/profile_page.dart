@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/welcome.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  final Color textColor = const Color(0xFF4A707A);
   final Color boxColor = const Color(0x5ED9D9D9);
   final Color dividerColor = const Color(0xFFD9D9D9);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
                       children: <Widget>[
                         Text("Profil",
                             style: TextStyle(
-                                color: textColor,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2.4)),
@@ -127,7 +127,7 @@ class ProfilePage extends StatelessWidget {
                       children: <Widget>[
                         Text("Informasi Umum",
                             style: TextStyle(
-                                color: textColor,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.6)),
@@ -145,7 +145,7 @@ class ProfilePage extends StatelessWidget {
                                   children : <Widget>[
                                      Expanded( //icon
                                       flex: 1,
-                                      child: Icon(Icons.group, color: textColor)
+                                      child: Icon(Icons.group, color: Theme.of(context).colorScheme.primary)
                                       ),
                                       const Expanded( //text
                                        flex: 3,
@@ -160,7 +160,7 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                       Expanded( //arrow
                                        flex: 1,
-                                       child: Icon(Icons.chevron_right_sharp, color: textColor)
+                                       child: Icon(Icons.chevron_right_sharp, color: Theme.of(context).colorScheme.primary)
                                       )
                                   ]
                                 ),
@@ -172,7 +172,7 @@ class ProfilePage extends StatelessWidget {
                                   children : <Widget>[
                                     Expanded( //icon
                                       flex: 1,
-                                      child: Icon(Icons.help, color: textColor)
+                                      child: Icon(Icons.help, color: Theme.of(context).colorScheme.primary)
                                       ),
                                       const Expanded( //text
                                        flex: 3,
@@ -187,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                       Expanded( //arrow
                                        flex: 1,
-                                       child: Icon(Icons.chevron_right_sharp, color: textColor)
+                                       child: Icon(Icons.chevron_right_sharp, color: Theme.of(context).colorScheme.primary)
                                       )
                                   ]
                                 ),
@@ -199,7 +199,7 @@ class ProfilePage extends StatelessWidget {
                                   children : <Widget>[
                                     Expanded( //icon
                                       flex: 1,
-                                      child: Icon(Icons.info_outline, color: textColor)
+                                      child: Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary)
                                       ),
                                       const Expanded( //text
                                        flex: 3,
@@ -214,7 +214,7 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                       Expanded( //arrow
                                        flex: 1,
-                                       child: Icon(Icons.chevron_right_sharp, color: textColor)
+                                       child: Icon(Icons.chevron_right_sharp, color: Theme.of(context).colorScheme.primary)
                                       )
                                   ]
                                 ),
@@ -231,7 +231,7 @@ class ProfilePage extends StatelessWidget {
                       children: <Widget>[
                         Text("Pengaturan Akun",
                             style: TextStyle(
-                                color: textColor,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.6)),
@@ -249,7 +249,7 @@ class ProfilePage extends StatelessWidget {
                                   children : <Widget>[
                                      Expanded( //icon
                                       flex: 1,
-                                      child: Icon(Icons.password, color: textColor)
+                                      child: Icon(Icons.password, color: Theme.of(context).colorScheme.primary)
                                       ),
                                       const Expanded( //text
                                        flex: 3,
@@ -264,19 +264,19 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                       Expanded( //arrow
                                        flex: 1,
-                                       child: Icon(Icons.chevron_right_sharp, color: textColor)
+                                       child: Icon(Icons.chevron_right_sharp, color: Theme.of(context).colorScheme.primary)
                                       )
                                   ]
                                 ),
                               ),
                               const Divider(height: 5),
                               TextButton(
-                                onPressed: (){},
+                                onPressed: (){ Navigator.push(context, MaterialPageRoute(builder:(context) => const WelcomePage(),));},
                                 child: Row(
                                   children : <Widget>[
                                     Expanded( //icon
                                       flex: 1,
-                                      child: Icon(Icons.logout, color: textColor)
+                                      child: Icon(Icons.logout, color: Theme.of(context).colorScheme.primary)
                                       ),
                                       const Expanded( //text
                                        flex: 3,
@@ -291,7 +291,7 @@ class ProfilePage extends StatelessWidget {
                                       ),
                                       Expanded( //arrow
                                        flex: 1,
-                                       child: Icon(Icons.chevron_right_sharp, color: textColor)
+                                       child: Icon(Icons.chevron_right_sharp, color: Theme.of(context).colorScheme.primary)
                                       )
                                   ]
                                 ),

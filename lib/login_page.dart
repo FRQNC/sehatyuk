@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/ProfilePage.dart';
+import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/signup_page.dart';
 import 'package:sehatyuk/welcome.dart';
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: GestureDetector(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/ProfilePage.dart';
 import 'package:sehatyuk/welcome.dart';
 
 void main() {
@@ -21,12 +20,15 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color(0xFF4A707A),
-          secondary: Color(0xFFC2C8C5),
-          tertiary: Color(0xFF94B0B7),
-          onPrimary: Color(0xFF37363B)
+          primary: const Color(0xFF4A707A),
+          secondary: const Color(0xFFC2C8C5),
+          tertiary: const Color(0xFF94B0B7),
+          onPrimary: const Color(0xFF37363B),
+          primaryContainer: const Color(0x5ED9D9D9),
         ),
-        fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: Colors.white
+
       ),
     );
   }
