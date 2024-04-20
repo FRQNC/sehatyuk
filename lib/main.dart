@@ -86,6 +86,7 @@ class BulletList extends StatelessWidget {
                       fontSize: this.fontSize,
                       fontWeight: this.fontWeight,
                       color: this.color,
+                      letterSpacing: this.letterSpacing,
                     ),
                   ),
                 ),
