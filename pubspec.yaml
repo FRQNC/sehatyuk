@@ -24,6 +24,7 @@ flutter:
     - assets/images/detailDokterPage/
     - assets/images/profilePage/
     - assets/images/medReminderPage/
+    - assets/images/pilihObatUntukPengingatPage/
     - assets/images/cariDokterPage/
   fonts:
     - family: Poppins
