@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/welcome.dart';
+import 'package:sehatyuk/cari_dokter.dart';
 
 class DetailDokterPage extends StatefulWidget {
   const DetailDokterPage({super.key});
@@ -31,7 +31,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const WelcomePage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const CariDokterPage()));
           },
           child: Icon(
             Icons.arrow_back_rounded,

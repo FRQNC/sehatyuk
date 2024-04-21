@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/DetailDokter.dart';
 
 class CariDokterPage extends StatefulWidget {
   const CariDokterPage({super.key});
@@ -9,7 +11,7 @@ class CariDokterPage extends StatefulWidget {
   State<CariDokterPage> createState() => _CariDokterPageState();
 }
 
-class _CariDokterPageState extends State<CariDokterPage> {
+class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +19,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {},
-          color: Color(0xFF4A707A),
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
       body: SingleChildScrollView(
@@ -33,7 +35,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF4A707A),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -49,18 +51,32 @@ class _CariDokterPageState extends State<CariDokterPage> {
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Cari Dokter',
-                    suffixIcon: Icon(Icons.search, color: Color(0xFF4A707A)),
+                    suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF94B0B7),
-                        width: 1.0,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    enabledBorder: OutlineInputBorder( // Garis batas ketika TextField tidak dalam keadaan terfokus
+                      borderSide: BorderSide(
+                        color: Color(0xFF94B0B7),
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    focusedBorder: OutlineInputBorder( // Garis batas ketika TextField dalam keadaan terfokus
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary, // Menggunakan warna utama tema saat dalam keadaan terfokus
+                        width: 2.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     hintStyle: TextStyle(
                       fontSize: 10,
-                      fontWeight: FontWeight.w400,
+                      // fontWeight: FontWeight.w400,
                       color: Color(0xFFC2C8C5),
                     ),
                   ),
@@ -74,7 +90,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF4A707A),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     Row(
@@ -88,8 +104,8 @@ class _CariDokterPageState extends State<CariDokterPage> {
                             'Lihat Semua',
                             style: TextStyle(
                               fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF4A707A),
+                              fontWeight: medium,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),
@@ -119,7 +135,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF4A707A),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     Row(
@@ -150,7 +166,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                                     ),
                                   ),
                                   Spacer(), // Spacer untuk menjaga jarak antara teks dan ikon
-                                  Icon(Icons.tune, color: Color(0xFF4A707A)), // Add tune icon
+                                  Icon(Icons.tune, color: Theme.of(context).colorScheme.primary), // Add tune icon
                                 ],
                               ),
                             ),
@@ -164,44 +180,44 @@ class _CariDokterPageState extends State<CariDokterPage> {
                 Column(
                   children: [
                     DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/kucing1.png',
-                      specialty: 'THT',
-                      doctorName: 'Haru Imut',
-                      experience: '5 Tahun  |  Rating',
-                      price: 'Rpxxx.xxx,00',
-                      onPressed: () {
-                        // Fungsi untuk menampilkan detail dokter
-                      },
-                    ),
-                    SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/kucing2.png',
+                      imagePath: 'assets/images/cariDokterPage/doctor_1.jpg',
                       specialty: 'Kulit',
-                      doctorName: 'Haru Cantik',
-                      experience: '3 Tahun  |  Rating',
-                      price: 'Rpxxx.xxx,00',
+                      doctorName: 'Ujang Suherman',
+                      experience: '2 Tahun  |  5.0',
+                      price: 'Rp200.000,00',
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailDokterPage()));
+                      },
+                    ),
+                    SizedBox(height: 8), // Berikan jarak antara setiap card view
+                    DoctorCard(
+                      imagePath: 'assets/images/cariDokterPage/doctor_2.jpeg',
+                      specialty: 'THT',
+                      doctorName: 'Farah Septian',
+                      experience: '3 Tahun  |  4.5',
+                      price: 'Rp295.000,00',
                       onPressed: () {
                         // Fungsi untuk menampilkan detail dokter
                       },
                     ),
                     SizedBox(height: 8), // Berikan jarak antara setiap card view
                     DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/kucing3.png',
+                      imagePath: 'assets/images/cariDokterPage/doctor_3.jpeg',
                       specialty: 'Mata',
-                      doctorName: 'Haru Ganteng',
-                      experience: '1 Tahun  |  Rating',
-                      price: 'Rpxxx.xxx,00',
+                      doctorName: 'Agus Ibrahim',
+                      experience: '3 Tahun  |  4.7',
+                      price: 'Rp275.000,00',
                       onPressed: () {
                         // Fungsi untuk menampilkan detail dokter
                       },
                     ),
                     SizedBox(height: 8), // Berikan jarak antara setiap card view
                     DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/kucing4.png',
+                      imagePath: 'assets/images/cariDokterPage/doctor_4.jpeg',
                       specialty: 'Jantung',
-                      doctorName: 'Haru Gemoy',
-                      experience: '2 Tahun  |  Rating',
-                      price: 'Rpxxx.xxx,00',
+                      doctorName: 'Amanda Charisma',
+                      experience: '2 Tahun  |  5.0',
+                      price: 'Rp300.000,00',
                       onPressed: () {
                         // Fungsi untuk menampilkan detail dokter
                       },
@@ -335,10 +351,9 @@ class DoctorCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 8,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF4A707A),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -354,12 +369,12 @@ class DoctorCard extends StatelessWidget {
                         onPressed: onPressed,
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
-                          minimumSize: Size(64, 32), // Mengatur ukuran minimum tombol
+                          minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
                           textStyle: TextStyle(
-                            fontSize: 8, // Mengatur ukuran teks
+                            fontSize: 12, // Mengatur ukuran teks
                             fontWeight: FontWeight.w500,
                           ),
-                          backgroundColor: Color(0xFF4A707A),
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                         ),
                         child: Text(
                           'Detail',
