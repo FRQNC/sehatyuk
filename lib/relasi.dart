@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/tambah_relasi.dart';
+import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/primary_button.dart';
 
 class RelasiInfo {
@@ -35,7 +37,9 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+          },
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
@@ -100,7 +104,9 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                           child: PrimaryButton(
                               buttonText: "Tambah",
                               containerWidth: 160,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahRelasiPage()));
+                              },
                               fontSize: 15),
                         ),
                       )
