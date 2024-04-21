@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/primary_button.dart';
 
 class MedicationInfo {
@@ -20,7 +21,7 @@ class MedicationReminderPage extends StatefulWidget {
   State<MedicationReminderPage> createState() => _MedicationReminderPageState();
 }
 
-class _MedicationReminderPageState extends State<MedicationReminderPage> {
+class _MedicationReminderPageState extends State<MedicationReminderPage> with AppMixin {
 
   List<MedicationInfo> medItem = [
     MedicationInfo(medicationName: "Paracetamol",medicationType: "Kapsul",medicationDescription: "Lorem ipsum", medicationImagePath: 'assets/images/medReminderPage/paracetamol.png'),
@@ -31,7 +32,6 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    double sidePadding = 20.0;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -44,7 +44,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
           children: [
             Padding(
               padding:
-                  EdgeInsets.symmetric(horizontal: sidePadding, vertical: 15),
+                  EdgeInsets.symmetric(horizontal: sideMargin, vertical: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
