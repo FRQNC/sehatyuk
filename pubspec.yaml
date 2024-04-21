@@ -25,6 +25,7 @@ flutter:
     - assets/images/profilePage/
     - assets/images/medReminderPage/
     - assets/images/cariDokterPage/
+    - assets/images/relasiPage/
   fonts:
     - family: Poppins
       fonts:
