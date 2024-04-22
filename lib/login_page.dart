@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/signup_page.dart';

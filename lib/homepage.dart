@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:sehatyuk/ResumaMedis.dart';
 import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/daftarresume.dart';

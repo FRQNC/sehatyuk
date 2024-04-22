@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sehatyuk/DetailDokter.dart';
 import 'package:sehatyuk/LoadPage.dart';
-import 'package:sehatyuk/homepage.dart';
-import 'package:sehatyuk/route.dart';
-import 'package:sehatyuk/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -48,7 +44,7 @@ class _MainAppState extends State<MainApp> {
       ],
       supportedLocales: [
         Locale('en', ''),
-        Locale('id', 'ID'), // arabic, no country code
+        Locale('id', 'ID'),
       ],
     );
   }
@@ -67,7 +63,6 @@ class BulletList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      // padding: EdgeInsets.fromLTRB(0, 15, 16, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: strings.map((str) {

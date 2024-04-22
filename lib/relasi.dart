@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/tambah_relasi.dart';
-import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/primary_button.dart';
 
 class RelasiInfo {

@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:sehatyuk/ResumaMedis.dart';
-import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
-import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/homepage.dart';
-import 'package:sehatyuk/informasiobat.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
-import 'package:sehatyuk/kosong.dart';
-import 'package:sehatyuk/med_reminder.dart';
-// import 'package:sehatyuk/jadwaltemu.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/profile_page.dart';
 

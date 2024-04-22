@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/signup_page.dart';
 import 'package:sehatyuk/welcome.dart';
 
 class LoadPage extends StatefulWidget {
