@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sehatyuk/ResumaMedis.dart';
+import 'package:sehatyuk/cariobat.dart';
+import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/informasiobat.dart';
+import 'package:sehatyuk/jadwaltemu.dart';
+import 'package:sehatyuk/kosong.dart';
+import 'package:sehatyuk/med_reminder.dart';
 // import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -126,27 +131,27 @@ void _showPopup() {
   ];
 
   final List<String> fitur1 = [
-    'assets/images/homePage/f1.png',
     'assets/images/homePage/f2.png',
+    'assets/images/homePage/f1.png',
     'assets/images/homePage/f3.png',
     'assets/images/homePage/f4.png'
   ];
   final List<String> fitur2 = [
-    'assets/images/homePage/f5.png',
     'assets/images/homePage/f6.png',
+    'assets/images/homePage/f5.png',
     'assets/images/homePage/f1.png',
     'assets/images/homePage/f2.png',
   ];
 
   final List<String> ft1 = [
     'Resume Medis',
-    'Cari Obat',
     'Cari Dokter',
+    'Cari Obat',
     'Pengingat Minum Obat',
   ];
   final List<String> ft2 = [
-    'Diari Kesehatan',
     'Buat Janji',
+    'Diari Kesehatan',
     'Fitur',
     'Fitur',
   ];
@@ -160,7 +165,20 @@ void _showPopup() {
   final List<String> judul = [
     'Makanan Sehat untuk Puasa',
     'Olahraga',
-    'Menjaga Kesehatan Jantung'
+    'Menjaga Kesehatan Jantutng'
+  ];
+  
+  final List<Widget> pages1 = [
+    DaftarResumePage(),
+    CariDokterPage(),
+    CariObatPage(),
+    MedicationReminderPage(),
+  ];
+  final List<Widget> pages2 = [
+    JadwalTemuPage(),
+    EmptyPage(),
+    EmptyPage(),
+    EmptyPage(),
   ];
 
   final List<String> categories = ['Makanan', 'Gaya Hidup', 'Jantung'];
@@ -191,39 +209,48 @@ void _showPopup() {
               mainAxisAlignment: MainAxisAlignment.center,
               children: fitur1.asMap().entries.map((entry) {
                 String image = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.start, // Atur posisi ke atas
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          image,
-                          height: 65,
-                          width: 65,
-                          fit: BoxFit.cover,
-                        ),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pages1[entry.key],
                       ),
-                      SizedBox(height: 4),
-                      Container(
-                        width: 88, // Sesuaikan dengan lebar gambar
-                        height: 45,
-                        // color: Colors.black12,
-                        child: Text(
-                          ft1[entry.key],
-                          style: TextStyle(
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            image,
+                            height: 65,
+                            width: 65,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Container(
+                          width: 88,
+                          height: 45,
+                          child: Text(
+                            ft1[entry.key],
+                            style: TextStyle(
                               fontSize: 12,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF37363B),
-                              letterSpacing: 0.05),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                          maxLines: 3,
+                              letterSpacing: 0.05,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
@@ -233,42 +260,92 @@ void _showPopup() {
               mainAxisAlignment: MainAxisAlignment.center,
               children: fitur2.asMap().entries.map((entry) {
                 String image = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.start, // Atur posisi ke atas
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          image,
-                          height: 65,
-                          width: 65,
-                          fit: BoxFit.cover,
-                        ),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pages2[entry.key],
                       ),
-                      SizedBox(height: 4),
-                      Container(
-                        width: 88, // Sesuaikan dengan lebar gambar
-                        height: 45,
-                        child: Text(
-                          ft2[entry.key],
-                          style: TextStyle(
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            image,
+                            height: 65,
+                            width: 65,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Container(
+                          width: 88,
+                          height: 45,
+                          child: Text(
+                            ft1[entry.key],
+                            style: TextStyle(
                               fontSize: 12,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                               color: Color(0xFF37363B),
-                              letterSpacing: 0.05),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                          maxLines: 3,
+                              letterSpacing: 0.05,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: fitur2.asMap().entries.map((entry) {
+            //     String image = entry.value;
+            //     return Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            //       child: Column(
+            //         mainAxisAlignment:
+            //             MainAxisAlignment.start, // Atur posisi ke atas
+            //         children: [
+            //           ClipOval(
+            //             child: Image.asset(
+            //               image,
+            //               height: 65,
+            //               width: 65,
+            //               fit: BoxFit.cover,
+            //             ),
+            //           ),
+            //           SizedBox(height: 4),
+            //           Container(
+            //             width: 88, // Sesuaikan dengan lebar gambar
+            //             height: 45,
+            //             child: Text(
+            //               ft2[entry.key],
+            //               style: TextStyle(
+            //                   fontSize: 12,
+            //                   fontFamily: 'Poppins',
+            //                   fontWeight: FontWeight.w500,
+            //                   color: Color(0xFF37363B),
+            //                   letterSpacing: 0.05),
+            //               textAlign: TextAlign.center,
+            //               overflow: TextOverflow.fade,
+            //               maxLines: 3,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     );
+            //   }).toList(),
+            // ),
 
             SizedBox(height: 20),
             // carousel
