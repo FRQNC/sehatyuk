@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/signup_page.dart';
 import 'package:sehatyuk/welcome.dart';
 
@@ -291,7 +292,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     width: 150,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

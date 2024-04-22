@@ -38,7 +38,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+            Navigator.pop(context);
           },
           color: Theme.of(context).colorScheme.primary,
         ),
@@ -63,7 +63,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                               letterSpacing: 1.5)),
                       SizedBox(height: 8),
                       Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                        'Mempermudah orang-orang terdekat anda dalam membuat janji dengan dokter',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 10,

@@ -37,7 +37,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const RelasiPage()));
+            Navigator.pop(context);
           },
           color: Theme.of(context).colorScheme.primary,
         ),

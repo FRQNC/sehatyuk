@@ -30,92 +30,92 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-void _showPopup() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.close),
-                  color: Color(0xff4A707A),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                "Selamat Datang Aurora",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff4A707A),
-                  letterSpacing: 0.8,
-                ),
-                textAlign: TextAlign.start,
+  void _showPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    color: Color(0xff4A707A),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                "Selamat datang di SEHATYUK.\nKami siap membantu anda",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff37363B),
-                  letterSpacing: 0.8,
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "Selamat Datang Aurora",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff4A707A),
+                    letterSpacing: 0.8,
+                  ),
+                  textAlign: TextAlign.start,
                 ),
-                textAlign: TextAlign.start,
               ),
-            ),
-            SizedBox(height: 200),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color(0xff4A707A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "Selamat datang di SEHATYUK.\nKami siap membantu anda",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff37363B),
+                    letterSpacing: 0.8,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              SizedBox(height: 200),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xff4A707A),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      "Mulai",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.8,
+                      ),
                     ),
                   ),
-                  child: Text(
-                    "Mulai",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   int _currentIndex = 0;
 
@@ -583,36 +583,6 @@ void _showPopup() {
           ),
           ],
         ),
-      ),
-      // bottom navbar
-
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: Color(0xFF7697A0),
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.local_hospital),
-            label: 'Cari Dokter',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.medical_services),
-            label: 'Cari Obat',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }

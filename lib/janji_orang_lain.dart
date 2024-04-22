@@ -56,7 +56,7 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
                     height: 15,
                   ),
                   Text(
-                    "Lorem Ipsum",
+                    "Isi data dengan baik dan benar",
                     style: TextStyle(
                       fontSize: 14,
                       color: Theme.of(context).colorScheme.onPrimary,

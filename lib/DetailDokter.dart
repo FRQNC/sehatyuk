@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
+import 'package:sehatyuk/primary_button.dart';
 
 class DetailDokterPage extends StatefulWidget {
   const DetailDokterPage({super.key});
@@ -683,7 +685,125 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                   SizedBox(height: 40,),
                                   Center(
                                     child: TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if(selectedPerson == "Orang lain"){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const BuatJanjiOtherPage()));
+                                        }
+                                        else if(selectedPerson != null){
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  elevation: 0,
+                                                  insetPadding: EdgeInsets.all(25),
+                                                  content: SizedBox(
+                                                    width: MediaQuery.of(context).size.width,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              child: Container(),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () => Navigator.pop(context),
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                color: Theme.of(context).colorScheme.primary,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 50.0),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: [
+                                                              Text(
+                                                                "BERHASIL",
+                                                                style: TextStyle(
+                                                                  color: Theme.of(context).colorScheme.primary,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  fontSize: 25,
+                                                                  letterSpacing: 2.0,
+                                                                ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 175,
+                                                                  child: Divider(
+                                                                    color: dividerColor,
+                                                                    thickness: 3,
+                                                                  ),
+                                                                )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 15.0),
+                                                          child: Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: 4, bottom: 0),
+                                                                child: Text(
+                                                                  "Berhasil membuat janji bersama dokter!",
+                                                                  style: TextStyle(
+                                                                    color: Theme.of(context).colorScheme.onPrimary,
+                                                                    fontSize: 14,
+                                                                  )
+                                                                  ),
+                                                              ),
+                                                              Divider(
+                                                                color: dividerColor,
+                                                                thickness: 1,
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets.only(top: 4, bottom: 0),
+                                                                child: Text(
+                                                                  "Lekas sembuh",
+                                                                  style: TextStyle(
+                                                                    color: Theme.of(context).colorScheme.primary,
+                                                                    fontSize: 20,
+                                                                    fontWeight: semi,
+                                                                    letterSpacing: 1.5
+                                                                  )
+                                                                  ),
+                                                              ),
+                                                              Divider(
+                                                                color: dividerColor,
+                                                                thickness: 1,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 20.0, bottom:15),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                children: [
+                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Buat Janji", fontSize: 15),
+                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Cek Janji", fontSize: 15)
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          );
+                                        }
+                                      },
                                       style: TextButton.styleFrom(
                                         backgroundColor: Theme.of(context).colorScheme.primary,
                                       ),

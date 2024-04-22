@@ -48,7 +48,7 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  'Cari dokter dengan spesialisasi yang sesuai dengan keluhan anda',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 10,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/welcome.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -314,7 +315,9 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   child: Container(
                     width: 150,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                       ),

@@ -29,7 +29,7 @@ class _PilihObatUntukPengingatPageState
     MedicationInfo(
         medicationName: "Metformin HCI",
         medicationType: "Tablet",
-        medicationDescription: "Lorem ipsum",
+        medicationDescription: "Obat diabetes",
         medicationImagePath:
             'assets/images/pilihObatUntukPengingatPage/Metformin.png'),
   ];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/signup_page.dart';
+import 'package:sehatyuk/welcome.dart';
 
 class LoadPage extends StatefulWidget {
   const LoadPage({super.key});
@@ -11,6 +12,17 @@ class LoadPage extends StatefulWidget {
 }
 
 class _LoadPageState extends State<LoadPage> with AppMixin {
+  @override
+  void initState(){
+    super.initState();
+    _navigateToWelcome();
+  }
+
+  _navigateToWelcome() async {
+    await Future.delayed(Duration(milliseconds: 3000), () {});
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +36,7 @@ class _LoadPageState extends State<LoadPage> with AppMixin {
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitHeight),
             SizedBox(
-              height: 20,
+              height: 50,
             ),
             Container(
               width: 150,
@@ -32,7 +44,7 @@ class _LoadPageState extends State<LoadPage> with AppMixin {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset('assets/images/LoadPage/Logo.png', // Ganti dengan path gambar Anda
-                    height: 80, // Sesuaikan tinggi gambar sesuai kebutuhan
+                    height: 150, // Sesuaikan tinggi gambar sesuai kebutuhan
                   ),
                   SizedBox(
                       height: 10), // Sesuaikan jarak antara gambar dan teks

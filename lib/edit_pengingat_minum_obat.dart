@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/primary_button.dart';
 
-class TambahPengingatObat extends StatefulWidget {
-  const TambahPengingatObat({super.key});
+class EditPengingatObat extends StatefulWidget {
+  const EditPengingatObat({super.key});
 
   @override
-  State<TambahPengingatObat> createState() => _TambahPengingatObatState();
+  State<EditPengingatObat> createState() => _EditPengingatObatState();
 }
 
-class _TambahPengingatObatState extends State<TambahPengingatObat>
+class _EditPengingatObatState extends State<EditPengingatObat>
     with AppMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -41,11 +41,13 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           color: Theme.of(context).colorScheme.primary,
         ),
         title: Text(
-          'Tambah Pengingat Minum Obat',
+          'Edit Pengingat Minum Obat',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

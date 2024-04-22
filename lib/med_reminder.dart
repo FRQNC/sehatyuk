@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/edit_pengingat_minum_obat.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/pilih_obat_untuk_pengingat.dart';
 import 'package:sehatyuk/primary_button.dart';
 
 class MedicationInfo {
@@ -25,10 +27,10 @@ class MedicationReminderPage extends StatefulWidget {
 class _MedicationReminderPageState extends State<MedicationReminderPage> with AppMixin {
 
   List<MedicationInfo> medItem = [
-    MedicationInfo(medicationName: "Paracetamol",medicationType: "Kapsul",medicationDescription: "Lorem ipsum", medicationImagePath: 'assets/images/medReminderPage/paracetamol.png'),
-    MedicationInfo(medicationName: "Ibuprofen",medicationType: "Tablet",medicationDescription: "Lorem ipsum", medicationImagePath: 'assets/images/medReminderPage/ibuprofen.png'),
-    MedicationInfo(medicationName: "Amoxicillin",medicationType: "Sirup",medicationDescription: "Lorem ipsum", medicationImagePath: 'assets/images/medReminderPage/amoxicillin.png'),
-    MedicationInfo(medicationName: "Omeprazole",medicationType: "Sirup",medicationDescription: "Lorem ipsum", medicationImagePath: 'assets/images/medReminderPage/omeprazole.png'),
+    MedicationInfo(medicationName: "Paracetamol",medicationType: "Kapsul",medicationDescription: "Obat demam", medicationImagePath: 'assets/images/medReminderPage/paracetamol.png'),
+    MedicationInfo(medicationName: "Ibuprofen",medicationType: "Tablet",medicationDescription: "Obat nyeri", medicationImagePath: 'assets/images/medReminderPage/ibuprofen.png'),
+    MedicationInfo(medicationName: "Amoxicillin",medicationType: "Sirup",medicationDescription: "Obat antibiotik", medicationImagePath: 'assets/images/medReminderPage/amoxicillin.png'),
+    MedicationInfo(medicationName: "Omeprazole",medicationType: "Sirup",medicationDescription: "Obat asam lambung", medicationImagePath: 'assets/images/medReminderPage/omeprazole.png'),
   ];
 
   @override
@@ -71,7 +73,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                         height: 10,
                       ),
                       Text(
-                        "Lorem Ipsum",
+                        "Jangan lewati obat Anda. Tambahkan pengingat untuk meminum obat.",
                         style: TextStyle(
                           fontSize: 14,
                           color: Theme.of(context).colorScheme.onPrimary,
@@ -122,7 +124,9 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                           child: PrimaryButton(
                               buttonText: "Tambah",
                               containerWidth: 160,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const PilihObatUntukPengingatPage()));
+                              },
                               fontSize: 18),
                         ),
                       )
@@ -220,7 +224,14 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                                               ),
                                           Expanded(
                                             flex: 2,
-                                            child: PrimaryButton(buttonText: "Edit",fontSize: 12,containerWidth: 0,onPressed: (){},)
+                                            child: PrimaryButton(
+                                              buttonText: "Edit",
+                                              fontSize: 12,
+                                              containerWidth: 0,
+                                              onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const EditPengingatObat()));
+                                              },
+                                            ),
                                           )
                                         ],
                                       ),
