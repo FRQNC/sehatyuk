@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sehatyuk/DetailDokter.dart';
+import 'package:sehatyuk/cari_dokter.dart';
+import 'package:sehatyuk/cariobat.dart';
+import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/detail_resume.dart';
 import 'package:sehatyuk/pilih_obat_untuk_pengingat.dart';
+import 'package:sehatyuk/relasi.dart';
 import 'package:sehatyuk/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -25,7 +29,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const PilihObatUntukPengingatPage(),
+      home: const DaftarResumePage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
