@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/primary_button.dart';
 
@@ -35,8 +36,17 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        leading: BackButton(
-          color: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: BackButton(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
       body: SingleChildScrollView(

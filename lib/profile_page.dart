@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/welcome.dart';
+import 'package:sehatyuk/relasi.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -140,7 +141,9 @@ class ProfilePage extends StatelessWidget {
                           child: Column(
                             children : <Widget>[
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RelasiPage()));
+                                },
                                 child: Row(
                                   children : <Widget>[
                                      Expanded( //icon
