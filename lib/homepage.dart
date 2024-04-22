@@ -522,7 +522,7 @@ void _showPopup() {
                                     '${categories[index]}',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Color(
                                           0xFF37363B), // Warna teks kategori
                                       fontWeight: FontWeight.w500,
@@ -537,7 +537,7 @@ void _showPopup() {
                                       index], // Mengambil judul dari list berdasarkan index gambar saat ini
                                   style: TextStyle(
                                     fontSize:
-                                        12, // Mengatur ukuran teks judul
+                                        13, // Mengatur ukuran teks judul
                                     color: Color(0xFF37363B),
                                     fontWeight: FontWeight
                                         .w600, // Membuat teks judul menjadi tebal
@@ -553,7 +553,7 @@ void _showPopup() {
                                 Text(
                                   deskripsi[index],
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 12,
                                   ),
                                   maxLines:
                                       2, // Hanya menampilkan dua baris untuk deskripsi
