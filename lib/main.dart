@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:sehatyuk/DetailDokter.dart';
 import 'package:sehatyuk/detail_resume.dart';
 import 'package:sehatyuk/pilih_obat_untuk_pengingat.dart';
+import 'package:sehatyuk/homepage.dart';
+import 'package:sehatyuk/jadwaltemu.dart';
+import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -25,7 +28,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const PilihObatUntukPengingatPage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -111,6 +114,7 @@ mixin AppMixin{
   FontWeight bold = FontWeight.w700;
   FontWeight semi = FontWeight.w600;
   FontWeight medium = FontWeight.w500;
+  FontWeight light = FontWeight.w300;
   Color boxColor = Color(0xFFD9D9D9).withOpacity(0.45);
   Color dividerColor = Color(0xFFD9D9D9);
   double sideMargin = 20;
