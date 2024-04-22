@@ -35,6 +35,7 @@ flutter:
     - assets/images/detailObatPage/
     - assets/images/daftarJanjiTemuPage/
     - assets/icon/backarrow.png
+    - assets/images/CariObatPage/
   fonts:
     - family: Poppins
       fonts:
