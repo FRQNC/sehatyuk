@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sehatyuk/DetailDokter.dart';
+import 'package:sehatyuk/LoadPage.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/daftarresume.dart';
@@ -32,7 +33,7 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const HomePage(),
+      home: const LoadPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
