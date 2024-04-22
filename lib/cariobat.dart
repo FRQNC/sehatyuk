@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/homepage.dart';
+import 'package:sehatyuk/informasiobat.dart';
 
 class CariObatPage extends StatelessWidget {
   const CariObatPage({Key? key}) : super(key: key);
@@ -10,16 +12,16 @@ class CariObatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Container(
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_rounded, // Using the arrow_back_rounded icon
-              size: 30.0, // Setting size of the icon
-              color: Color(0xFF4A707A), // Setting color of the icon
-            ),
-            onPressed: () {
-              // Add your navigation logic here
-            },
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: Icon(
+            Icons.arrow_back_rounded,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),
@@ -138,6 +140,10 @@ Widget build(BuildContext context) {
   return GestureDetector(
     onTap: () {
       //apa yang bakal dilakuin kalau kontainer obatnya ditekan
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => InformasiObatPage()),
+      );
     },
     child: Container(
       margin: EdgeInsets.all(4.0),

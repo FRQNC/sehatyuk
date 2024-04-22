@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/ambilantrian.dart';
+import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:intl/intl.dart';
 
@@ -51,18 +52,18 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Image.asset(
-            'assets/icon/backarrow.png',
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {
-            // Tambahkan fungsi untuk kembali ke layar sebelumnya di sini
-          },
-        ),
-        title: null, // Hilangkan teks judul
         backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: BackButton(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

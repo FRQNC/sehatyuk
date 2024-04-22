@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/detail_resume.dart';
+import 'package:sehatyuk/homepage.dart';
 
 class DaftarResumePage extends StatelessWidget {
   const DaftarResumePage({Key? key}) : super(key: key);
@@ -8,16 +10,15 @@ class DaftarResumePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: Container(
-          child: IconButton(
-            icon: Icon(
-              Icons.arrow_back_rounded, // Menggunakan ikon arrow_back_rounded
-              size: 30.0, // Mengatur ukuran ikon
-              color: Color(0xFF4A707A), // Mengatur warna ikon
-            ),
-            onPressed: () {
-              // Tambahkan logika navigasi Anda di sini
-            },
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: BackButton(
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),
@@ -312,13 +313,30 @@ class ListItem extends StatelessWidget {
                                     15), // Atur bentuk tombol menjadi bulat
                               ),
                             ),
-                            child: Text(
-                              'Detail',
-                              style: TextStyle(
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailResumePage(),
+                                ),
+                              );
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0xff4A707A),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              child: Text(
+                                "Mulai",
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.8), // Mengatur warna teks tombol
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
                             ),
                           ),
                         ],

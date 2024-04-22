@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/homepage.dart';
 
 class EmptyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Empty Page'),
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          },
+          child: BackButton(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
       ),
       body: Center(
         child: Text(

@@ -31,7 +31,10 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const CariDokterPage()));
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => CariDokterPage()),
+            );
           },
           child: Icon(
             Icons.arrow_back_rounded,

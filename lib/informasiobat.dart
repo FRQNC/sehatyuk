@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 
 class InformasiObatPage extends StatefulWidget {
@@ -23,18 +24,18 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
     // Implementasi tampilan halaman informasi obat
     var scaffold = Scaffold(
       appBar: AppBar(
-        // leadingWidth: 100,
-        leading: IconButton(
-          icon: Image.asset(
-            'assets/icon/backarrow.png',
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {
-            // Tambahkan fungsi untuk kembali ke layar sebelumnya di sini
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
+          child: BackButton(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
-        // title: null,
         title: Text(
           'Informasi Obat',
           style: TextStyle(
@@ -44,7 +45,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
             letterSpacing: 0.8,
           ),
           ),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
