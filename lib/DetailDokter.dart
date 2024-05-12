@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
@@ -789,7 +790,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                                 children: [
                                                                   PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Buat Janji", fontSize: 15),
-                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Cek Janji", fontSize: 15)
+                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => const JadwalTemuPage())); }, buttonText: "Cek Janji", fontSize: 15)
                                                                 ],
                                                               )
                                                             ],

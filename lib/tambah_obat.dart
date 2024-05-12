@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/med_reminder.dart';
 import 'package:sehatyuk/primary_button.dart';
 
-class EditPengingatObat extends StatefulWidget {
-  const EditPengingatObat({super.key});
+class TambahPengingatObat extends StatefulWidget {
+  const TambahPengingatObat({super.key});
 
   @override
-  State<EditPengingatObat> createState() => _EditPengingatObatState();
+  State<TambahPengingatObat> createState() => _TambahPengingatObatState();
 }
 
-class _EditPengingatObatState extends State<EditPengingatObat>
+class _TambahPengingatObatState extends State<TambahPengingatObat>
     with AppMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  int count = 0;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -47,7 +49,7 @@ class _EditPengingatObatState extends State<EditPengingatObat>
           color: Theme.of(context).colorScheme.primary,
         ),
         title: Text(
-          'Edit Pengingat Minum Obat',
+          'Tambah Pengingat Minum Obat',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -142,7 +144,12 @@ class _EditPengingatObatState extends State<EditPengingatObat>
                         buttonText: "Simpan",
                         containerWidth: 160,
                         fontSize: 18,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.popUntil(context, (route) {
+                            return count++ == 2;
+                          });
+                          // Navigator.popUntil(context, MaterialPageRoute(builder: (context) => const MedicationReminderPage()));
+                        },
                       ),
                     ),
                   )
@@ -194,7 +201,7 @@ class _EditPengingatObatState extends State<EditPengingatObat>
                     children: [
                       ClipOval(
                         child: Image.asset(
-                          'assets/images/medReminderPage/paracetamol.png',
+                          'assets/images/pilihObatUntukPengingatPage/Metformin.png',
                           width: 120,
                           height: 120,
                           fit: BoxFit.cover,

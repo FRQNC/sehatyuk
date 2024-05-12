@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/tambah_obat.dart';
 
 class MedicationInfo {
   String medicationName,
@@ -203,7 +204,9 @@ class _PilihObatUntukPengingatPageState
                           buttonText: "Pilih",
                           fontSize: 12,
                           containerWidth: 0,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahPengingatObat()));
+                          },
                         ))
                   ],
                 ),

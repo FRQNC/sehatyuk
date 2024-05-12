@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/ResumaMedis.dart';
 import 'package:sehatyuk/detail_resume.dart';
 import 'package:sehatyuk/homepage.dart';
 
@@ -316,11 +317,11 @@ class ListItem extends StatelessWidget {
                             child: TextButton(
                               onPressed: () {
                                 Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailResumePage(),
-                                ),
-                              );
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ResumeMedisPage(),
+                                  ),
+                                );
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: Color(0xff4A707A),

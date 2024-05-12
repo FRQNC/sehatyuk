@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sehatyuk/ambilantrian.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:intl/intl.dart';
 
 class ArtikelPage extends StatefulWidget {
   const ArtikelPage({super.key});

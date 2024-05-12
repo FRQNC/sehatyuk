@@ -21,10 +21,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DaftarResumePage()));
+            Navigator.pop(context);
           },
           child: Icon(
             Icons.arrow_back_rounded,

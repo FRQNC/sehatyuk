@@ -52,86 +52,83 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: sideMargin),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Text("Isi Identitas Diri",
+            //         style: TextStyle(
+            //             color: Theme.of(context).colorScheme.primary,
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.w600,
+            //             letterSpacing: 1.5)),
+            //     // SizedBox(
+            //     //   height: 15,
+            //     // ),
+            //     // Text(
+            //     //   "Lorem Ipsum",
+            //     //   style: TextStyle(
+            //     //     fontSize: 14,
+            //     //     color: Theme.of(context).colorScheme.onPrimary,
+            //     //   ),
+            //     // )
+            //   ],
+            // ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Isi Identitas Diri",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.5)),
-                  SizedBox(
-                    height: 15,
+                  Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+        
+                        formImageInputView(
+                            inputLabel: "Foto *",
+                            ),
+                        formTextInputView(
+                            inputLabel: "Nama Lengkap *",
+                            hintText: "Masukkan nama lengkap"),
+                        formTextInputView(
+                            inputLabel: "Nomor BPJS/Asuransi",
+                            hintText: "Masukkan nomor BPJS/Asuransi"),
+                        formDateInputView(
+                            inputLabel: "Tanggal Lahir *",
+                            hintText: "Masukkan tanggal lahir", readOnly: true),
+                        formTextInputView(
+                            inputLabel: "Nomor Telepon *",
+                            hintText: "Masukkan nomor telepon",
+                            keyboardType: TextInputType.phone),
+                        formTextInputView(
+                            inputLabel: "Alamat *",
+                            hintText: "Masukkan alamat"),
+                      ],
+                    ),
                   ),
-                  Text(
-                    "Lorem Ipsum",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Form(
-                      key: _formkey,
-                      child: Column(
-                        children: [
-
-                          formImageInputView(
-                              inputLabel: "Foto *",
-                              ),
-                          formTextInputView(
-                              inputLabel: "Nama Lengkap *",
-                              hintText: "Masukkan nama lengkap"),
-                          formTextInputView(
-                              inputLabel: "Nomor BPJS/Asuransi",
-                              hintText: "Masukkan nomor BPJS/Asuransi"),
-                          formDateInputView(
-                              inputLabel: "Tanggal Lahir *",
-                              hintText: "Masukkan tanggal lahir", readOnly: true),
-                          formTextInputView(
-                              inputLabel: "Nomor Telepon *",
-                              hintText: "Masukkan nomor telepon",
-                              keyboardType: TextInputType.phone),
-                          formTextInputView(
-                              inputLabel: "Alamat *",
-                              hintText: "Masukkan alamat"),
-                        ],
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Center(
+                    child: PrimaryButton(
+                        buttonText: "Simpan",
+                        containerWidth: 160,
+                        fontSize: 18,
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RelasiPage()));
+                        },
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Center(
-                      child: PrimaryButton(
-                          buttonText: "Simpan",
-                          containerWidth: 160,
-                          fontSize: 18,
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const RelasiPage()));
-                          },
-                        ),
-                      ),
-                  )
-                ],
-              ),
-            ],
-          ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );
