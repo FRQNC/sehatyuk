@@ -1,5 +1,5 @@
 class Users {
-  int user_id;
+  int id_user;
   String namaLengkap;
   DateTime tanggalLahir;
   String gender;
@@ -11,7 +11,7 @@ class Users {
   String photoUrl;
 
   Users({
-    required this.user_id,
+    required this.id_user,
     required this.namaLengkap,
     required this.tanggalLahir,
     required this.gender,
@@ -25,7 +25,7 @@ class Users {
 
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
-      user_id: json['user_id_user'],
+      id_user: json['id_user'],
       namaLengkap: json['nama_lengkap_user'],
       tanggalLahir: DateTime.parse(json['tgl_lahir_user']),
       gender: json['gender_user'],
@@ -40,7 +40,7 @@ class Users {
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id_user': user_id,
+      'id_user': id_user,
       'nama_lengkap_user': namaLengkap,
       'tgl_lahir_user': tanggalLahir.toIso8601String(),
       'gender_user': gender,
