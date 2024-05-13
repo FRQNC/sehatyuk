@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/models/users.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/signup_page.dart';
 import 'package:sehatyuk/welcome.dart';
@@ -30,6 +33,30 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
       isPhone = !isPhone;
       print('$isPhone');
     });
+  }
+
+  final TextEditingController _identifierController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  AuthService _auth = AuthService();
+
+  Future<String> _loginEmail() async {
+    String identifier = _identifierController.text;
+    String password = _passwordController.text;
+    print(identifier);
+
+    String isSucceed = await _auth.loginEmail(context, identifier, password);
+
+    return isSucceed;
+  }
+
+  Future<String> _loginPhone() async {
+    String identifier = _identifierController.text;
+    String password = _passwordController.text;
+
+    String isSucceed = await _auth.loginPhone(context, identifier, password);
+
+    return isSucceed;
   }
 
   @override
@@ -179,6 +206,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: _identifierController,
                         cursorWidth: 1.0,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly,],
@@ -211,6 +239,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: _identifierController,
                         cursorWidth: 1.0,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -248,6 +277,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
                     child: TextFormField(
+                      controller: _passwordController,
                       cursorWidth: 1.0,
                       obscureText: _obscureText,
                       decoration: InputDecoration(
@@ -290,8 +320,36 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                   child: Container(
                     width: 150,
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                      onPressed: () async {
+                        String isSucceed;
+                        if(isPhone) isSucceed = await _loginPhone();
+                        else isSucceed = await _loginEmail();
+
+                        if(isSucceed == "sukses"){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Login Sukses!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                        } 
+                        else if(isSucceed == "credential_error"){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Email/No Telp/Password Salah!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Login Gagal!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

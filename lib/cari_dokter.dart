@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/DetailDokter.dart';
+import 'package:sehatyuk/providers/doctor_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class CariDokterPage extends StatefulWidget {
   const CariDokterPage({super.key});
@@ -13,8 +17,32 @@ class CariDokterPage extends StatefulWidget {
 }
 
 class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    var doctor = context.watch<DoctorProvider>();
+
+    if(doctor.doctors.isEmpty){
+      doctor.fetchData(_token);
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -187,50 +215,69 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                 SizedBox(height: 8),
                 Column(
                   children: [
-                    DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/doctor_1.jpg',
-                      specialty: 'Kulit',
-                      doctorName: 'Ujang Suherman',
-                      experience: '2 Tahun  |  5.0',
-                      price: 'Rp200.000,00',
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailDokterPage()));
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: doctor.doctors.length,
+                      itemBuilder: (context, index) {
+                        return DoctorCard(
+                          token: _token,
+                          id_dokter: doctor.doctors[index].id.toString(),
+                          imagePath: doctor.doctors[index].foto,
+                          specialty: doctor.doctors[index].spesialis,
+                          doctorName: doctor.doctors[index].namaLengkap,
+                          experience: '${doctor.doctors[index].pengalaman.toString()} tahun | ${doctor.doctors[index].rating.toString()}',
+                          price: doctor.doctors[index].harga.toString(),
+                          onPressed: () {
+                            // Add your onPressed logic here
+                          },
+                        );
                       },
                     ),
-                    SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/doctor_2.jpeg',
-                      specialty: 'THT',
-                      doctorName: 'Farah Septian',
-                      experience: '3 Tahun  |  4.5',
-                      price: 'Rp295.000,00',
-                      onPressed: () {
-                        // Fungsi untuk menampilkan detail dokter
-                      },
-                    ),
-                    SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/doctor_3.jpeg',
-                      specialty: 'Mata',
-                      doctorName: 'Agus Ibrahim',
-                      experience: '3 Tahun  |  4.7',
-                      price: 'Rp275.000,00',
-                      onPressed: () {
-                        // Fungsi untuk menampilkan detail dokter
-                      },
-                    ),
-                    SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    DoctorCard(
-                      imagePath: 'assets/images/cariDokterPage/doctor_4.jpeg',
-                      specialty: 'Jantung',
-                      doctorName: 'Amanda Charisma',
-                      experience: '2 Tahun  |  5.0',
-                      price: 'Rp300.000,00',
-                      onPressed: () {
-                        // Fungsi untuk menampilkan detail dokter
-                      },
-                    ),
-                    SizedBox(height: 8), // Berikan jarak antara setiap card view
+                    // DoctorCard(
+                    //   imagePath: 'assets/images/cariDokterPage/doctor_1.jpg',
+                    //   specialty: 'Kulit',
+                    //   doctorName: 'Ujang Suherman',
+                    //   experience: '2 Tahun  |  5.0',
+                    //   price: 'Rp200.000,00',
+                    //   onPressed: () {
+                    //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailDokterPage()));
+                    //   },
+                    // ),
+                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
+                    // DoctorCard(
+                    //   imagePath: 'assets/images/cariDokterPage/doctor_2.jpeg',
+                    //   specialty: 'THT',
+                    //   doctorName: 'Farah Septian',
+                    //   experience: '3 Tahun  |  4.5',
+                    //   price: 'Rp295.000,00',
+                    //   onPressed: () {
+                    //     // Fungsi untuk menampilkan detail dokter
+                    //   },
+                    // ),
+                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
+                    // DoctorCard(
+                    //   imagePath: 'assets/images/cariDokterPage/doctor_3.jpeg',
+                    //   specialty: 'Mata',
+                    //   doctorName: 'Agus Ibrahim',
+                    //   experience: '3 Tahun  |  4.7',
+                    //   price: 'Rp275.000,00',
+                    //   onPressed: () {
+                    //     // Fungsi untuk menampilkan detail dokter
+                    //   },
+                    // ),
+                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
+                    // DoctorCard(
+                    //   imagePath: 'assets/images/cariDokterPage/doctor_4.jpeg',
+                    //   specialty: 'Jantung',
+                    //   doctorName: 'Amanda Charisma',
+                    //   experience: '2 Tahun  |  5.0',
+                    //   price: 'Rp300.000,00',
+                    //   onPressed: () {
+                    //     // Fungsi untuk menampilkan detail dokter
+                    //   },
+                    // ),
+                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
                     // Tambahkan card view ke bawahnya di sini sesuai kebutuhan
                   ],
                 ),
@@ -293,6 +340,8 @@ class DoctorSpecialtyItem extends StatelessWidget {
 }
 
 class DoctorCard extends StatelessWidget {
+  final String token;
+  final String id_dokter;
   final String imagePath;
   final String specialty;
   final String doctorName;
@@ -302,6 +351,8 @@ class DoctorCard extends StatelessWidget {
 
   const DoctorCard({
     Key? key,
+    required this.token,
+    required this.id_dokter,
     required this.imagePath,
     required this.specialty,
     required this.doctorName,
@@ -328,7 +379,13 @@ class DoctorCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(
+                    '${Endpoint.url}dokter_image/$id_dokter',
+                    headers: <String, String>{
+                      'accept': 'application/json',
+                      'Authorization': 'Bearer $token',
+                    },
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

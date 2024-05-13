@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/models/doctor.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class DoctorProvider extends ChangeNotifier {
   List<Doctor> _doctors = [];
@@ -15,10 +16,11 @@ class DoctorProvider extends ChangeNotifier {
 
   Future<void> fetchData(String token) async {
     try {
-      final url = Uri.parse(''); // url read doctornya
+      final url = Uri.parse('${Endpoint.url}get_dokter/'); // url read doctornya
       final response = await http.get(
         url,
         headers: {
+          'accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       );

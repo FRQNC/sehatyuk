@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/models/users.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/welcome.dart';
 
@@ -31,7 +35,15 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
     });
   }
 
-  Widget form(String str, [String type="text"]){
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  Widget form(String str, TextEditingController? controller, [String type="text"]){
     return Container(
       height: boxHeight,
       width: MediaQuery.of(context).size.width - 2*sideMargin,
@@ -42,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextFormField(
+          controller: controller,
           cursorWidth: 1.0,
           keyboardType: type == "number" ? TextInputType.number : null,
           inputFormatters: type == "number" ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly,] : null,
@@ -63,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
     );
   }
 
-  Widget formWithIcon(String str, String path, String type){
+  Widget formWithIcon(String str, String path, String type, TextEditingController? controller){
     return GestureDetector(
       onTap: () {
         if (type == "date") {
@@ -80,6 +93,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
           child: TextFormField(
+            controller: controller,
             cursorWidth: 1.0,
             readOnly: type == "date", // Set readOnly to true when type is "date"
             onTap: () {
@@ -122,7 +136,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
     );
   }
 
-  DateTime? selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
@@ -151,6 +165,38 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
       setState(() {
         selectedDate = pickedDate;
       });
+    }
+  }
+
+  AuthService auth = AuthService();
+
+  Future<String> _register() async {
+    String name = _nameController.text;
+    String dob = selectedDate.toString();
+    String phone = _phoneController.text;
+    String gender = _genderController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    String confirmPassword = _confirmPasswordController.text;
+
+    if(password == confirmPassword){
+      Users user = Users(
+        namaLengkap: name,
+        tanggalLahir: dob,
+        noTelp: phone,
+        gender: gender,
+        email: email,
+        password: password,
+        photoUrl: "default.jpg",
+        alamat: "",
+        noBPJS: "",
+      );
+
+      String result = await auth.register(context, user);
+      
+      return result;
+    }else{
+      return "konfirmasi ulang";
     }
   }
 
@@ -205,7 +251,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                form('Masukkan nama lengkap'),
+                form('Masukkan nama lengkap', _nameController),
                 SizedBox(height: 15,),
                 Text(
                   'Tanggal Lahir *',
@@ -215,7 +261,17 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                formWithIcon('Masukkan tanggal lahir', 'assets/images/authenticationPage/calendar.png', 'date'),
+                formWithIcon('Masukkan tanggal lahir', 'assets/images/authenticationPage/calendar.png', 'date', _dobController),
+                SizedBox(height: 15,),
+                Text(
+                  'Jenis Kelamin *',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                SizedBox(height: 7,),
+                form('Masukkan jenis kelamin', _genderController),
                 SizedBox(height: 15,),
                 Text(
                   'Nomor Telepon *',
@@ -225,7 +281,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                form('Masukkan nomor telepon', 'number'),
+                form('Masukkan nomor telepon', _phoneController, 'number'),
                 SizedBox(height: 15,),
                 Text(
                   'Email *',
@@ -235,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                form('Masukkan email'),
+                form('Masukkan email', _emailController),
                 SizedBox(height: 15,),
                 Text(
                   'Masukkan Password *',
@@ -245,7 +301,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                formWithIcon('Masukkan password', 'assets/images/authenticationPage/eye_icon_unlocked.png', 'password'),
+                formWithIcon('Masukkan password', 'assets/images/authenticationPage/eye_icon_unlocked.png', 'password', _passwordController),
                 SizedBox(height: 15,),
                 Text(
                   'Konfirmasi Password *',
@@ -255,7 +311,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   ),
                 ),
                 SizedBox(height: 7,),
-                formWithIcon('Konfirmasi password', 'assets/images/authenticationPage/eye_icon_unlocked.png', 'password'),
+                formWithIcon('Konfirmasi password', 'assets/images/authenticationPage/eye_icon_unlocked.png', 'password', _confirmPasswordController),
                 SizedBox(height: 10,),
                 Row(
                   children: [
@@ -315,8 +371,41 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                   child: Container(
                     width: 150,
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                      onPressed: () async {
+                        String isSucceed = await _register();
+                        if(isSucceed == "sukses"){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Registrasi Sukses!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                        } 
+                        else if(isSucceed == "konfirmasi ulang"){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Konfirmasi Ulang Password!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
+                        else if(isSucceed == "credential_error"){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Email/No Telp Sudah Digunakan Akun Lain!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Registrasi Gagal!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

@@ -1,15 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/relasi.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
 
   final Color boxColor = const Color(0x5ED9D9D9);
   final Color dividerColor = const Color(0xFFD9D9D9);
 
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserProvider>();
+
+    if(user.userData.namaLengkap == ""){
+      user.fetchData();
+    }
+
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
@@ -40,64 +75,74 @@ class ProfilePage extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    const Expanded(
-                                      flex: 1,
-                                      child: CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              'assets/images/profilePage/profile_pic.jpg'),
-                                          radius: 37.5),
-                                    ),
-                                    Expanded(
-                                        flex: 3,
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              15, 15, 8, 0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: <Widget>[
-                                              const Text(
-                                                "Aurora Alsava",
-                                                style: TextStyle(
-                                                    color: Color(0xFF37363B),
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1.9),
-                                                overflow: TextOverflow.ellipsis,
+                                child: Consumer<UserProvider>(
+                                  builder: (context, data, _) {
+                                    return Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 1,
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                '${Endpoint.url}user_image/${_user_id}',
+                                                headers: <String, String>{
+                                                  'accept': 'application/json',
+                                                  'Authorization': 'Bearer $_token',
+                                                },
                                               ),
-                                              Divider(
-                                                  height: 5,
-                                                  color: dividerColor),
-                                              const Text(
-                                                "081312345690",
-                                                style: TextStyle(
-                                                    color: Color(0xFF94B0B7),
-                                                    fontSize: 12.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1.9),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Divider(
-                                                  height: 5,
-                                                  color: dividerColor),
-                                              const Text(
-                                                "aurorasvv@upi.edu",
-                                                style: TextStyle(
-                                                    color: Color(0xFF94B0B7),
-                                                    fontSize: 12.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1.9),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Divider(
-                                                  height: 5,
-                                                  color: dividerColor)
-                                            ],
-                                          ),
-                                        )),
-                                  ],
+                                              radius: 37.5),
+                                        ),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                15, 15, 8, 0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: <Widget>[
+                                                Text(
+                                                  data.userData.namaLengkap,
+                                                  style: TextStyle(
+                                                      color: Color(0xFF37363B),
+                                                      fontSize: 14.0,
+                                                      fontWeight: FontWeight.bold,
+                                                      letterSpacing: 1.9),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                Divider(
+                                                    height: 5,
+                                                    color: dividerColor),
+                                                Text(
+                                                  data.userData.noTelp,
+                                                  style: TextStyle(
+                                                      color: Color(0xFF94B0B7),
+                                                      fontSize: 12.0,
+                                                      fontWeight: FontWeight.bold,
+                                                      letterSpacing: 1.9),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                Divider(
+                                                    height: 5,
+                                                    color: dividerColor),
+                                                Text(
+                                                  data.userData.email,
+                                                  style: TextStyle(
+                                                      color: Color(0xFF94B0B7),
+                                                      fontSize: 12.0,
+                                                      fontWeight: FontWeight.bold,
+                                                      letterSpacing: 1.9),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                Divider(
+                                                    height: 5,
+                                                    color: dividerColor)
+                                              ],
+                                            ),
+                                          )
+                                        ),
+                                      ],
+                                    );
+                                  }
                                 ),
                               ),
                               Padding(

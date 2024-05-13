@@ -8,10 +8,12 @@ import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/kosong.dart';
 import 'package:sehatyuk/med_reminder.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 // import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/profile_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +31,12 @@ class _HomePageState extends State<HomePage> {
       _showPopup();
     });
   }
+
+  // Future<void> _fetchToken() async {
+  //   // Fetch the token asynchronously
+  //   _token = await auth.getToken();
+  //   _user_id = await auth.getId();
+  // }
 
   void _showPopup() {
     showDialog(
@@ -191,8 +199,18 @@ class _HomePageState extends State<HomePage> {
 
   int currentPageIndex = 0;
 
+  bool fetched = false;
+
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserProvider>();
+
+    // if(user.userId == null && !fetched){
+    //   user.fetchData();
+    //   print(user.userId.toString()+"uuuuuuuuuuuuuuuu");
+    //   fetched = true;
+    // }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
