@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
+import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
@@ -312,46 +313,6 @@ class _HomePageState extends State<HomePage> {
                 );
               }).toList(),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: fitur2.asMap().entries.map((entry) {
-            //     String image = entry.value;
-            //     return Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 6.0),
-            //       child: Column(
-            //         mainAxisAlignment:
-            //             MainAxisAlignment.start, // Atur posisi ke atas
-            //         children: [
-            //           ClipOval(
-            //             child: Image.asset(
-            //               image,
-            //               height: 65,
-            //               width: 65,
-            //               fit: BoxFit.cover,
-            //             ),
-            //           ),
-            //           SizedBox(height: 4),
-            //           Container(
-            //             width: 88, // Sesuaikan dengan lebar gambar
-            //             height: 45,
-            //             child: Text(
-            //               ft2[entry.key],
-            //               style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontFamily: 'Poppins',
-            //                   fontWeight: FontWeight.w500,
-            //                   color: Color(0xFF37363B),
-            //                   letterSpacing: 0.05),
-            //               textAlign: TextAlign.center,
-            //               overflow: TextOverflow.fade,
-            //               maxLines: 3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     );
-            //   }).toList(),
-            // ),
 
             SizedBox(height: 20),
             // carousel
@@ -439,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                   // Navigasi ke halaman yang dituju
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ArtikelPage()),
+                    MaterialPageRoute(builder: (context) => CariArtikelPage()),
                   );
                 },
                 child: Text(
@@ -580,6 +541,7 @@ class _HomePageState extends State<HomePage> {
               );
             }).toList(),
           ),
+          
           ],
         ),
       ),
