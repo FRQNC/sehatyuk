@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/models/doctor.dart';
+import 'package:sehatyuk/models/obat.dart'; // Pastikan Anda memiliki model Obat yang sesuai
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class DoctorProvider extends ChangeNotifier {
-  List<Doctor> _doctors = [];
+class ObatProvider extends ChangeNotifier {
+  List<Obat> _obats = [];
 
-  List<Doctor> get doctors => _doctors;
+  List<Obat> get obats => _obats;
 
-  set doctors(List<Doctor> value) {
-    _doctors = value;
+  set obats(List<Obat> value) {
+    _obats = value;
     notifyListeners();
   }
 
@@ -25,7 +25,7 @@ class DoctorProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
-        _doctors = responseData.map((data) => Doctor.fromJson(data)).toList();
+        _obats = responseData.map((data) => Obat.fromJson(data)).toList();
         notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
       } else {
         throw Exception('Failed to load data');
