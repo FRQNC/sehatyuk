@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
+import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/kosong.dart';
 import 'package:sehatyuk/med_reminder.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 // import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/profile_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +31,12 @@ class _HomePageState extends State<HomePage> {
       _showPopup();
     });
   }
+
+  // Future<void> _fetchToken() async {
+  //   // Fetch the token asynchronously
+  //   _token = await auth.getToken();
+  //   _user_id = await auth.getId();
+  // }
 
   void _showPopup() {
     showDialog(
@@ -190,8 +199,18 @@ class _HomePageState extends State<HomePage> {
 
   int currentPageIndex = 0;
 
+  bool fetched = false;
+
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserProvider>();
+
+    // if(user.userId == null && !fetched){
+    //   user.fetchData();
+    //   print(user.userId.toString()+"uuuuuuuuuuuuuuuu");
+    //   fetched = true;
+    // }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -312,46 +331,6 @@ class _HomePageState extends State<HomePage> {
                 );
               }).toList(),
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: fitur2.asMap().entries.map((entry) {
-            //     String image = entry.value;
-            //     return Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 6.0),
-            //       child: Column(
-            //         mainAxisAlignment:
-            //             MainAxisAlignment.start, // Atur posisi ke atas
-            //         children: [
-            //           ClipOval(
-            //             child: Image.asset(
-            //               image,
-            //               height: 65,
-            //               width: 65,
-            //               fit: BoxFit.cover,
-            //             ),
-            //           ),
-            //           SizedBox(height: 4),
-            //           Container(
-            //             width: 88, // Sesuaikan dengan lebar gambar
-            //             height: 45,
-            //             child: Text(
-            //               ft2[entry.key],
-            //               style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontFamily: 'Poppins',
-            //                   fontWeight: FontWeight.w500,
-            //                   color: Color(0xFF37363B),
-            //                   letterSpacing: 0.05),
-            //               textAlign: TextAlign.center,
-            //               overflow: TextOverflow.fade,
-            //               maxLines: 3,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     );
-            //   }).toList(),
-            // ),
 
             SizedBox(height: 20),
             // carousel
@@ -439,7 +418,7 @@ class _HomePageState extends State<HomePage> {
                   // Navigasi ke halaman yang dituju
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ArtikelPage()),
+                    MaterialPageRoute(builder: (context) => CariArtikelPage()),
                   );
                 },
                 child: Text(
@@ -580,6 +559,7 @@ class _HomePageState extends State<HomePage> {
               );
             }).toList(),
           ),
+          
           ],
         ),
       ),

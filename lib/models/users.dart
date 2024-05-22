@@ -1,7 +1,7 @@
 class Users {
-  int id_user;
+  String id_user;
   String namaLengkap;
-  DateTime tanggalLahir;
+  String tanggalLahir;
   String gender;
   String alamat;
   String noBPJS;
@@ -11,7 +11,7 @@ class Users {
   String photoUrl;
 
   Users({
-    required this.id_user,
+    this.id_user = '',
     required this.namaLengkap,
     required this.tanggalLahir,
     required this.gender,
@@ -19,30 +19,28 @@ class Users {
     required this.noBPJS,
     required this.noTelp,
     required this.email,
-    required this.password,
+    this.password = '',
     required this.photoUrl,
   });
 
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
-      id_user: json['id_user'],
+      id_user: json['id_user'].toString(),
       namaLengkap: json['nama_lengkap_user'],
-      tanggalLahir: DateTime.parse(json['tgl_lahir_user']),
+      tanggalLahir: json['tgl_lahir_user'],
       gender: json['gender_user'],
       alamat: json['alamat_user'],
       noBPJS: json['no_bpjs_user'],
       noTelp: json['no_telp_user'],
       email: json['email_user'],
-      password: json['password_user'],
       photoUrl: json['foto_user'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id_user': id_user,
       'nama_lengkap_user': namaLengkap,
-      'tgl_lahir_user': tanggalLahir.toIso8601String(),
+      'tgl_lahir_user': tanggalLahir,
       'gender_user': gender,
       'alamat_user': alamat,
       'no_bpjs_user': noBPJS,

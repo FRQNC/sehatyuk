@@ -1,14 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/LoadPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sehatyuk/providers/doctor_provider.dart';
+import 'package:sehatyuk/providers/obat_provider.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(MainApp()));
+      .then((value) => runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => UserProvider()),
+            ChangeNotifierProvider(create: (context) => DoctorProvider()),
+            ChangeNotifierProvider(create: (context) => ObatProvider()),
+          ],
+          child: const MainApp(),
+        ),
+      )
+    );
 }
 
 class MainApp extends StatefulWidget {

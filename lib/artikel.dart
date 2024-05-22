@@ -66,125 +66,311 @@ class _ArtikelPageState extends State<ArtikelPage> with AppMixin{
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-              children: articles.asMap().entries.map((entry) {
-                String imagePath = entry.value;
-                int index = entry.key; // Ambil indeks gambar saat ini
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Column(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 24.0),
+          child: Column(
+                children: 
+                <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Cari Artikel',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              // backgroundColor: Colors,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Cari Artikel dengan spesialisasi yang sesuai dengan keluhan anda',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF37363B),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 32),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SizedBox(width: 21),
-                          Container(
-                            height: 88,
-                            width: 88,
-                            decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(
-                                  5), // Tambahkan borderRadius di dalam BoxDecoration
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
-                              child: Image.asset(
-                                imagePath, // Gunakan imagePath langsung
-                                height: 65,
-                                width: 65,
-                                fit: BoxFit.cover,
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 80), // Set maximum width for the button
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Tambahkan fungsi untuk menangani ketika tombol "Filter" ditekan di sini
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero, backgroundColor: Color(0xFFF5F5F5), // Set background color to F5F5F5
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Filter',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF37363B),
+                                      ),
+                                    ),
+                                    Spacer(), // Spacer untuk menjaga jarak antara teks dan ikon
+                                    Icon(Icons.tune, color: Theme.of(context).colorScheme.primary), // Add tune icon
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(
-                              width:
-                                  15), // Tambahkan ruang horizontal di antara gambar dan teks
-                          Expanded(
-                            child: Container(
-                              // height: 88,
-                              width: double
-                                  .infinity, // Lebar container mengikuti lebar yang tersedia
-                              // color: Colors.amber,
-                              padding: EdgeInsets.all(
-                                  20.0), // Beri padding agar teks terlihat lebih baik
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                      children: articles.asMap().entries.map((entry) {
+                        String imagePath = entry.value;
+                        int index = entry.key; // Ambil indeks gambar saat ini
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  SizedBox(width: 21),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10.0,
-                                        vertical:
-                                            2.0), // Atur padding untuk kontainer kategori
+                                    height: 88, width: 88,
                                     decoration: BoxDecoration(
-                                      color: Color(
-                                          0xFF94B0B7), // Warna latar belakang kontainer kategori
-                                      borderRadius: BorderRadius.circular(
-                                          15), // Atur border radius untuk kontainer kategori
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(5), // Tambahkan borderRadius di dalam BoxDecoration
                                     ),
-                                    child: Text(
-                                      '${categories[index]}',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Color(
-                                            0xFF37363B), // Warna teks kategori
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.05,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
+                                      child: Image.asset(
+                                        imagePath, // Gunakan imagePath langsung
+                                        height: 65,
+                                        width: 65,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                      height: 4), // Spacer vertikal antara teks
-                                  Text(
-                                    judul[
-                                        index], // Mengambil judul dari list berdasarkan index gambar saat ini
-                                    style: TextStyle(
-                                      fontSize:
-                                          13, // Mengatur ukuran teks judul
-                                      color: Color(0xFF37363B),
-                                      fontWeight: FontWeight
-                                          .w600, // Membuat teks judul menjadi tebal
-                                      letterSpacing: 0.08,
+                                      width:15), // Tambahkan ruang horizontal di antara gambar dan teks
+                                  Expanded(
+                                    child: Container(
+                                      // height: 88,
+                                      width: double.infinity, // Lebar container mengikuti lebar yang tersedia
+                                      // color: Colors.amber,
+                                      padding: EdgeInsets.all(20.0), // Beri padding agar teks terlihat lebih baik
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 10.0,vertical:2.0), // Atur padding untuk kontainer kategori
+                                            decoration: BoxDecoration(
+                                              color: Color( 0xFF94B0B7), // Warna latar belakang kontainer kategori
+                                              borderRadius: BorderRadius.circular( 15), // Atur border radius untuk kontainer kategori
+                                            ),
+                                            child: Text(
+                                              '${categories[index]}',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(   0xFF37363B), // Warna teks kategori
+                                                fontWeight: FontWeight.w500,
+                                                letterSpacing: 0.05,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                              height: 4), // Spacer vertikal antara teks
+                                          Text(
+                                            judul[
+                                                index], // Mengambil judul dari list berdasarkan index gambar saat ini
+                                            style: TextStyle(
+                                              fontSize:13, // Mengatur ukuran teks judul
+                                              color: Color(0xFF37363B),
+                                              fontWeight: FontWeight.w600, // Membuat teks judul menjadi tebal
+                                              letterSpacing: 0.08,
+                                            ),
+                                            maxLines:
+                                                1, // Hanya menampilkan satu baris untuk judul
+                                            overflow: TextOverflow
+                                                .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                          ),
+                                          SizedBox(
+                                              height: 4), // Spacer vertikal antara teks
+                                          Text(
+                                            deskripsi[index],
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                            maxLines:
+                                                2, // Hanya menampilkan dua baris untuk deskripsi
+                                            overflow: TextOverflow
+                                                .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    maxLines:
-                                        1, // Hanya menampilkan satu baris untuk judul
-                                    overflow: TextOverflow
-                                        .ellipsis, // Mengatur overflow jika teks terlalu panjang
                                   ),
-                                  SizedBox(
-                                      height: 4), // Spacer vertikal antara teks
-                                  Text(
-                                    deskripsi[index],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                    maxLines:
-                                        2, // Hanya menampilkan dua baris untuk deskripsi
-                                    overflow: TextOverflow
-                                        .ellipsis, // Mengatur overflow jika teks terlalu panjang
-                                  ),
+                                  SizedBox(width: 15),
                                 ],
                               ),
-                            ),
+          
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal:
+                                        20.0), // Atur jarak horizontal dari divider
+                                child: Divider(
+                                  color: Color(0xFFDDDDDA),
+                                ), // Tambahkan garis divider di antara setiap item
+                              ), // Tambahkan garis divider di antara setiap item
+                            ],
                           ),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal:
-                                20.0), // Atur jarak horizontal dari divider
-                        child: Divider(
-                          color: Color(0xFFDDDDDA),
-                        ), // Tambahkan garis divider di antara setiap item
-                      ), // Tambahkan garis divider di antara setiap item
+                        );
+                      }).toList(),
+                    ),
+                    
+                      
+                      
                     ],
                   ),
-                );
-              }).toList(),
-            ),
+                ],
+          
+                //   articles.asMap().entries.map((entry) {
+                //   String imagePath = entry.value;
+                //   int index = entry.key; // Ambil indeks gambar saat ini
+                //   return Padding(
+                //     padding: const EdgeInsets.symmetric(vertical: 24.0,),
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           children: [
+                //             SizedBox(width: 21),
+                //             Container(
+                //               height: 88,
+                //               width: 88,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.black12,
+                //                 borderRadius: BorderRadius.circular(
+                //                     5), // Tambahkan borderRadius di dalam BoxDecoration
+                //               ),
+                //               child: ClipRRect(
+                //                 borderRadius: BorderRadius.circular(
+                //                     5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
+                //                 child: Image.asset(
+                //                   imagePath, // Gunakan imagePath langsung
+                //                   height: 65,
+                //                   width: 65,
+                //                   fit: BoxFit.cover,
+                //                 ),
+                //               ),
+                //             ),
+                //             SizedBox(
+                //                 width:
+                //                     15), // Tambahkan ruang horizontal di antara gambar dan teks
+                //             Expanded(
+                //               child: Container(
+                //                 // height: 88,
+                //                 width: double
+                //                     .infinity, // Lebar container mengikuti lebar yang tersedia
+                //                 // color: Colors.amber,
+                //                 padding: EdgeInsets.all(
+                //                     20.0), // Beri padding agar teks terlihat lebih baik
+                //                 child: Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Container(
+                //                       padding: EdgeInsets.symmetric(
+                //                           horizontal: 10.0,
+                //                           vertical:
+                //                               2.0), // Atur padding untuk kontainer kategori
+                //                       decoration: BoxDecoration(
+                //                         color: Color(
+                //                             0xFF94B0B7), // Warna latar belakang kontainer kategori
+                //                         borderRadius: BorderRadius.circular(
+                //                             15), // Atur border radius untuk kontainer kategori
+                //                       ),
+                //                       child: Text(
+                //                         '${categories[index]}',
+                //                         textAlign: TextAlign.left,
+                //                         style: TextStyle(
+                //                           fontSize: 12,
+                //                           color: Color(
+                //                               0xFF37363B), // Warna teks kategori
+                //                           fontWeight: FontWeight.w500,
+                //                           letterSpacing: 0.05,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                     SizedBox(
+                //                         height: 4), // Spacer vertikal antara teks
+                //                     Text(
+                //                       judul[
+                //                           index], // Mengambil judul dari list berdasarkan index gambar saat ini
+                //                       style: TextStyle(
+                //                         fontSize:
+                //                             13, // Mengatur ukuran teks judul
+                //                         color: Color(0xFF37363B),
+                //                         fontWeight: FontWeight
+                //                             .w600, // Membuat teks judul menjadi tebal
+                //                         letterSpacing: 0.08,
+                //                       ),
+                //                       maxLines:
+                //                           1, // Hanya menampilkan satu baris untuk judul
+                //                       overflow: TextOverflow
+                //                           .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                //                     ),
+                //                     SizedBox(
+                //                         height: 4), // Spacer vertikal antara teks
+                //                     Text(
+                //                       deskripsi[index],
+                //                       style: TextStyle(
+                //                         fontSize: 12,
+                //                       ),
+                //                       maxLines:
+                //                           2, // Hanya menampilkan dua baris untuk deskripsi
+                //                       overflow: TextOverflow
+                //                           .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ),
+                //             SizedBox(width: 15),
+                //           ],
+                //         ),
+          
+                //         Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal:
+                //                   20.0), // Atur jarak horizontal dari divider
+                //           child: Divider(
+                //             color: Color(0xFFDDDDDA),
+                //           ), // Tambahkan garis divider di antara setiap item
+                //         ), // Tambahkan garis divider di antara setiap item
+                //       ],
+                //     ),
+                //   );
+                // }).toList(),
+              ),
+        ),
       )
       //  This trailing comma makes auto-formatting nicer for build methods.
     );
