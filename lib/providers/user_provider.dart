@@ -127,7 +127,7 @@ class UserProvider extends ChangeNotifier {
     try {
       String id = await auth.getId();
       String token = await auth.getToken();
-      final url = Uri.parse("http://10.0.2.2:8000/get_user_by_id/$id"); 
+      final url = Uri.parse("${Endpoint.url}get_user_by_id/$id"); 
       print(url);
       final response = await http.get(
         url,

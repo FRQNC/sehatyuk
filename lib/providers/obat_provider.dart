@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/models/obat.dart'; // Pastikan Anda memiliki model Obat yang sesuai
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class ObatProvider extends ChangeNotifier {
   List<Obat> _obats = [];
@@ -15,13 +16,15 @@ class ObatProvider extends ChangeNotifier {
 
   Future<void> fetchData(String token) async {
     try {
-      final url = Uri.parse(''); // url read obat
+      final url = Uri.parse('${Endpoint.url}get_obat/'); // url read obat
       final response = await http.get(
         url,
         headers: {
+          'accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
       );
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
