@@ -1,14 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/informasiobat.dart';
+import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/providers/obat_provider.dart';
 
-class CariObatPage extends StatelessWidget {
-  const CariObatPage({Key? key}) : super(key: key);
+class CariObatPage extends StatefulWidget {
+  const CariObatPage({super.key});
+
+  @override
+  State<CariObatPage> createState() => _CariObatPageState();
+}
+
+class _CariObatPageState extends State<CariObatPage> with AppMixin{
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    var obat = context.watch<ObatProvider>();
+
+    if(obat.obats.isEmpty){
+      obat.fetchData(_token);
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -108,18 +142,35 @@ class CariObatPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              GridView.count(
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          children: [
-            GridItem(imagePath: 'assets/images/CariObatPage/image1.jpg', text: 'Paracetamol', additionaltext: 'kapsul'),
-            GridItem(imagePath: 'assets/images/CariObatPage/image2.jpg', text: 'Ibuprofen', additionaltext: 'tablet'),
-            GridItem(imagePath: 'assets/images/CariObatPage/image3.jpg', text: 'Amoxicillin', additionaltext: 'sirup'),
-            GridItem(imagePath: 'assets/images/CariObatPage/image4.jpg', text: 'Omeprazole', additionaltext: 'sirup'),
-            GridItem(imagePath: 'assets/images/CariObatPage/image5.jpg', text: 'Metformin HCl', additionaltext: 'tablet'),
-            GridItem(imagePath: 'assets/images/CariObatPage/image6.jpg', text: 'Aspirin', additionaltext: 'tablet'),
-          ],
-        ),
+              Consumer<ObatProvider>(
+                builder: (context, obat, _) {
+                  return GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 3,
+                    children: obat.obats.map((item) {
+                      return GridItem(
+                        id: item.idObat.toString(),
+                        imagePath: item.fotoObat,
+                        text: item.namaObat,
+                        additionaltext: item.idJenisObat.toString(),
+                        token: _token
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
+              // GridView.count(
+              //   shrinkWrap: true,
+              //   crossAxisCount: 3,
+              //   children: [
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image1.jpg', text: 'Paracetamol', additionaltext: 'kapsul'),
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image2.jpg', text: 'Ibuprofen', additionaltext: 'tablet'),
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image3.jpg', text: 'Amoxicillin', additionaltext: 'sirup'),
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image4.jpg', text: 'Omeprazole', additionaltext: 'sirup'),
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image5.jpg', text: 'Metformin HCl', additionaltext: 'tablet'),
+              //     GridItem(imagePath: 'assets/images/CariObatPage/image6.jpg', text: 'Aspirin', additionaltext: 'tablet'),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -129,11 +180,13 @@ class CariObatPage extends StatelessWidget {
 }
 
 class GridItem extends StatelessWidget {
+  final String id;
   final String imagePath;
   final String text;
   final String additionaltext;
+  final String token;
 
-  GridItem({required this.imagePath, required this.text, required this.additionaltext});
+  GridItem({required this.id, required this.imagePath, required this.text, required this.additionaltext, required this.token});
 
   @override
 Widget build(BuildContext context) {
@@ -155,11 +208,20 @@ Widget build(BuildContext context) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            imagePath, // Path to the image asset
+          Image.network(
+            '${Endpoint.url}obat_image/$id',
+            headers: <String, String>{
+              'accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
             width: 91,
             height: 70,
           ),
+          // Image.asset(
+          //   imagePath, // Path to the image asset
+          //   width: 91,
+          //   height: 70,
+          // ),
           SizedBox(height: 2.0),
           Text(
             text, // Text to display
