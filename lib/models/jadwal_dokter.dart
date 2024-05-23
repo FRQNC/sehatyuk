@@ -16,7 +16,7 @@ class JadwalDokter {
       idJadwalDokter: json['id_jadwal_dokter'],
       idDokter: json['id_dokter'],
       tanggalJadwalDokter: json['tanggal_jadwal_dokter'],
-      isFull: json['isFull'],
+      isFull: json['is_full'],
     );
   }
 }

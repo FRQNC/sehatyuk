@@ -46,9 +46,9 @@ class DoctorProvider extends ChangeNotifier {
     }
   }
   
-  Future<void> fetchDataJadwal(String token) async {
+  Future<void> fetchDataJadwal(String token, String id) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_jadwal_dokter/'); // url read doctornya
+      final url = Uri.parse('${Endpoint.url}get_jadwal_dokter_by_id/$id'); // url read doctornya
       final response = await http.get(
         url,
         headers: {
@@ -60,6 +60,7 @@ class DoctorProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         _jadwal_dokter = responseData.map((data) => JadwalDokter.fromJson(data)).toList();
+        // print(_jadwal_dokter[0].idDokter);
         notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
       } else {
         throw Exception('Failed to load data');
