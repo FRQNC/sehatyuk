@@ -148,12 +148,21 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                     shrinkWrap: true,
                     crossAxisCount: 3,
                     children: obat.obats.map((item) {
-                      return GridItem(
-                        id: item.idObat.toString(),
-                        imagePath: item.fotoObat,
-                        text: item.namaObat,
-                        additionaltext: item.idJenisObat.toString(),
-                        token: _token
+                      return GestureDetector(
+                        onTap: () {
+                          //apa yang bakal dilakuin kalau kontainer obatnya ditekan
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => InformasiObatPage(obat: item, token: _token)),
+                          );
+                        },
+                        child: GridItem(
+                          id: item.idObat.toString(),
+                          imagePath: item.fotoObat,
+                          text: item.namaObat,
+                          additionaltext: item.idJenisObat.toString(),
+                          token: _token
+                        ),
                       );
                     }).toList(),
                   );
@@ -190,58 +199,49 @@ class GridItem extends StatelessWidget {
 
   @override
 Widget build(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      //apa yang bakal dilakuin kalau kontainer obatnya ditekan
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => InformasiObatPage()),
-      );
-    },
-    child: Container(
-      margin: EdgeInsets.all(4.0),
-      padding: EdgeInsets.all(4.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.grey[200],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-            '${Endpoint.url}obat_image/$id',
-            headers: <String, String>{
-              'accept': 'application/json',
-              'Authorization': 'Bearer $token',
-            },
-            width: 91,
-            height: 70,
+  return Container(
+    margin: EdgeInsets.all(4.0),
+    padding: EdgeInsets.all(4.0),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8.0),
+      color: Colors.grey[200],
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.network(
+          '${Endpoint.url}obat_image/$id',
+          headers: <String, String>{
+            'accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          width: 91,
+          height: 70,
+        ),
+        // Image.asset(
+        //   imagePath, // Path to the image asset
+        //   width: 91,
+        //   height: 70,
+        // ),
+        SizedBox(height: 2.0),
+        Text(
+          text, // Text to display
+          style: TextStyle(
+            color: Color(0xFF4A707A),
+            fontWeight: FontWeight.w600,
+            fontSize: 11.0,
           ),
-          // Image.asset(
-          //   imagePath, // Path to the image asset
-          //   width: 91,
-          //   height: 70,
-          // ),
-          SizedBox(height: 2.0),
-          Text(
-            text, // Text to display
-            style: TextStyle(
-              color: Color(0xFF4A707A),
-              fontWeight: FontWeight.w600,
-              fontSize: 11.0,
-            ),
+        ),
+        SizedBox(height: 2.0), // Add some space between the existing text and the additional text
+        Text(
+          additionaltext, // Display the additional text
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 9.0, // Adjust font size as needed
+            color: Color(0xFF37363B), // Adjust color as needed
           ),
-          SizedBox(height: 2.0), // Add some space between the existing text and the additional text
-          Text(
-            additionaltext, // Display the additional text
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 9.0, // Adjust font size as needed
-              color: Color(0xFF37363B), // Adjust color as needed
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
   }
