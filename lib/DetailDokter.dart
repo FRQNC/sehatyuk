@@ -841,6 +841,14 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                           if(isSucceed){
                                             _showDialog();
                                           }
+                                          else{
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text('Gagal Membuat Janji!'),
+                                                duration: Duration(seconds: 1),
+                                              ),
+                                            );
+                                          }
                                         }
                                         else if(selectedPerson != null){
                                           _showDialog();
