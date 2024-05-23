@@ -8,6 +8,7 @@ import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
+import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ void main() {
             ChangeNotifierProvider(create: (context) => DoctorProvider()),
             ChangeNotifierProvider(create: (context) => ObatProvider()),
             ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),
+            ChangeNotifierProvider(create: (context) => WelcomeDialogProvider())
           ],
           child: const MainApp(),
         ),
@@ -35,6 +37,9 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+
+  bool openedFirstTime = true;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
