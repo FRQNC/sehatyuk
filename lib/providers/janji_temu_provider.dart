@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
-
 import 'package:sehatyuk/models/janji_temu.dart';
 import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/models/jadwal_dokter.dart';
@@ -40,6 +39,31 @@ class JanjiTemuProvider extends ChangeNotifier {
       // }
       // return "failed";
       return false;
+    }
+  }
+
+    Future<void> fetchData(String token, String id) async {
+    try {
+      final url = Uri.parse('${Endpoint.url}get_janji_temu/$id');
+      final response = await http.get(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = json.decode(response.body);
+        _janjiTemuList = responseData.map((data) => JanjiTemu.fromJson(data)).toList();
+        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print('Error: $error');
+      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
+      // Handle error sesuai dengan kebutuhan aplikasi Anda
     }
   }
 } 

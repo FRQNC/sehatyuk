@@ -8,9 +8,11 @@ import 'package:sehatyuk/providers/endpoint.dart';
 class DoctorProvider extends ChangeNotifier {
   List<Doctor> _doctors = [];
   List<JadwalDokter> _jadwal_dokter = [];
+  Doctor _dataDokter = Doctor(id: 0, namaLengkap: '', spesialis: '', pengalaman: 0, alumnus: '', harga: 0, minatKlinis: '', foto: '', rating: 0, idPoli: 0);
 
   List<Doctor> get doctors => _doctors;
   List<JadwalDokter> get jadwal_dokter => _jadwal_dokter;
+  Doctor get dataDokter => _dataDokter;
 
   set doctors(List<Doctor> value) {
     _doctors = value;
@@ -35,6 +37,30 @@ class DoctorProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         _doctors = responseData.map((data) => Doctor.fromJson(data)).toList();
+        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
+      print('Error: $error');
+      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
+      // Handle error sesuai dengan kebutuhan aplikasi Anda
+    }
+  }
+  Future<void> fetchDataById(String token, int id) async {
+    try {
+      final url = Uri.parse('${Endpoint.url}get_dokter_by_id/$id'); // url read doctornya
+      final response = await http.get(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final dynamic responseData = json.decode(response.body);
+        _dataDokter = Doctor.fromJson(responseData);
         notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
       } else {
         throw Exception('Failed to load data');
