@@ -26,12 +26,27 @@ class DetailDokterPage extends StatefulWidget {
 }
 
 class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
-  // AuthService auth = AuthService();
-  // String _token = "";
-  // String _user_id = "";
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
 
   double boxHeight = 35.0;
   bool? isChecked = false;
+  bool fetched = false;
 
   List<String> days = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
   int i = 0;
@@ -40,11 +55,27 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   List<String> relation = ['Saya sendiri', 'Anantha Alsava', 'Rich Brian', 'Orang lain'];
 
   List<String> doctorInfo = ['Selulitis', 'Dermatofitosis (kurap)', 'Hiperhidrosis osmidrosis', 'Kelainan rambut', 'Kebotakan dan hipertrikosis', 'Dermatitis atopik'];
-
+  int id_dokter_before = 0;
 
   @override
   Widget build(BuildContext context) {
     var value = context.watch<DoctorProvider>();
+
+      print(value.jadwal_dokter.length);
+    if(value.jadwal_dokter.isEmpty || (!value.jadwal_dokter.isEmpty && value.jadwal_dokter[0].idDokter != widget.doctor.id)){
+      // if(!value.jadwal_dokter.isEmpty){
+      //   id_dokter_before = value.jadwal_dokter[0].idDokter;
+      // }
+      // print(id_dokter_before);
+      value.fetchDataJadwal(_token, widget.doctor.id.toString());
+      // fetched = true;
+      // if(!value.jadwal_dokter.isEmpty && id_dokter_before != value.jadwal_dokter[0].idDokter)
+      // {
+      //   print("apalah");
+      //   print(value.jadwal_dokter[0].idDokter);
+      //   fetched = true;
+      // }
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -440,47 +471,98 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                       ),
                                       SizedBox(width: 10),
                                       Expanded(
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  days[i],
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.primary,
-                                                    fontWeight: semi,
-                                                    fontSize: 14,
+                                      child: Container(
+                                        height: MediaQuery.of(context).size.height * 0.1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListView.builder(
+                                            itemCount: value.jadwal_dokter.length,
+                                            itemBuilder: (context, index) {
+                                              return Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Senin",
+                                                    // days[index % days.length], // Ensure the days loop around if there are more schedules than days
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).colorScheme.primary,
+                                                      fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                      fontSize: 14,
+                                                    ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  '01 Feb',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.tertiary,
-                                                    fontWeight: medium,
-                                                    fontSize: 12,
+                                                  Text(
+                                                    value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).colorScheme.tertiary,
+                                                      fontWeight: FontWeight.w500, // Update fontWeight directly
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Text(
-                                                  '08.00 - 13.00',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                    fontWeight: semi,
-                                                    fontSize: 12,
+                                                  Expanded(child: Container()),
+                                                  Text(
+                                                    '08.00 - 13.00',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).colorScheme.onPrimary,
+                                                      fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                      fontSize: 12,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: Theme.of(context).colorScheme.onSecondary,
+                                                ],
+                                              );
+                                            },
                                           ),
                                         ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                                          color: Theme.of(context).colorScheme.onSecondary,
+                                        ),
                                       ),
+                                    ),
+
+                                      // Expanded(
+                                      //   child: Container(
+                                      //     height: MediaQuery.of(context).size.height * 0.1,
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(8.0),
+                                      //       child: Column(
+                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                      //         children: [
+                                      //           Text(
+                                      //             days[i],
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.primary,
+                                      //               fontWeight: semi,
+                                      //               fontSize: 14,
+                                      //             ),
+                                      //           ),
+                                      //           Text(
+                                      //             // '01 Feb',
+                                      //             value.jadwal_dokter,
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.tertiary,
+                                      //               fontWeight: medium,
+                                      //               fontSize: 12,
+                                      //             ),
+                                      //           ),
+                                      //           Expanded(child: Container()),
+                                      //           Text(
+                                      //             '08.00 - 13.00',
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.onPrimary,
+                                      //               fontWeight: semi,
+                                      //               fontSize: 12,
+                                      //             ),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     decoration: BoxDecoration(
+                                      //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      //       color: Theme.of(context).colorScheme.onSecondary,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      
                                       SizedBox(width: 10),
                                       Expanded(
                                         child: Container(
