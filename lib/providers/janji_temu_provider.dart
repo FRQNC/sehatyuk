@@ -16,5 +16,30 @@ class JanjiTemuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // nunggu web service
+  Future<bool> createJanjiTemu(String token, JanjiTemu janji_temu) async {
+    final response = await http.post(
+      Uri.parse('${Endpoint.url}create_janji_temu/'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(janji_temu.toJson()),
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      // login(context, user);
+      // return loginEmail(context, user.email, user.password); // registration successful
+      return true;
+    } else {
+      // String result = response.body;
+      // if(result.contains("Error: Email sudah digunakan") || result.contains("Error: No telp sudah digunakan")){
+      //   return "credential_error";
+      // }
+      // return "failed";
+      return false;
+    }
+  }
 } 

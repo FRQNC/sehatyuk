@@ -5,6 +5,7 @@ import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
+import 'package:sehatyuk/models/janji_temu.dart';
 import 'package:sehatyuk/primary_button.dart';
 
 import 'package:sehatyuk/auth/auth.dart';
@@ -14,6 +15,7 @@ import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/models/jadwal_dokter.dart';
+import 'package:sehatyuk/providers/janji_temu_provider.dart';
 
 class DetailDokterPage extends StatefulWidget {
   final Doctor doctor;
@@ -56,6 +58,31 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
 
   List<String> doctorInfo = ['Selulitis', 'Dermatofitosis (kurap)', 'Hiperhidrosis osmidrosis', 'Kelainan rambut', 'Kebotakan dan hipertrikosis', 'Dermatitis atopik'];
   int id_dokter_before = 0;
+
+  DateTime? selectedDate = DateTime.now();
+
+  JanjiTemuProvider janji = JanjiTemuProvider();
+
+  Future<bool> createJanjiTemu() async {
+    String tgl = selectedDate.toString();
+    int id_dokter = widget.doctor.id;
+    int id_user = int.parse(_user_id);
+    int is_relasi = (selectedPerson == 'Saya sendiri' ? 0 : 1);
+    int id_relasi = 0;
+    int biaya = widget.doctor.harga;
+
+    JanjiTemu newJanji = JanjiTemu(
+      kodeJanjiTemu: "SYS2385928", 
+      tanggalJanjiTemu: tgl, 
+      idDokter: id_dokter, 
+      idUser: id_user, 
+      isRelasi: is_relasi, 
+      idRelasi: id_relasi, 
+      biaya: biaya
+    );
+
+    return janji.createJanjiTemu(_token, newJanji);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -805,123 +832,18 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                   SizedBox(height: 40,),
                                   Center(
                                     child: TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if(selectedPerson == "Orang lain"){
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => const BuatJanjiOtherPage()));
                                         }
+                                        else if(selectedPerson == "Saya sendiri"){
+                                          bool isSucceed = await createJanjiTemu();
+                                          if(isSucceed){
+                                            _showDialog();
+                                          }
+                                        }
                                         else if(selectedPerson != null){
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  elevation: 0,
-                                                  insetPadding: EdgeInsets.all(25),
-                                                  content: SizedBox(
-                                                    width: MediaQuery.of(context).size.width,
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Container(),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () => Navigator.pop(context),
-                                                              child: Icon(
-                                                                Icons.close,
-                                                                color: Theme.of(context).colorScheme.primary,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 50.0),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: [
-                                                              Text(
-                                                                "BERHASIL",
-                                                                style: TextStyle(
-                                                                  color: Theme.of(context).colorScheme.primary,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: 25,
-                                                                  letterSpacing: 2.0,
-                                                                ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 175,
-                                                                  child: Divider(
-                                                                    color: dividerColor,
-                                                                    thickness: 3,
-                                                                  ),
-                                                                )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 15.0),
-                                                          child: Column(
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets.only(top: 4, bottom: 0),
-                                                                child: Text(
-                                                                  "Berhasil membuat janji bersama dokter!",
-                                                                  style: TextStyle(
-                                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                                    fontSize: 14,
-                                                                  )
-                                                                  ),
-                                                              ),
-                                                              Divider(
-                                                                color: dividerColor,
-                                                                thickness: 1,
-                                                              ),
-                                                              Padding(
-                                                                padding: EdgeInsets.only(top: 4, bottom: 0),
-                                                                child: Text(
-                                                                  "Lekas sembuh",
-                                                                  style: TextStyle(
-                                                                    color: Theme.of(context).colorScheme.primary,
-                                                                    fontSize: 20,
-                                                                    fontWeight: semi,
-                                                                    letterSpacing: 1.5
-                                                                  )
-                                                                  ),
-                                                              ),
-                                                              Divider(
-                                                                color: dividerColor,
-                                                                thickness: 1,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 20.0, bottom:15),
-                                                          child: Column(
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                children: [
-                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Buat Janji", fontSize: 15),
-                                                                  PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => const JadwalTemuPage())); }, buttonText: "Cek Janji", fontSize: 15)
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          );
+                                          _showDialog();
                                         }
                                       },
                                       style: TextButton.styleFrom(
@@ -969,7 +891,120 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
     );
   }
 
-  DateTime? selectedDate = DateTime.now();
+  _showDialog(){
+    return showDialog(
+      context: context,
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            insetPadding: EdgeInsets.all(25),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(),
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          Icons.close,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "BERHASIL",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            letterSpacing: 2.0,
+                          ),
+                          ),
+                          SizedBox(
+                            width: 175,
+                            child: Divider(
+                              color: dividerColor,
+                              thickness: 3,
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 4, bottom: 0),
+                          child: Text(
+                            "Berhasil membuat janji bersama dokter!",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              fontSize: 14,
+                            )
+                            ),
+                        ),
+                        Divider(
+                          color: dividerColor,
+                          thickness: 1,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 4, bottom: 0),
+                          child: Text(
+                            "Lekas sembuh",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 20,
+                              fontWeight: semi,
+                              letterSpacing: 1.5
+                            )
+                            ),
+                        ),
+                        Divider(
+                          color: dividerColor,
+                          thickness: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom:15),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){}, buttonText: "Buat Janji", fontSize: 15),
+                            PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => const JadwalTemuPage())); }, buttonText: "Cek Janji", fontSize: 15)
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      )
+    );
+  }
 
   Future<void> _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(

@@ -1,15 +1,15 @@
 class JanjiTemu {
-  final int id;
+  final int? id;
   final String kodeJanjiTemu;
   final String tanggalJanjiTemu;
   final int idDokter;
   final int idUser;
   final int isRelasi;
   final int idRelasi;
-  final String biaya;
+  final int biaya;
 
   JanjiTemu({
-    required this.id,
+    this.id,
     required this.kodeJanjiTemu,
     required this.tanggalJanjiTemu,
     required this.idDokter,
@@ -30,6 +30,18 @@ class JanjiTemu {
       idRelasi: json['id_relasi'],
       biaya: json['biaya_janji_temu'],
     );
+  }
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'kode_janji_temu': kodeJanjiTemu,
+      'tgl_janji_temu': tanggalJanjiTemu,
+      'id_dokter': idDokter,
+      'id_user': idUser,
+      'is_relasi': isRelasi,
+      'id_relasi': idRelasi,
+      'biaya_janji_temu': biaya,
+    };
   }
 
 }
