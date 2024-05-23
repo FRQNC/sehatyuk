@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sehatyuk/LoadPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
+import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 
@@ -18,6 +19,7 @@ void main() {
             ChangeNotifierProvider(create: (context) => UserProvider()),
             ChangeNotifierProvider(create: (context) => DoctorProvider()),
             ChangeNotifierProvider(create: (context) => ObatProvider()),
+            ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),
           ],
           child: const MainApp(),
         ),

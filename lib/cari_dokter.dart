@@ -229,6 +229,11 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                           experience: '${doctor.doctors[index].pengalaman.toString()} tahun | ${doctor.doctors[index].rating.toString()}',
                           price: doctor.doctors[index].harga.toString(),
                           onPressed: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: doctor.doctors[index])),
+                            );
+
                             // Add your onPressed logic here
                           },
                         );

@@ -6,22 +6,29 @@ import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/primary_button.dart';
-import 'package:sehatyuk/providers/doctor_provider.dart';
+
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
-import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/providers/doctor_provider.dart';
+import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
+import 'package:sehatyuk/models/doctor.dart';
+import 'package:sehatyuk/models/jadwal_dokter.dart';
 
 class DetailDokterPage extends StatefulWidget {
-  const DetailDokterPage({super.key});
+  final Doctor doctor;
+
+  // const DetailDokterPage({super.key});
+  const DetailDokterPage({Key? key, required this.doctor}) : super(key: key);
 
   @override
   State<DetailDokterPage> createState() => _DetailDokterPageState();
 }
 
 class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
-  AuthService auth = AuthService();
-  String _token = "";
-  String _user_id = "";
+  // AuthService auth = AuthService();
+  // String _token = "";
+  // String _user_id = "";
 
   double boxHeight = 35.0;
   bool? isChecked = false;
@@ -34,22 +41,11 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
 
   List<String> doctorInfo = ['Selulitis', 'Dermatofitosis (kurap)', 'Hiperhidrosis osmidrosis', 'Kelainan rambut', 'Kebotakan dan hipertrikosis', 'Dermatitis atopik'];
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchToken();
-  }
 
-  Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
-    _token = await auth.getToken();
-    _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
-    setState(() {});
-  }
-  
   @override
   Widget build(BuildContext context) {
+    var value = context.watch<DoctorProvider>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -69,7 +65,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
         title: Padding(
           padding: const EdgeInsets.only(left: 0),
           child: Text(
-            'Ujang Suherman',
+            // 'Ujang Suherman',
+            widget.doctor.namaLengkap,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontSize: 20,
@@ -116,7 +113,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              'Ujang Suherman',
+                                              widget.doctor.namaLengkap,
                                               style: TextStyle(
                                                 color: Theme.of(context).colorScheme.onPrimary,
                                                 fontSize: 15,
@@ -126,10 +123,12 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                             ),
                                           ),
                                           Image(
+                                            // image: AssetImage(widget.doctor.foto),
                                             image: AssetImage('assets/images/detailDokterPage/ri_service-fill.png'),
                                           ),
                                           Text(
-                                            ' 2 tahun',
+                                            // " .",
+                                            " ${widget.doctor.pengalaman} tahun",
                                             style: TextStyle(
                                               color: Theme.of(context).colorScheme.primary,
                                               fontSize: 12,
@@ -142,7 +141,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                     ),
                                     Expanded(
                                       child: Text(
-                                        'Sp. Kulit',
+                                        // ".",
+                                        "Sp. ${widget.doctor.spesialis}",
                                         style: TextStyle(
                                           color: Theme.of(context).colorScheme.onPrimary,
                                           fontSize: 15,
@@ -160,7 +160,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                         child: Row(
                                           children: [
                                             Text(
-                                              '5.0 ',
+                                              "${widget.doctor.rating} ",
                                               style: TextStyle(
                                                 color: Color(0xFFFFC107),
                                                 fontSize: 15,
@@ -246,7 +246,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                     image: AssetImage('assets/images/detailDokterPage/dollar.png'),
                                   ),
                                   Text(
-                                    ' Rp200.000,00',
+                                    // ' Rp200.000,00',
+                                    ' ${widget.doctor.harga}',
                                     style: TextStyle(
                                       color: Theme.of(context).colorScheme.onPrimary,
                                       fontSize: 14,
@@ -261,7 +262,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                         ),
                         SizedBox(height: 10,),
                         Text(
-                          'Universitas Indonesia',
+                          // 'Universitas Indonesia',
+                          widget.doctor.alumnus,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -305,13 +307,25 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                           ],
                         ),
                         SizedBox(height: 10,),
-                        BulletList(
-                          doctorInfo, // data string
-                          14, // font size
-                          medium, // font weight
-                          Theme.of(context).colorScheme.onPrimary, // color
-                          0.8, // letter spacing
+                        Text(
+                          widget.doctor.minatKlinis,
+                          style: TextStyle(
+                            // color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary, // color
+                            fontSize: 14,
+                            fontWeight: semi,
+                            letterSpacing: 0.8,
+                          ),
                         ),
+
+                        // BulletList(
+                        //   doctorInfo, // data string
+                        //   // widget.doctor.minatKlinis,
+                        //   14, // font size
+                        //   medium, // font weight
+                        //   Theme.of(context).colorScheme.onPrimary, // color
+                        //   0.8, // letter spacing
+                        // ),
                       ],
                     ),
                   ),
