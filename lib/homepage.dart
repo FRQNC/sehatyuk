@@ -14,6 +14,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/profile_page.dart';
 import 'package:provider/provider.dart';
+import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,9 +25,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
   @override
   void initState() {
     super.initState();
+    _fetchToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Panggil method untuk menampilkan pop-up setelah halaman selesai dibangun
       _showPopup();
@@ -39,9 +53,16 @@ class _HomePageState extends State<HomePage> {
   // }
 
   void _showPopup() {
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        var user = context.watch<UserProvider>();
+
+        if(user.userData.namaLengkap == ""){
+          user.fetchData();
+        }
+        
         return AlertDialog(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -68,7 +89,8 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  "Selamat Datang Aurora",
+                  // data.userData.namaLengkap,
+                  "Selamat Datang ${user.userData.namaLengkap}",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -76,7 +98,18 @@ class _HomePageState extends State<HomePage> {
                     letterSpacing: 0.8,
                   ),
                   textAlign: TextAlign.start,
-                ),
+                )
+                // Text(
+                //   // "Selamat Datang ${user.namaLengkap}",
+                //   "Selamat Datang Aurora",
+                //   style: TextStyle(
+                //     fontSize: 18,
+                //     fontWeight: FontWeight.bold,
+                //     color: Color(0xff4A707A),
+                //     letterSpacing: 0.8,
+                //   ),
+                //   textAlign: TextAlign.start,
+                // ),
               ),
               SizedBox(height: 20),
               Padding(
@@ -203,7 +236,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<UserProvider>();
+    // var user = context.watch<UserProvider>();
 
     // if(user.userId == null && !fetched){
     //   user.fetchData();

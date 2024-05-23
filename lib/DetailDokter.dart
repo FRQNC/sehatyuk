@@ -6,6 +6,10 @@ import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/providers/doctor_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/auth/auth.dart';
 
 class DetailDokterPage extends StatefulWidget {
   const DetailDokterPage({super.key});
@@ -15,6 +19,10 @@ class DetailDokterPage extends StatefulWidget {
 }
 
 class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
   double boxHeight = 35.0;
   bool? isChecked = false;
 
@@ -26,6 +34,20 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
 
   List<String> doctorInfo = ['Selulitis', 'Dermatofitosis (kurap)', 'Hiperhidrosis osmidrosis', 'Kelainan rambut', 'Kebotakan dan hipertrikosis', 'Dermatitis atopik'];
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
