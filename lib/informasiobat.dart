@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/models/obat.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class InformasiObatPage extends StatefulWidget {
-  const InformasiObatPage({super.key});
+  Obat obat;
+  String token;
+  InformasiObatPage({super.key, required this.obat, required this.token});
 
   @override
   State<InformasiObatPage> createState() => _InformasiObatPageState();
@@ -67,9 +71,14 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: Image.asset(
-                      'assets/images/detailObatPage/obat1.png',
-                      fit: BoxFit.cover,
+                    child: Image.network(
+                      '${Endpoint.url}obat_image/${widget.obat.idObat}',
+                      headers: <String, String>{
+                        'accept': 'application/json',
+                        'Authorization': 'Bearer ${widget.token}',
+                      },
+                      width: 91,
+                      height: 70,
                     ),
                   ),
                 ),
@@ -90,7 +99,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Paracetamol',
+                    widget.obat.namaObat,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: semi,
@@ -140,7 +149,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Setiap tablet mengandung Paracetamol 500mg..',
+                    'Setiap tablet mengandung ${widget.obat.komposisiObat}',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: medium,
@@ -170,7 +179,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Dewasa 2-3 tablet sehari. Anak-anak 1 tablet sehari',
+                    '${widget.obat.dosisObat}',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: medium,
@@ -200,7 +209,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Hati-hati penggunaan pada pasien dengan gagal ginjal, gangguan fungsi hati, dan alergi atau mengalami hipersensitivitas terhadap paracetamol. Kategori kehamilan : Kategori B: Mungkin dapat digunakan oleh wanita hamil. Penelitian pada hewan uji tidak memperlihatkan ada nya risiko terhadap janin, namun belum ada bukti penelitian langsung terhadap wanita hamil.',
+                    '${widget.obat.peringatanObat}',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: medium,
@@ -230,7 +239,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Pemakaian obat umumnya memiliki efek samping tertentu dan sesuai dengan masing-masing individu. Jika terjadi efek samping yang berlebih dan berbahaya, harap konsultasikan kepada tenaga medis. Efek samping yang mungkin terjadi dalam penggunaan obat adalah: - Penggunaan untuk jangka waktu lama dan dosis besar dapat menyebabkan kerusakan fungsi hati. - Reaksi hipersensitifitas/ alergi.',
+                    '${widget.obat.efekSampingObat}',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: medium,

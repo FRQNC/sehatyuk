@@ -160,11 +160,11 @@ class _HomePageState extends State<HomePage> {
 
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [
-    CariDokterPage(),
-    InformasiObatPage(),
-    ProfilePage(),
-  ];
+  // final List<Widget> _pages = [
+  //   CariDokterPage(),
+  //   InformasiObatPage(),
+  //   ProfilePage(),
+  // ];
 
   final List<String> images = [
     'assets/images/homePage/1.jpg',
