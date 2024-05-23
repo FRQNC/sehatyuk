@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
@@ -71,9 +72,9 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    child: Image.network(
-                      '${Endpoint.url}obat_image/${widget.obat.idObat}',
-                      headers: <String, String>{
+                    child: CachedNetworkImage(
+                      imageUrl: '${Endpoint.url}obat_image/${widget.obat.idObat}',
+                      httpHeaders: <String, String>{
                         'accept': 'application/json',
                         'Authorization': 'Bearer ${widget.token}',
                       },

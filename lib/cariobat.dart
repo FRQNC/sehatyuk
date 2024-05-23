@@ -8,6 +8,8 @@ import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class CariObatPage extends StatefulWidget {
   const CariObatPage({super.key});
@@ -209,9 +211,9 @@ Widget build(BuildContext context) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.network(
-          '${Endpoint.url}obat_image/$id',
-          headers: <String, String>{
+        CachedNetworkImage(
+          imageUrl: '${Endpoint.url}obat_image/$id',
+          httpHeaders: <String, String>{
             'accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
