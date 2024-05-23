@@ -16,6 +16,7 @@ import 'package:sehatyuk/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,11 +39,15 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   void initState() {
+        var welcomeDialog = context.read<WelcomeDialogProvider>();
+
     super.initState();
     _fetchToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Panggil method untuk menampilkan pop-up setelah halaman selesai dibangun
-      _showPopup();
+      if(welcomeDialog.openedFirstTime){
+        _showPopup();
+      }
     });
   }
 
@@ -156,6 +161,8 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+    var welcomeDialog = context.read<WelcomeDialogProvider>();
+    welcomeDialog.changeOpenedFirstTime = false;
   }
 
   int _currentIndex = 0;

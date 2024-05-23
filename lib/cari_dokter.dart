@@ -8,6 +8,7 @@ import 'package:sehatyuk/DetailDokter.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CariDokterPage extends StatefulWidget {
   const CariDokterPage({super.key});
@@ -384,12 +385,13 @@ class DoctorCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     '${Endpoint.url}dokter_image/$id_dokter',
                     headers: <String, String>{
                       'accept': 'application/json',
                       'Authorization': 'Bearer $token',
                     },
+                    
                   ),
                   fit: BoxFit.cover,
                 ),

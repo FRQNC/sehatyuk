@@ -471,53 +471,54 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                       ),
                                       SizedBox(width: 10),
                                       Expanded(
-                                      child: Container(
-                                        height: MediaQuery.of(context).size.height * 0.1,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ListView.builder(
-                                            itemCount: value.jadwal_dokter.length,
-                                            itemBuilder: (context, index) {
-                                              return Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Senin",
-                                                    // days[index % days.length], // Ensure the days loop around if there are more schedules than days
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).colorScheme.primary,
-                                                      fontWeight: FontWeight.w600, // Update fontWeight directly
-                                                      fontSize: 14,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: value.jadwal_dokter.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              height: MediaQuery.of(context).size.height * 0.1,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Senin",
+                                                      // days[index % days.length], // Ensure the days loop around if there are more schedules than days
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).colorScheme.primary,
+                                                        fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).colorScheme.tertiary,
-                                                      fontWeight: FontWeight.w500, // Update fontWeight directly
-                                                      fontSize: 12,
+                                                    Text(
+                                                      value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).colorScheme.tertiary,
+                                                        fontWeight: FontWeight.w500, // Update fontWeight directly
+                                                        fontSize: 12,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Expanded(child: Container()),
-                                                  Text(
-                                                    '08.00 - 13.00',
-                                                    style: TextStyle(
-                                                      color: Theme.of(context).colorScheme.onPrimary,
-                                                      fontWeight: FontWeight.w600, // Update fontWeight directly
-                                                      fontSize: 12,
+                                                    Expanded(child: Container()),
+                                                    Text(
+                                                      '08.00 - 13.00',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).colorScheme.onPrimary,
+                                                        fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                        fontSize: 12,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          color: Theme.of(context).colorScheme.onSecondary,
+                                                  ],
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                color: Theme.of(context).colorScheme.onSecondary,
+                                              ),
+                                            );
+                                          }
                                         ),
                                       ),
-                                    ),
 
                                       // Expanded(
                                       //   child: Container(
@@ -564,183 +565,183 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                       // ),
                                       
                                       SizedBox(width: 10),
-                                      Expanded(
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  days[i+1],
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.primary,
-                                                    fontWeight: semi,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '02 Feb',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.tertiary,
-                                                    fontWeight: medium,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Text(
-                                                  '08.00 - 13.00',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                    fontWeight: semi,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: Theme.of(context).colorScheme.onSecondary,
-                                          ),
-                                        ),
-                                      ),
+                                      // Expanded(
+                                      //   child: Container(
+                                      //     height: MediaQuery.of(context).size.height * 0.1,
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.all(8.0),
+                                      //       child: Column(
+                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                      //         children: [
+                                      //           Text(
+                                      //             days[i+1],
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.primary,
+                                      //               fontWeight: semi,
+                                      //               fontSize: 14,
+                                      //             ),
+                                      //           ),
+                                      //           Text(
+                                      //             '02 Feb',
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.tertiary,
+                                      //               fontWeight: medium,
+                                      //               fontSize: 12,
+                                      //             ),
+                                      //           ),
+                                      //           Expanded(child: Container()),
+                                      //           Text(
+                                      //             '08.00 - 13.00',
+                                      //             style: TextStyle(
+                                      //               color: Theme.of(context).colorScheme.onPrimary,
+                                      //               fontWeight: semi,
+                                      //               fontSize: 12,
+                                      //             ),
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     decoration: BoxDecoration(
+                                      //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      //       color: Theme.of(context).colorScheme.onSecondary,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                   SizedBox(height: 10,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  days[i+2],
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.primary,
-                                                    fontWeight: semi,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '03 Feb',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.tertiary,
-                                                    fontWeight: medium,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Text(
-                                                  '08.00 - 13.00',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                    fontWeight: semi,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: Theme.of(context).colorScheme.onSecondary,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  days[i+3],
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.primary,
-                                                    fontWeight: semi,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '04 Feb',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.tertiary,
-                                                    fontWeight: medium,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Text(
-                                                  '08.00 - 13.00',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                    fontWeight: semi,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: Theme.of(context).colorScheme.onSecondary,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  days[i+4],
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.primary,
-                                                    fontWeight: semi,
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  '06 Feb',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.tertiary,
-                                                    fontWeight: medium,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                Expanded(child: Container()),
-                                                Text(
-                                                  '08.00 - 13.00',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context).colorScheme.onPrimary,
-                                                    fontWeight: semi,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            color: Theme.of(context).colorScheme.onSecondary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: Container(
+                                  //         height: MediaQuery.of(context).size.height * 0.1,
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsets.all(8.0),
+                                  //           child: Column(
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               Text(
+                                  //                 days[i+2],
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.primary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 14,
+                                  //                 ),
+                                  //               ),
+                                  //               Text(
+                                  //                 '03 Feb',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.tertiary,
+                                  //                   fontWeight: medium,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //               Expanded(child: Container()),
+                                  //               Text(
+                                  //                 '08.00 - 13.00',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.onPrimary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //           color: Theme.of(context).colorScheme.onSecondary,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(width: 10),
+                                  //     Expanded(
+                                  //       child: Container(
+                                  //         height: MediaQuery.of(context).size.height * 0.1,
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsets.all(8.0),
+                                  //           child: Column(
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               Text(
+                                  //                 days[i+3],
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.primary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 14,
+                                  //                 ),
+                                  //               ),
+                                  //               Text(
+                                  //                 '04 Feb',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.tertiary,
+                                  //                   fontWeight: medium,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //               Expanded(child: Container()),
+                                  //               Text(
+                                  //                 '08.00 - 13.00',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.onPrimary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //           color: Theme.of(context).colorScheme.onSecondary,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(width: 10),
+                                  //     Expanded(
+                                  //       child: Container(
+                                  //         height: MediaQuery.of(context).size.height * 0.1,
+                                  //         child: Padding(
+                                  //           padding: const EdgeInsets.all(8.0),
+                                  //           child: Column(
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               Text(
+                                  //                 days[i+4],
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.primary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 14,
+                                  //                 ),
+                                  //               ),
+                                  //               Text(
+                                  //                 '06 Feb',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.tertiary,
+                                  //                   fontWeight: medium,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //               Expanded(child: Container()),
+                                  //               Text(
+                                  //                 '08.00 - 13.00',
+                                  //                 style: TextStyle(
+                                  //                   color: Theme.of(context).colorScheme.onPrimary,
+                                  //                   fontWeight: semi,
+                                  //                   fontSize: 12,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //           color: Theme.of(context).colorScheme.onSecondary,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   SizedBox(height: 30,),
                                   Text(
                                     'Buat janji untuk siapa?',
