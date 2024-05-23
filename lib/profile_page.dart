@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/auth/auth.dart';
@@ -82,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         Expanded(
                                           flex: 1,
                                           child: CircleAvatar(
-                                              backgroundImage: NetworkImage(
+                                              backgroundImage: CachedNetworkImageProvider(
                                                 '${Endpoint.url}user_image/${_user_id}',
                                                 headers: <String, String>{
                                                   'accept': 'application/json',
