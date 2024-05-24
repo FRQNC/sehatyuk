@@ -5,12 +5,14 @@ import 'package:sehatyuk/ambilantrian.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:intl/intl.dart';
+import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 
 
 class JadwalTemuPage extends StatefulWidget {
@@ -47,15 +49,20 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
+    await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
+    await context.read<DoctorProvider>().fetchDataJoin(_token, context.read<JanjiTemuProvider>().janjiTemuList);
+    await context.read<UserProvider>().fetchData();
   }
+
+  List<Doctor> doctorJoin = [];
+  int len = 0;
 
   @override
   Widget build(BuildContext context) {
-      var janji_temu = context.watch<JanjiTemuProvider>();
+    var janji_temu = context.watch<JanjiTemuProvider>();
+    var doctor = context.watch<DoctorProvider>();
+    var user = context.watch<UserProvider>();
 
-      if(janji_temu.janjiTemuList.isEmpty){
-        janji_temu.fetchData(_token, _user_id);
-      }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -101,8 +108,12 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                 itemCount: janji_temu.janjiTemuList.length,
                 itemBuilder: (context, index) {
                   var janjiTemu = janji_temu.janjiTemuList[index];
-                  var doctor = context.watch<DoctorProvider>();
-                  // doctor.fetchDataById(_token, janjiTemu.idDokter);
+                  // var doctor = context.watch<DoctorProvider>();
+                  // var currentDoctor = null;
+                  // if(currentDoctor == null){
+                  //   doctor.fetchDataById(_token, janjiTemu.idDokter);
+                  //   currentDoctor = doctor.dataDokter;
+                  // }
                   // var detailDokter = doctor.fetchDataById(_token, janjiTemu.idDokter);
                   return JadwalTemuCard(
                       token: _token,
@@ -114,9 +125,10 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       id_relasi: janji_temu.janjiTemuList[index].idRelasi.toString(),
                       biaya_janji_temu: janji_temu.janjiTemuList[index].biaya.toString(),
                       onPressed: () {},
-                      spesialisasi: doctor.dataDokter.spesialis,
-                      namaDokter: doctor.dataDokter.namaLengkap,
-                      imageDokter: doctor.dataDokter.foto,
+                      spesialisasi: doctor.dataDokterJoin[index].spesialis,
+                      namaDokter: doctor.dataDokterJoin[index].namaLengkap,
+                      imageDokter: doctor.dataDokterJoin[index].foto,
+                      namaUser: user.userData.namaLengkap,
                   );
                 },
               ),
@@ -141,6 +153,7 @@ class JadwalTemuCard extends StatelessWidget{
   final String spesialisasi;
   final String namaDokter;
   final String imageDokter;
+  final String namaUser;
 
   const JadwalTemuCard({
     Key? key,
@@ -156,6 +169,7 @@ class JadwalTemuCard extends StatelessWidget{
     required this.spesialisasi,
     required this.namaDokter,
     required this.imageDokter,
+    required this.namaUser,
   }) : super(key: key);
 
 
@@ -255,15 +269,15 @@ class JadwalTemuCard extends StatelessWidget{
                     ],
                   ),
                   SizedBox(height: 5),
-                  // Text(
-                  //   // nama pasien
-                  //   '${janji[4]}',
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.w500,
-                  //     fontSize: 14,
-                  //     color: Color(0xFF94B0B7),
-                  //   ),
-                  // ),
+                  Text(
+                    // nama pasien
+                    namaUser,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: Color(0xFF94B0B7),
+                    ),
+                  ),
                   SizedBox(height: 10),
                   // Text(
                   //   // nomor antrian

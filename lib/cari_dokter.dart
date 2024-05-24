@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
@@ -430,7 +431,7 @@ class DoctorCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        price,
+                        'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(price))}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
