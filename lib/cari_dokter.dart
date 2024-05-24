@@ -52,7 +52,6 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
           onTap: (){
             Navigator.pop(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
             );
           },
           child: BackButton(
@@ -431,7 +430,7 @@ class DoctorCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(price))}',
+                        'Rp${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(price))}',
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
