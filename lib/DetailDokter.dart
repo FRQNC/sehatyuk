@@ -104,6 +104,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       // }
     }
 
+    final firstJadwal = value.jadwal_dokter.take(1).toList();
+    final remainingJadwal = value.jadwal_dokter.skip(1).toList();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -477,30 +480,91 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                     ),
                                   ),
                                   SizedBox(height: 20,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            _selectDate();
-                                          },
-                                          child: Container(
-                                            height: MediaQuery.of(context).size.height * 0.1,
-                                            child: Image(
-                                              image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.4, // Batasi tinggi ListView
+                                    child: ListView(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _selectDate(); // Assuming this function is defined
+                                                },
+                                                child: Container(
+                                                  height: MediaQuery.of(context).size.height * 0.1,
+                                                  // width: MediaQuery.of(context).size.width * 0.5,
+                                                  child: Image(
+                                                    image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    color: Theme.of(context).colorScheme.onSecondary,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                              color: Theme.of(context).colorScheme.onSecondary,
-                                            ),
-                                          ),
+                                            SizedBox(width: 10),
+                                            // Menampilkan dua data pertama
+                                            for (var jadwal in firstJadwal)
+                                              Expanded(
+                                                child: 
+                                                Container(
+                                                  height: MediaQuery.of(context).size.height * 0.1,
+                                                  // width: MediaQuery.of(context).size.width * 0.5,
+                                                  // margin: EdgeInsets.only(right: 10),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "Senin", // Atur hari dinamis jika diperlukan
+                                                          style: TextStyle(
+                                                            color: Theme.of(context).colorScheme.primary,
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          jadwal.tanggalJadwalDokter.toString(),
+                                                          style: TextStyle(
+                                                            color: Theme.of(context).colorScheme.tertiary,
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                        Expanded(child: Container()),
+                                                        Text(
+                                                          '08.00 - 13.00',
+                                                          style: TextStyle(
+                                                            color: Theme.of(context).colorScheme.onPrimary,
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    color: Theme.of(context).colorScheme.onSecondary,
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: ListView.builder(
+                                        SizedBox(height: 10),
+                                        GridView.builder(
                                           shrinkWrap: true,
-                                          itemCount: value.jadwal_dokter.length,
+                                          physics: NeverScrollableScrollPhysics(), // Untuk menghindari konflik scroll dengan ListView utama
+                                          itemCount: remainingJadwal.length,
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2, // Jumlah kolom dalam grid
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10,
+                                            childAspectRatio: 2, // Menyesuaikan proporsi item dalam grid
+                                          ),
                                           itemBuilder: (context, index) {
                                             return Container(
                                               height: MediaQuery.of(context).size.height * 0.1,
@@ -510,19 +574,18 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Senin",
-                                                      // days[index % days.length], // Ensure the days loop around if there are more schedules than days
+                                                      "Senin", // Atur hari dinamis jika diperlukan
                                                       style: TextStyle(
                                                         color: Theme.of(context).colorScheme.primary,
-                                                        fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                        fontWeight: FontWeight.w600,
                                                         fontSize: 14,
                                                       ),
                                                     ),
                                                     Text(
-                                                      value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
+                                                      remainingJadwal[index].tanggalJadwalDokter.toString(),
                                                       style: TextStyle(
                                                         color: Theme.of(context).colorScheme.tertiary,
-                                                        fontWeight: FontWeight.w500, // Update fontWeight directly
+                                                        fontWeight: FontWeight.w500,
                                                         fontSize: 12,
                                                       ),
                                                     ),
@@ -531,7 +594,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                       '08.00 - 13.00',
                                                       style: TextStyle(
                                                         color: Theme.of(context).colorScheme.onPrimary,
-                                                        fontWeight: FontWeight.w600, // Update fontWeight directly
+                                                        fontWeight: FontWeight.w600,
                                                         fontSize: 12,
                                                       ),
                                                     ),
@@ -543,99 +606,171 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                 color: Theme.of(context).colorScheme.onSecondary,
                                               ),
                                             );
-                                          }
+                                          },
                                         ),
-                                      ),
-
-                                      // Expanded(
-                                      //   child: Container(
-                                      //     height: MediaQuery.of(context).size.height * 0.1,
-                                      //     child: Padding(
-                                      //       padding: const EdgeInsets.all(8.0),
-                                      //       child: Column(
-                                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                                      //         children: [
-                                      //           Text(
-                                      //             days[i],
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.primary,
-                                      //               fontWeight: semi,
-                                      //               fontSize: 14,
-                                      //             ),
-                                      //           ),
-                                      //           Text(
-                                      //             // '01 Feb',
-                                      //             value.jadwal_dokter,
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.tertiary,
-                                      //               fontWeight: medium,
-                                      //               fontSize: 12,
-                                      //             ),
-                                      //           ),
-                                      //           Expanded(child: Container()),
-                                      //           Text(
-                                      //             '08.00 - 13.00',
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.onPrimary,
-                                      //               fontWeight: semi,
-                                      //               fontSize: 12,
-                                      //             ),
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //     decoration: BoxDecoration(
-                                      //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      //       color: Theme.of(context).colorScheme.onSecondary,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                      
-                                      SizedBox(width: 10),
-                                      // Expanded(
-                                      //   child: Container(
-                                      //     height: MediaQuery.of(context).size.height * 0.1,
-                                      //     child: Padding(
-                                      //       padding: const EdgeInsets.all(8.0),
-                                      //       child: Column(
-                                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                                      //         children: [
-                                      //           Text(
-                                      //             days[i+1],
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.primary,
-                                      //               fontWeight: semi,
-                                      //               fontSize: 14,
-                                      //             ),
-                                      //           ),
-                                      //           Text(
-                                      //             '02 Feb',
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.tertiary,
-                                      //               fontWeight: medium,
-                                      //               fontSize: 12,
-                                      //             ),
-                                      //           ),
-                                      //           Expanded(child: Container()),
-                                      //           Text(
-                                      //             '08.00 - 13.00',
-                                      //             style: TextStyle(
-                                      //               color: Theme.of(context).colorScheme.onPrimary,
-                                      //               fontWeight: semi,
-                                      //               fontSize: 12,
-                                      //             ),
-                                      //           ),
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //     decoration: BoxDecoration(
-                                      //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      //       color: Theme.of(context).colorScheme.onSecondary,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
+                                  // Row(
+                                  //   children: [
+                                  //     Expanded(
+                                  //       child: GestureDetector(
+                                  //         onTap: () {
+                                  //           _selectDate();
+                                  //         },
+                                  //         child: Container(
+                                  //           height: MediaQuery.of(context).size.height * 0.1,
+                                  //           child: Image(
+                                  //             image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                  //           ),
+                                  //           decoration: BoxDecoration(
+                                  //             borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //             color: Theme.of(context).colorScheme.onSecondary,
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(width: 10),
+                                  //     Expanded(
+                                  //       child: ListView.builder(
+                                  //         shrinkWrap: true,
+                                  //         itemCount: value.jadwal_dokter.length,
+                                  //         itemBuilder: (context, index) {
+                                  //           return Container(
+                                  //             height: MediaQuery.of(context).size.height * 0.1,
+                                  //             child: Padding(
+                                  //               padding: const EdgeInsets.all(8.0),
+                                  //               child: Column(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Text(
+                                  //                     "Senin",
+                                  //                     // days[index % days.length], // Ensure the days loop around if there are more schedules than days
+                                  //                     style: TextStyle(
+                                  //                       color: Theme.of(context).colorScheme.primary,
+                                  //                       fontWeight: FontWeight.w600, // Update fontWeight directly
+                                  //                       fontSize: 14,
+                                  //                     ),
+                                  //                   ),
+                                  //                   Text(
+                                  //                     value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
+                                  //                     style: TextStyle(
+                                  //                       color: Theme.of(context).colorScheme.tertiary,
+                                  //                       fontWeight: FontWeight.w500, // Update fontWeight directly
+                                  //                       fontSize: 12,
+                                  //                     ),
+                                  //                   ),
+                                  //                   Expanded(child: Container()),
+                                  //                   Text(
+                                  //                     '08.00 - 13.00',
+                                  //                     style: TextStyle(
+                                  //                       color: Theme.of(context).colorScheme.onPrimary,
+                                  //                       fontWeight: FontWeight.w600, // Update fontWeight directly
+                                  //                       fontSize: 12,
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //               color: Theme.of(context).colorScheme.onSecondary,
+                                  //             ),
+                                  //           );
+                                  //         }
+                                  //       ),
+                                  //     ),
+
+                                  //     // Expanded(
+                                  //     //   child: Container(
+                                  //     //     height: MediaQuery.of(context).size.height * 0.1,
+                                  //     //     child: Padding(
+                                  //     //       padding: const EdgeInsets.all(8.0),
+                                  //     //       child: Column(
+                                  //     //         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     //         children: [
+                                  //     //           Text(
+                                  //     //             days[i],
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.primary,
+                                  //     //               fontWeight: semi,
+                                  //     //               fontSize: 14,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //           Text(
+                                  //     //             // '01 Feb',
+                                  //     //             value.jadwal_dokter,
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.tertiary,
+                                  //     //               fontWeight: medium,
+                                  //     //               fontSize: 12,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //           Expanded(child: Container()),
+                                  //     //           Text(
+                                  //     //             '08.00 - 13.00',
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.onPrimary,
+                                  //     //               fontWeight: semi,
+                                  //     //               fontSize: 12,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //         ],
+                                  //     //       ),
+                                  //     //     ),
+                                  //     //     decoration: BoxDecoration(
+                                  //     //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //     //       color: Theme.of(context).colorScheme.onSecondary,
+                                  //     //     ),
+                                  //     //   ),
+                                  //     // ),
+                                      
+                                  //     SizedBox(width: 10),
+                                  //     // Expanded(
+                                  //     //   child: Container(
+                                  //     //     height: MediaQuery.of(context).size.height * 0.1,
+                                  //     //     child: Padding(
+                                  //     //       padding: const EdgeInsets.all(8.0),
+                                  //     //       child: Column(
+                                  //     //         crossAxisAlignment: CrossAxisAlignment.start,
+                                  //     //         children: [
+                                  //     //           Text(
+                                  //     //             days[i+1],
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.primary,
+                                  //     //               fontWeight: semi,
+                                  //     //               fontSize: 14,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //           Text(
+                                  //     //             '02 Feb',
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.tertiary,
+                                  //     //               fontWeight: medium,
+                                  //     //               fontSize: 12,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //           Expanded(child: Container()),
+                                  //     //           Text(
+                                  //     //             '08.00 - 13.00',
+                                  //     //             style: TextStyle(
+                                  //     //               color: Theme.of(context).colorScheme.onPrimary,
+                                  //     //               fontWeight: semi,
+                                  //     //               fontSize: 12,
+                                  //     //             ),
+                                  //     //           ),
+                                  //     //         ],
+                                  //     //       ),
+                                  //     //     ),
+                                  //     //     decoration: BoxDecoration(
+                                  //     //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  //     //       color: Theme.of(context).colorScheme.onSecondary,
+                                  //     //     ),
+                                  //     //   ),
+                                  //     // ),
+                                  //   ],
+                                  // ),
+                                  
                                   SizedBox(height: 10,),
                                   // Row(
                                   //   children: [
