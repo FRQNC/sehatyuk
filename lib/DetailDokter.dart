@@ -40,6 +40,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   void initState() {
     super.initState();
     _fetchToken();
+    minatKlinis = widget.doctor.minatKlinis.split(";").toList();
   }
 
   Future<void> _fetchToken() async {
@@ -60,7 +61,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   String? selectedPerson = null;
   List<String> relation = ['Saya sendiri', 'Anantha Alsava', 'Rich Brian', 'Orang lain'];
 
-  List<String> doctorInfo = ['Selulitis', 'Dermatofitosis (kurap)', 'Hiperhidrosis osmidrosis', 'Kelainan rambut', 'Kebotakan dan hipertrikosis', 'Dermatitis atopik'];
+  List<String> minatKlinis = [];
   int id_dokter_before = 0;
 
   DateTime? selectedDate = DateTime.now();
@@ -382,25 +383,24 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                           ],
                         ),
                         SizedBox(height: 10,),
-                        Text(
-                          widget.doctor.minatKlinis,
-                          style: TextStyle(
-                            // color: Colors.white,
-                            color: Theme.of(context).colorScheme.onPrimary, // color
-                            fontSize: 14,
-                            fontWeight: semi,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-
-                        // BulletList(
-                        //   doctorInfo, // data string
-                        //   // widget.doctor.minatKlinis,
-                        //   14, // font size
-                        //   medium, // font weight
-                        //   Theme.of(context).colorScheme.onPrimary, // color
-                        //   0.8, // letter spacing
+                        // Text(
+                        //   widget.doctor.minatKlinis,
+                        //   style: TextStyle(
+                        //     // color: Colors.white,
+                        //     color: Theme.of(context).colorScheme.onPrimary, // color
+                        //     fontSize: 14,
+                        //     fontWeight: semi,
+                        //     letterSpacing: 0.8,
+                        //   ),
                         // ),
+                        BulletList(
+                          minatKlinis, // data string
+                          // widget.doctor.minatKlinis,
+                          14, // font size
+                          medium, // font weight
+                          Theme.of(context).colorScheme.onPrimary, // color
+                          0.8, // letter spacing
+                        ),
                       ],
                     ),
                   ),
