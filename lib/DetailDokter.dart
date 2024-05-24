@@ -494,8 +494,14 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                 child: Container(
                                                   height: MediaQuery.of(context).size.height * 0.1,
                                                   // width: MediaQuery.of(context).size.width * 0.5,
-                                                  child: Image(
-                                                    image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                                  // child: Image(
+                                                  //   image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                                  // ),
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
+                                                    child: Image(
+                                                      image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                                                    ),
                                                   ),
                                                   decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -513,37 +519,40 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                                   height: MediaQuery.of(context).size.height * 0.1,
                                                   // width: MediaQuery.of(context).size.width * 0.5,
                                                   // margin: EdgeInsets.only(right: 10),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          "Senin", // Atur hari dinamis jika diperlukan
-                                                          style: TextStyle(
-                                                            color: Theme.of(context).colorScheme.primary,
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 14,
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            "Senin", // Atur hari dinamis jika diperlukan
+                                                            style: TextStyle(
+                                                              color: Theme.of(context).colorScheme.primary,
+                                                              fontWeight: FontWeight.w600,
+                                                              fontSize: 14,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          jadwal.tanggalJadwalDokter.toString(),
-                                                          style: TextStyle(
-                                                            color: Theme.of(context).colorScheme.tertiary,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 12,
+                                                          Text(
+                                                            jadwal.tanggalJadwalDokter.toString(),
+                                                            style: TextStyle(
+                                                              color: Theme.of(context).colorScheme.tertiary,
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 12,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(child: Container()),
-                                                        Text(
-                                                          '08.00 - 13.00',
-                                                          style: TextStyle(
-                                                            color: Theme.of(context).colorScheme.onPrimary,
-                                                            fontWeight: FontWeight.w600,
-                                                            fontSize: 12,
+                                                          Expanded(child: Container()),
+                                                          Text(
+                                                            '08.00 - 13.00',
+                                                            style: TextStyle(
+                                                              color: Theme.of(context).colorScheme.onPrimary,
+                                                              fontWeight: FontWeight.w600,
+                                                              fontSize: 12,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   decoration: BoxDecoration(
@@ -563,7 +572,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                             crossAxisCount: 2, // Jumlah kolom dalam grid
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 10,
-                                            childAspectRatio: 2, // Menyesuaikan proporsi item dalam grid
+                                            childAspectRatio: 1.8, // Menyesuaikan proporsi item dalam grid
                                           ),
                                           itemBuilder: (context, index) {
                                             return Container(
