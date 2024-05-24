@@ -8,6 +8,7 @@ class Obat{
   String efekSampingObat;
   String fotoObat;
   int idJenisObat;
+  Map<String, dynamic> jenisObat;
 
   // Constructor
   Obat({
@@ -20,6 +21,7 @@ class Obat{
     required this.efekSampingObat,
     required this.fotoObat,
     required this.idJenisObat,
+    required this.jenisObat
   });
 
    factory Obat.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class Obat{
       efekSampingObat: json['efek_samping_obat'],
       fotoObat: json['foto_obat'],
       idJenisObat: json['id_jenis_obat'],
+      jenisObat: json['jenis_obat']
     );
    }
 }

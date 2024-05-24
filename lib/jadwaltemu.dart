@@ -50,8 +50,6 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
     await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
-    await context.read<DoctorProvider>().fetchDataJoin(_token, context.read<JanjiTemuProvider>().janjiTemuList);
-    await context.read<UserProvider>().fetchData();
   }
 
   List<Doctor> doctorJoin = [];
@@ -59,9 +57,8 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
 
   @override
   Widget build(BuildContext context) {
-    var janji_temu = context.watch<JanjiTemuProvider>();
-    var doctor = context.watch<DoctorProvider>();
-    var user = context.watch<UserProvider>();
+    var janji_temu = context.read<JanjiTemuProvider>();
+    print(janji_temu.janjiTemuList);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,6 +114,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                   // var detailDokter = doctor.fetchDataById(_token, janjiTemu.idDokter);
                   return JadwalTemuCard(
                       token: _token,
+                      onPressed: () {},
                       id_janji_temu: janji_temu.janjiTemuList[index].id.toString(),
                       kode_janji_temu: janji_temu.janjiTemuList[index].kodeJanjiTemu,
                       tgl_janji_temu: janji_temu.janjiTemuList[index].tanggalJanjiTemu,
@@ -124,11 +122,10 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       is_relasi: janji_temu.janjiTemuList[index].isRelasi.toString(),
                       id_relasi: janji_temu.janjiTemuList[index].idRelasi.toString(),
                       biaya_janji_temu: janji_temu.janjiTemuList[index].biaya.toString(),
-                      onPressed: () {},
-                      spesialisasi: doctor.dataDokterJoin[index].spesialis,
-                      namaDokter: doctor.dataDokterJoin[index].namaLengkap,
-                      imageDokter: doctor.dataDokterJoin[index].foto,
-                      namaUser: user.userData.namaLengkap,
+                      spesialisasi: janji_temu.janjiTemuList[index].dokter["spesialisasi_dokter"],
+                      namaDokter: janji_temu.janjiTemuList[index].dokter["nama_lengkap_dokter"],
+                      imageDokter: janji_temu.janjiTemuList[index].dokter["foto_dokter"],
+                      namaUser: janji_temu.janjiTemuList[index].user["nama_lengkap_user"],
                   );
                 },
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
@@ -78,7 +79,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       idUser: id_user, 
       isRelasi: is_relasi, 
       idRelasi: id_relasi, 
-      biaya: biaya
+      biaya: biaya,
+      dokter: {},
+      user: {}
     );
 
     return janji.createJanjiTemu(_token, newJanji);
@@ -203,7 +206,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                     Expanded(
                                       child: Text(
                                         // ".",
-                                        "Sp. ${widget.doctor.spesialis}",
+                                        "${widget.doctor.spesialis}",
                                         style: TextStyle(
                                           color: Theme.of(context).colorScheme.onPrimary,
                                           fontSize: 15,
@@ -308,7 +311,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                   ),
                                   Text(
                                     // ' Rp200.000,00',
-                                    ' ${widget.doctor.harga}',
+                                    'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
                                     style: TextStyle(
                                       color: Theme.of(context).colorScheme.onPrimary,
                                       fontSize: 14,
@@ -738,7 +741,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   child: Text(
-                    'Buat Janji2',
+                    'Buat Janji',
                     style: TextStyle(
                       fontSize: 21,
                       fontWeight: semi,

@@ -9,7 +9,7 @@ class ObatProvider extends ChangeNotifier {
 
   List<Obat> get obats => _obats;
 
-  Obat _dataObat = Obat(idObat: 0, namaObat: '', deskripsiObat: '', komposisiObat: '', dosisObat: '', peringatanObat: '', efekSampingObat: '', fotoObat: '', idJenisObat: 0);
+  Obat _dataObat = Obat(idObat: 0, namaObat: '', deskripsiObat: '', komposisiObat: '', dosisObat: '', peringatanObat: '', efekSampingObat: '', fotoObat: '', idJenisObat: 0, jenisObat: {});
 
   Obat get dataObat => _dataObat;
 

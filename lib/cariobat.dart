@@ -162,7 +162,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                           id: item.idObat.toString(),
                           imagePath: item.fotoObat,
                           text: item.namaObat,
-                          additionaltext: item.idJenisObat.toString(),
+                          additionaltext: item.jenisObat["jenis_obat"],
                           token: _token
                         ),
                       );
