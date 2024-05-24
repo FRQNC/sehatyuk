@@ -42,7 +42,7 @@ class JanjiTemuProvider extends ChangeNotifier {
     }
   }
 
-    Future<void> fetchData(String token, String id) async {
+  Future<void> fetchData(String token, String id) async {
     try {
       final url = Uri.parse('${Endpoint.url}get_janji_temu/$id');
       final response = await http.get(
