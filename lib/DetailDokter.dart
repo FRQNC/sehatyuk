@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
@@ -62,6 +66,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   DateTime? selectedDate = DateTime.now();
 
   JanjiTemuProvider janji = JanjiTemuProvider();
+  Random _random = Random();
 
   Future<bool> createJanjiTemu() async {
     String tgl = selectedDate.toString();
@@ -70,9 +75,10 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
     int is_relasi = (selectedPerson == 'Saya sendiri' ? 0 : 1);
     int id_relasi = 0;
     int biaya = widget.doctor.harga;
+    String kode = "SYS" + (_random.nextInt(1000000) + 100000).toString();
 
     JanjiTemu newJanji = JanjiTemu(
-      kodeJanjiTemu: "SYS2385928", 
+      kodeJanjiTemu: kode, 
       tanggalJanjiTemu: tgl, 
       idDokter: id_dokter, 
       idUser: id_user, 
@@ -254,7 +260,13 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                     ),
                   ),
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/detailDokterPage/doctor_1_crop.jpg'),
+                    backgroundImage: CachedNetworkImageProvider(
+                      '${Endpoint.url}dokter_image/${widget.doctor.id}',
+                      headers: <String, String>{
+                        'accept': 'application/json',
+                        'Authorization': 'Bearer $_token',
+                      },
+                    ),
                     radius: 47.5
                   ),
                 ],
@@ -308,7 +320,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                   ),
                                   Text(
                                     // ' Rp200.000,00',
-                                    ' ${widget.doctor.harga}',
+                                    ' Rp${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
                                     style: TextStyle(
                                       color: Theme.of(context).colorScheme.onPrimary,
                                       fontSize: 14,
@@ -738,7 +750,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   child: Text(
-                    'Buat Janji2',
+                    'Buat Janji',
                     style: TextStyle(
                       fontSize: 21,
                       fontWeight: semi,
