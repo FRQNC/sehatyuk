@@ -451,6 +451,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                             elevation: 0,
                             insetPadding: EdgeInsets.all(25),
                             content: SizedBox(
+                              // height: MediaQuery.of(context).size.height * 0.8,
                               width: MediaQuery.of(context).size.width,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,8 +481,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                     ),
                                   ),
                                   SizedBox(height: 20,),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.4, // Batasi tinggi ListView
+                                  Container(
+                                    // color: Colors.amber,
+                                    height: MediaQuery.of(context).size.height * 0.3, // Batasi tinggi ListView
                                     child: ListView(
                                       children: [
                                         Row(
@@ -620,300 +622,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                       ],
                                     ),
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: GestureDetector(
-                                  //         onTap: () {
-                                  //           _selectDate();
-                                  //         },
-                                  //         child: Container(
-                                  //           height: MediaQuery.of(context).size.height * 0.1,
-                                  //           child: Image(
-                                  //             image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
-                                  //           ),
-                                  //           decoration: BoxDecoration(
-                                  //             borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //             color: Theme.of(context).colorScheme.onSecondary,
-                                  //           ),
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(width: 10),
-                                  //     Expanded(
-                                  //       child: ListView.builder(
-                                  //         shrinkWrap: true,
-                                  //         itemCount: value.jadwal_dokter.length,
-                                  //         itemBuilder: (context, index) {
-                                  //           return Container(
-                                  //             height: MediaQuery.of(context).size.height * 0.1,
-                                  //             child: Padding(
-                                  //               padding: const EdgeInsets.all(8.0),
-                                  //               child: Column(
-                                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                  //                 children: [
-                                  //                   Text(
-                                  //                     "Senin",
-                                  //                     // days[index % days.length], // Ensure the days loop around if there are more schedules than days
-                                  //                     style: TextStyle(
-                                  //                       color: Theme.of(context).colorScheme.primary,
-                                  //                       fontWeight: FontWeight.w600, // Update fontWeight directly
-                                  //                       fontSize: 14,
-                                  //                     ),
-                                  //                   ),
-                                  //                   Text(
-                                  //                     value.jadwal_dokter[index].tanggalJadwalDokter.toString(), // Access the schedule for the current index
-                                  //                     style: TextStyle(
-                                  //                       color: Theme.of(context).colorScheme.tertiary,
-                                  //                       fontWeight: FontWeight.w500, // Update fontWeight directly
-                                  //                       fontSize: 12,
-                                  //                     ),
-                                  //                   ),
-                                  //                   Expanded(child: Container()),
-                                  //                   Text(
-                                  //                     '08.00 - 13.00',
-                                  //                     style: TextStyle(
-                                  //                       color: Theme.of(context).colorScheme.onPrimary,
-                                  //                       fontWeight: FontWeight.w600, // Update fontWeight directly
-                                  //                       fontSize: 12,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ],
-                                  //               ),
-                                  //             ),
-                                  //             decoration: BoxDecoration(
-                                  //               borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //               color: Theme.of(context).colorScheme.onSecondary,
-                                  //             ),
-                                  //           );
-                                  //         }
-                                  //       ),
-                                  //     ),
-
-                                  //     // Expanded(
-                                  //     //   child: Container(
-                                  //     //     height: MediaQuery.of(context).size.height * 0.1,
-                                  //     //     child: Padding(
-                                  //     //       padding: const EdgeInsets.all(8.0),
-                                  //     //       child: Column(
-                                  //     //         crossAxisAlignment: CrossAxisAlignment.start,
-                                  //     //         children: [
-                                  //     //           Text(
-                                  //     //             days[i],
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.primary,
-                                  //     //               fontWeight: semi,
-                                  //     //               fontSize: 14,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //           Text(
-                                  //     //             // '01 Feb',
-                                  //     //             value.jadwal_dokter,
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.tertiary,
-                                  //     //               fontWeight: medium,
-                                  //     //               fontSize: 12,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //           Expanded(child: Container()),
-                                  //     //           Text(
-                                  //     //             '08.00 - 13.00',
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.onPrimary,
-                                  //     //               fontWeight: semi,
-                                  //     //               fontSize: 12,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //         ],
-                                  //     //       ),
-                                  //     //     ),
-                                  //     //     decoration: BoxDecoration(
-                                  //     //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //     //       color: Theme.of(context).colorScheme.onSecondary,
-                                  //     //     ),
-                                  //     //   ),
-                                  //     // ),
-                                      
-                                  //     SizedBox(width: 10),
-                                  //     // Expanded(
-                                  //     //   child: Container(
-                                  //     //     height: MediaQuery.of(context).size.height * 0.1,
-                                  //     //     child: Padding(
-                                  //     //       padding: const EdgeInsets.all(8.0),
-                                  //     //       child: Column(
-                                  //     //         crossAxisAlignment: CrossAxisAlignment.start,
-                                  //     //         children: [
-                                  //     //           Text(
-                                  //     //             days[i+1],
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.primary,
-                                  //     //               fontWeight: semi,
-                                  //     //               fontSize: 14,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //           Text(
-                                  //     //             '02 Feb',
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.tertiary,
-                                  //     //               fontWeight: medium,
-                                  //     //               fontSize: 12,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //           Expanded(child: Container()),
-                                  //     //           Text(
-                                  //     //             '08.00 - 13.00',
-                                  //     //             style: TextStyle(
-                                  //     //               color: Theme.of(context).colorScheme.onPrimary,
-                                  //     //               fontWeight: semi,
-                                  //     //               fontSize: 12,
-                                  //     //             ),
-                                  //     //           ),
-                                  //     //         ],
-                                  //     //       ),
-                                  //     //     ),
-                                  //     //     decoration: BoxDecoration(
-                                  //     //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //     //       color: Theme.of(context).colorScheme.onSecondary,
-                                  //     //     ),
-                                  //     //   ),
-                                  //     // ),
-                                  //   ],
-                                  // ),
                                   
                                   SizedBox(height: 10,),
-                                  // Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: Container(
-                                  //         height: MediaQuery.of(context).size.height * 0.1,
-                                  //         child: Padding(
-                                  //           padding: const EdgeInsets.all(8.0),
-                                  //           child: Column(
-                                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                                  //             children: [
-                                  //               Text(
-                                  //                 days[i+2],
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.primary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 14,
-                                  //                 ),
-                                  //               ),
-                                  //               Text(
-                                  //                 '03 Feb',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.tertiary,
-                                  //                   fontWeight: medium,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //               Expanded(child: Container()),
-                                  //               Text(
-                                  //                 '08.00 - 13.00',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.onPrimary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //         decoration: BoxDecoration(
-                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //           color: Theme.of(context).colorScheme.onSecondary,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(width: 10),
-                                  //     Expanded(
-                                  //       child: Container(
-                                  //         height: MediaQuery.of(context).size.height * 0.1,
-                                  //         child: Padding(
-                                  //           padding: const EdgeInsets.all(8.0),
-                                  //           child: Column(
-                                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                                  //             children: [
-                                  //               Text(
-                                  //                 days[i+3],
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.primary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 14,
-                                  //                 ),
-                                  //               ),
-                                  //               Text(
-                                  //                 '04 Feb',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.tertiary,
-                                  //                   fontWeight: medium,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //               Expanded(child: Container()),
-                                  //               Text(
-                                  //                 '08.00 - 13.00',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.onPrimary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //         decoration: BoxDecoration(
-                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //           color: Theme.of(context).colorScheme.onSecondary,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     SizedBox(width: 10),
-                                  //     Expanded(
-                                  //       child: Container(
-                                  //         height: MediaQuery.of(context).size.height * 0.1,
-                                  //         child: Padding(
-                                  //           padding: const EdgeInsets.all(8.0),
-                                  //           child: Column(
-                                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                                  //             children: [
-                                  //               Text(
-                                  //                 days[i+4],
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.primary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 14,
-                                  //                 ),
-                                  //               ),
-                                  //               Text(
-                                  //                 '06 Feb',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.tertiary,
-                                  //                   fontWeight: medium,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //               Expanded(child: Container()),
-                                  //               Text(
-                                  //                 '08.00 - 13.00',
-                                  //                 style: TextStyle(
-                                  //                   color: Theme.of(context).colorScheme.onPrimary,
-                                  //                   fontWeight: semi,
-                                  //                   fontSize: 12,
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //         decoration: BoxDecoration(
-                                  //           borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  //           color: Theme.of(context).colorScheme.onSecondary,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  SizedBox(height: 30,),
                                   Text(
                                     'Buat janji untuk siapa?',
                                     style: TextStyle(
@@ -972,6 +682,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                       color: Theme.of(context).colorScheme.primary,
                                     )
                                     // icon: SizedBox.shrink(),
+                                  
                                   ),
                                   SizedBox(height: 40,),
                                   Center(
@@ -1015,6 +726,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                               ),
                             ),
                           ),
+                          
                           Image(
                             image: AssetImage('assets/images/detailDokterPage/wavy_line.png'),
                           ),
@@ -1026,7 +738,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   child: Text(
-                    'Buat Janji',
+                    'Buat Janji2',
                     style: TextStyle(
                       fontSize: 21,
                       fontWeight: semi,
