@@ -8,6 +8,7 @@ import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
+import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
 
@@ -19,6 +20,7 @@ void main() {
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => UserProvider()),
+            ChangeNotifierProvider(create: (context) => RelasiProvider()),
             ChangeNotifierProvider(create: (context) => DoctorProvider()),
             ChangeNotifierProvider(create: (context) => ObatProvider()),
             ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),

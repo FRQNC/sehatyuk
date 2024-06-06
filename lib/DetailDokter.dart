@@ -383,16 +383,6 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                           ],
                         ),
                         SizedBox(height: 10,),
-                        // Text(
-                        //   widget.doctor.minatKlinis,
-                        //   style: TextStyle(
-                        //     // color: Colors.white,
-                        //     color: Theme.of(context).colorScheme.onPrimary, // color
-                        //     fontSize: 14,
-                        //     fontWeight: semi,
-                        //     letterSpacing: 0.8,
-                        //   ),
-                        // ),
                         BulletList(
                           minatKlinis, // data string
                           // widget.doctor.minatKlinis,
