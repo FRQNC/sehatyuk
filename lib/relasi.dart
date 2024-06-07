@@ -1,19 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/tambah_relasi.dart';
 import 'package:sehatyuk/primary_button.dart';
-
-class RelasiInfo {
-  String relasiNama,
-      relasiStatus,
-      relasiImagePath;
-  RelasiInfo(
-      {required this.relasiNama,
-      required this.relasiStatus,
-      required this.relasiImagePath});
-}
+import 'package:sehatyuk/providers/relasi_provider.dart';
+import 'package:sehatyuk/models/relasi.dart';
 
 class RelasiPage extends StatefulWidget {
   const RelasiPage({super.key});
@@ -24,13 +20,32 @@ class RelasiPage extends StatefulWidget {
 
 class _RelasiPageState extends State<RelasiPage> with AppMixin {
 
-  List<RelasiInfo> relasiItem = [
-    RelasiInfo(relasiNama: "Anantha Alsava",relasiStatus: "Kakak", relasiImagePath: 'assets/images/relasiPage/girl_1.jpg'),
-    RelasiInfo(relasiNama: "Rich Brian",relasiStatus: "Adik", relasiImagePath: 'assets/images/relasiPage/boy_1.jpg'),
-  ];
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  List<Relasi> relasiList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+    var relasiProvider = context.read<RelasiProvider>();
+    await relasiProvider.fetchData(_user_id, _token);
+    relasiList = relasiProvider.relasiList;
+  }
 
   @override
     Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -85,9 +100,9 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: relasiItem.length,
+                              itemCount: relasiList.length,
                               itemBuilder: (context, index){
-                                return relasiItemView(relasiItem[index]);
+                                return relasiItemView(relasiList[index], _token);
                               }
                             )
                           ],
@@ -120,7 +135,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
     );
   }
 
-  Column relasiItemView(RelasiInfo relasiInfo) {
+  Column relasiItemView(Relasi relasiInfo, String token) {
     return Column(
       children: [
         Container(
@@ -153,7 +168,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            relasiInfo.relasiNama,
+                            relasiInfo.namaLengkap,
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.onPrimary,
                                 fontSize: 14,
@@ -163,7 +178,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            relasiInfo.relasiStatus,
+                            relasiInfo.tipe,
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontSize: 12,
@@ -184,7 +199,13 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                         ),
                         borderRadius: BorderRadius.circular(8.0),
                         image: DecorationImage(
-                          image: AssetImage(relasiInfo.relasiImagePath),
+                          image: CachedNetworkImageProvider(
+                            '${Endpoint.url}relasi_image/${relasiInfo.id_relasi}',
+                            headers: <String, String>{
+                                'accept': 'application/json',
+                                'Authorization': 'Bearer $token',
+                              },
+                            ),
                           fit: BoxFit.cover,
                         ),
                       ),
