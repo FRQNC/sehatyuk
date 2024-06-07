@@ -3,6 +3,7 @@ import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/cari_artikel.dart';
+import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/profile_page.dart';
 
 class RoutePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _RoutePageState extends State<RoutePage> {
   final List<Widget> _pages = [
     HomePage(),
     CariDokterPage(),
-    CariObatPage(),
+    JadwalTemuPage(),
     ProfilePage(),
   ];
   
@@ -46,8 +47,8 @@ class _RoutePageState extends State<RoutePage> {
             label: 'Cari Dokter',
           ),
           NavigationDestination(
-            icon: Icon(Icons.medical_services),
-            label: 'Cari Obat',
+            icon: Icon(Icons.assignment_rounded),
+            label: 'Daftar Temu',
           ),
           NavigationDestination(
             icon: Icon(Icons.person),

@@ -240,52 +240,7 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                         );
                       },
                     ),
-                    // DoctorCard(
-                    //   imagePath: 'assets/images/cariDokterPage/doctor_1.jpg',
-                    //   specialty: 'Kulit',
-                    //   doctorName: 'Ujang Suherman',
-                    //   experience: '2 Tahun  |  5.0',
-                    //   price: 'Rp200.000,00',
-                    //   onPressed: () {
-                    //     Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailDokterPage()));
-                    //   },
-                    // ),
-                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    // DoctorCard(
-                    //   imagePath: 'assets/images/cariDokterPage/doctor_2.jpeg',
-                    //   specialty: 'THT',
-                    //   doctorName: 'Farah Septian',
-                    //   experience: '3 Tahun  |  4.5',
-                    //   price: 'Rp295.000,00',
-                    //   onPressed: () {
-                    //     // Fungsi untuk menampilkan detail dokter
-                    //   },
-                    // ),
-                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    // DoctorCard(
-                    //   imagePath: 'assets/images/cariDokterPage/doctor_3.jpeg',
-                    //   specialty: 'Mata',
-                    //   doctorName: 'Agus Ibrahim',
-                    //   experience: '3 Tahun  |  4.7',
-                    //   price: 'Rp275.000,00',
-                    //   onPressed: () {
-                    //     // Fungsi untuk menampilkan detail dokter
-                    //   },
-                    // ),
-                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    // DoctorCard(
-                    //   imagePath: 'assets/images/cariDokterPage/doctor_4.jpeg',
-                    //   specialty: 'Jantung',
-                    //   doctorName: 'Amanda Charisma',
-                    //   experience: '2 Tahun  |  5.0',
-                    //   price: 'Rp300.000,00',
-                    //   onPressed: () {
-                    //     // Fungsi untuk menampilkan detail dokter
-                    //   },
-                    // ),
-                    // SizedBox(height: 8), // Berikan jarak antara setiap card view
-                    // Tambahkan card view ke bawahnya di sini sesuai kebutuhan
-                  ],
+                    ],
                 ),
               ],
             ),

@@ -4,18 +4,10 @@ import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/pilih_obat_untuk_pengingat.dart';
 import 'package:sehatyuk/primary_button.dart';
-
-class MedicationInfo {
-  String medicationName,
-      medicationType,
-      medicationDescription,
-      medicationImagePath;
-  MedicationInfo(
-      {required this.medicationName,
-      required this.medicationType,
-      required this.medicationDescription,
-      required this.medicationImagePath});
-}
+import 'package:intl/intl.dart';
+import 'package:sehatyuk/auth/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
 
 class MedicationReminderPage extends StatefulWidget {
   const MedicationReminderPage({super.key});
@@ -26,15 +18,31 @@ class MedicationReminderPage extends StatefulWidget {
 
 class _MedicationReminderPageState extends State<MedicationReminderPage> with AppMixin {
 
-  List<MedicationInfo> medItem = [
-    MedicationInfo(medicationName: "Paracetamol",medicationType: "Kapsul",medicationDescription: "Obat demam", medicationImagePath: 'assets/images/medReminderPage/paracetamol.png'),
-    MedicationInfo(medicationName: "Ibuprofen",medicationType: "Tablet",medicationDescription: "Obat nyeri", medicationImagePath: 'assets/images/medReminderPage/ibuprofen.png'),
-    MedicationInfo(medicationName: "Amoxicillin",medicationType: "Sirup",medicationDescription: "Obat antibiotik", medicationImagePath: 'assets/images/medReminderPage/amoxicillin.png'),
-    MedicationInfo(medicationName: "Omeprazole",medicationType: "Sirup",medicationDescription: "Obat asam lambung", medicationImagePath: 'assets/images/medReminderPage/omeprazole.png'),
-  ];
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    var pengingat_minum_obat = context.watch<PengingatMinumObatProvider>();
+
+    if(pengingat_minum_obat.pengingatMinumObatList.isEmpty){
+      pengingat_minum_obat.fetchData(_token);
+    }
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -94,28 +102,52 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Lihat Semua",
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                )),
-                            //Med item card
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: medItem.length,
-                              itemBuilder: (context, index){
-                                return medicationReminderItemView(medItem[index]);
-                              }
-                            )
+                            onPressed: () {},
+                            child: Text(
+                              "Lihat Semua",
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.primary,
+                              ),
+                            )),
+
+                            
                           ],
                         ),
                       )
                     ],
                   ),
+                  Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: pengingat_minum_obat.pengingatMinumObatList.length,
+                      itemBuilder: (context, index) {
+                        return PengingatMinumObatCard(
+                          token: _token,
+                          id_pengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
+                          // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
+                          // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
+                          dosis: pengingat_minum_obat.pengingatMinumObatList[index].dosis.toString(),
+                          sendok: pengingat_minum_obat.pengingatMinumObatList[index].sendok,
+                          jadwal: pengingat_minum_obat.pengingatMinumObatList[index].jadwal,
+                          aturan: pengingat_minum_obat.pengingatMinumObatList[index].aturan,
+
+                          
+                          // onPressed: () {
+                          //   Navigator.push(
+                          //     context, 
+                          //     MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: pengingat_minum_obat.pengingatMinumObatList[index])),
+                          //   );
+
+                          //   // Add your onPressed logic here
+                          // },
+                        );
+                      },
+                    ),
+                  ],
+                ),
                   Column(
                     children: [
                       Padding(
@@ -140,106 +172,146 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
       ),
     );
   }
+}
 
-  Column medicationReminderItemView(MedicationInfo medInfo) {
-    return Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                height: 140,
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Image.asset(
-                                                medInfo.medicationImagePath,
-                                                width: 70,
-                                                height: 70,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                              flex: 5,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    medInfo.medicationName,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context).colorScheme.onPrimary,
-                                                        fontSize: 18.0,
-                                                        fontWeight:FontWeight.w600,
-                                                        letterSpacing: 1.9),
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
-                                                  Text(
-                                                    medInfo.medicationType,
-                                                    style: const TextStyle(
-                                                        color: Color(
-                                                            0xFF94B0B7),
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        letterSpacing: 1.9),
-                                                    overflow: TextOverflow
-                                                        .ellipsis,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top:8.0),
-                                                    child: Text(
-                                                      medInfo.medicationDescription,
-                                                      style: TextStyle(
-                                                          color: Theme.of(context).colorScheme.onPrimary,
-                                                          fontSize: 13.0,
-                                                          fontWeight: FontWeight.w600,
-                                                          letterSpacing: 1.9),
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                              ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: PrimaryButton(
-                                              buttonText: "Edit",
-                                              fontSize: 12,
-                                              containerWidth: 0,
-                                              onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const EditPengingatObat()));
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
+class PengingatMinumObatCard extends StatelessWidget {
+  final String token;
+  final String id_pengingat;
+  // final String namaObat;
+  // final String fotoObat;
+  final String dosis;
+  final String sendok;
+  final String jadwal;
+  final String aturan;
+  // final VoidCallback onPressed;
+
+  const PengingatMinumObatCard({
+    Key? key,
+    required this.token,
+    required this.id_pengingat,
+    // required this.namaObat,
+    // required this.fotoObat,
+    required this.dosis,
+    required this.sendok,
+    required this.jadwal,
+    required this.aturan,
+    // required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Color.fromARGB(255, 245, 245, 245),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              color: Colors.amber,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(8.0),
+              //   image: DecorationImage(
+              //     image: CachedNetworkImageProvider(
+              //       '${Endpoint.url}dokter_image/$id_dokter',
+              //       headers: <String, String>{
+              //         'accept': 'application/json',
+              //         'Authorization': 'Bearer $token',
+              //       },
+                    
+              //     ),
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text(
+                  //   specialty,
+                  //   style: TextStyle(
+                  //     fontSize: 10,
+                  //     fontWeight: FontWeight.w500,
+                  //     color: Color(0xFF94B0B7),
+                  //   ),
+                  // ),
+                  // Text(
+                  //   namaObat,
+                  //   style: TextStyle(
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.w600,
+                  //     color: Color(0XFF37363B),
+                  //   ),
+                  // ),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        dosis.toString(),
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0XFF37363B),
+                        ),
+                      ),
+                      Text(
+                        sendok,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0XFF37363B),
+                        ),
+                      ),
+                      Text(
+                        jadwal,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0XFF37363B),
+                        ),
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: onPressed,
+                      //   style: ElevatedButton.styleFrom(
+                      //     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
+                      //     minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
+                      //     textStyle: TextStyle(
+                      //       fontSize: 12, // Mengatur ukuran teks
+                      //       fontWeight: FontWeight.w500,
+                      //     ),
+                      //     backgroundColor: Theme.of(context).colorScheme.primary,
+                      //   ),
+                      //   child: Text(
+                      //     'Detail',
+                      //     style: TextStyle(
+                      //       color: Color(0xFFFFFFFF),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                  Text(
+                    aturan,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
