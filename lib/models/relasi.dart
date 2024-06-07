@@ -1,6 +1,6 @@
 class Relasi {
-  String id_relasi;
-  String id_user;
+  int id_relasi;
+  int id_user;
   String namaLengkap;
   String noBPJS;
   String tanggalLahir;
@@ -11,8 +11,8 @@ class Relasi {
   String tipe;
 
   Relasi({
-    this.id_relasi = '',
-    this.id_user = '',
+    this.id_relasi = 0,
+    this.id_user = 0,
     required this.namaLengkap,
     required this.noBPJS,
     required this.tanggalLahir,
@@ -25,8 +25,8 @@ class Relasi {
 
   factory Relasi.fromJson(Map<String, dynamic> json) {
     return Relasi(
-      id_relasi: json['id_relasi'].toString(),
-      id_user: json['id_user'].toString(),
+      id_relasi: json['id_relasi'],
+      id_user: json['id_user'],
       namaLengkap: json['nama_lengkap_relasi'],
       noBPJS: json['no_bpjs_relasi'],
       tanggalLahir: json['tgl_lahir_relasi'],
@@ -40,6 +40,7 @@ class Relasi {
 
   Map<String, dynamic> toJson() {
     return {
+      'id_user' : id_user,
       'nama_lengkap_relasi': namaLengkap,
       'no_bpjs_relasi': noBPJS,
       'tgl_lahir_relasi': tanggalLahir,

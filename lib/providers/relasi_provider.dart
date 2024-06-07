@@ -38,4 +38,23 @@ class RelasiProvider extends ChangeNotifier {
       print('Error: $error');
     }
   }
+
+  Future<int> addRelasi(String token, Relasi relasi) async{
+    final response = await http.post(
+      Uri.parse("${Endpoint.url}create_relasi/"),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(relasi.toJson())
+    );
+    if(response.statusCode == 200){
+      return response.statusCode;
+    }
+    else{
+      print(response.body);
+      return response.statusCode;
+    }
+  }
 }
