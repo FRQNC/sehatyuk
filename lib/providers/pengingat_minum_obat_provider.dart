@@ -76,7 +76,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
 
   List<PengingatMinumObat> get pengingatMinumObatList => _pengingatMinumObatList;
 
-  PengingatMinumObat _dataPengingatMinumObat = PengingatMinumObat(idPengingat: 0, idObat: 0, dosis: 0, sendok: '', jadwal: '', aturan: '', namaObat: {}, fotoObat: {});
+  PengingatMinumObat _dataPengingatMinumObat = PengingatMinumObat(idPengingat: 0, idObat: 0, idUser: 0,dosis: 0, sendok: '', jadwal: '', aturan: '', obat: {}, user: {});
 
   PengingatMinumObat get dataPengingatMinumObat => _dataPengingatMinumObat;
 
@@ -95,7 +95,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);

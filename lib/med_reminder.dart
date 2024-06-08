@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class MedicationReminderPage extends StatefulWidget {
   const MedicationReminderPage({super.key});
@@ -42,6 +44,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
 
     if(pengingat_minum_obat.pengingatMinumObatList.isEmpty){
       pengingat_minum_obat.fetchData(_token);
+      pengingat_minum_obat.fetchDataById(_token, _user_id);
     }
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -129,6 +132,8 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                           id_pengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
                           // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
                           // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
+                          foto_obat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
+                          nama_obat: pengingat_minum_obat.pengingatMinumObatList[index].obat["nama_obat"],
                           dosis: pengingat_minum_obat.pengingatMinumObatList[index].dosis.toString(),
                           sendok: pengingat_minum_obat.pengingatMinumObatList[index].sendok,
                           jadwal: pengingat_minum_obat.pengingatMinumObatList[index].jadwal,
@@ -177,8 +182,8 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
 class PengingatMinumObatCard extends StatelessWidget {
   final String token;
   final String id_pengingat;
-  // final String namaObat;
-  // final String fotoObat;
+  final String nama_obat;
+  final String foto_obat;
   final String dosis;
   final String sendok;
   final String jadwal;
@@ -189,8 +194,8 @@ class PengingatMinumObatCard extends StatelessWidget {
     Key? key,
     required this.token,
     required this.id_pengingat,
-    // required this.namaObat,
-    // required this.fotoObat,
+    required this.nama_obat,
+    required this.foto_obat,
     required this.dosis,
     required this.sendok,
     required this.jadwal,
@@ -214,42 +219,34 @@ class PengingatMinumObatCard extends StatelessWidget {
               width: 80,
               height: 80,
               color: Colors.amber,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(8.0),
-              //   image: DecorationImage(
-              //     image: CachedNetworkImageProvider(
-              //       '${Endpoint.url}dokter_image/$id_dokter',
-              //       headers: <String, String>{
-              //         'accept': 'application/json',
-              //         'Authorization': 'Bearer $token',
-              //       },
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    '${Endpoint.url}foto_obat/$id_pengingat',
+                    headers: <String, String>{
+                      'accept': 'application/json',
+                      'Authorization': 'Bearer $token',
+                    },
                     
-              //     ),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text(
-                  //   specialty,
-                  //   style: TextStyle(
-                  //     fontSize: 10,
-                  //     fontWeight: FontWeight.w500,
-                  //     color: Color(0xFF94B0B7),
-                  //   ),
-                  // ),
-                  // Text(
-                  //   namaObat,
-                  //   style: TextStyle(
-                  //     fontSize: 14,
-                  //     fontWeight: FontWeight.w600,
-                  //     color: Color(0XFF37363B),
-                  //   ),
-                  // ),
+                  Text(
+                    nama_obat,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0XFF37363B),
+                    ),
+                  ),
                   
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
