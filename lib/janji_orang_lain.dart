@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
+import 'package:sehatyuk/templates/form/form_text.dart';
+import 'package:sehatyuk/templates/form/form_date.dart';
+
 
 class BuatJanjiOtherPage extends StatefulWidget {
   const BuatJanjiOtherPage({super.key});
@@ -27,6 +30,12 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
   }
 
   TextEditingController _dateController = TextEditingController();
+  TextEditingController _poliController = TextEditingController(text: "Spesialis Jantung");
+  TextEditingController _namaDokterController = TextEditingController(text: "Nama Dokter");
+  TextEditingController _namaLengkapController = TextEditingController();
+  TextEditingController _noBPJSController = TextEditingController();
+  TextEditingController _noTelpController = TextEditingController();
+  TextEditingController _alamatController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,30 +83,40 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
                       key: _formkey,
                       child: Column(
                         children: [
-                          formTextInputView(
+                          FormText(
                               inputLabel: "Poli Tujuan",
-                              initialValue: "Spesialis Jantung",
+                              controller: _poliController,
                               readOnly: true),
-                          formTextInputView(
+                          FormText(
                               inputLabel: "Dokter",
-                              initialValue: "Nama Dokter",
+                              controller: _namaDokterController,
                               readOnly: true),
-                          formTextInputView(
+                          FormText(
                               inputLabel: "Nama Lengkap *",
-                              hintText: "Masukkan nama lengkap"),
-                          formTextInputView(
+                              hintText: "Masukkan nama lengkap",
+                              controller: _namaLengkapController,
+                              ),
+                          FormText(
                               inputLabel: "Nomor BPJS/Asuransi",
-                              hintText: "Masukkan nomor BPJS/Asuransi"),
-                          formDateInputView(
-                              inputLabel: "Tanggal Lahir *",
-                              hintText: "Masukkan tanggal lahir", readOnly: true),
-                          formTextInputView(
+                              hintText: "Masukkan nomor BPJS/Asuransi",
+                              controller: _noBPJSController,
+                              ),
+                          FormDate(
+                            inputLabel: "Tanggal Lahir *",
+                            hintText: "Masukkan tanggal lahir",
+                            controller: _dateController,
+                          ),
+                          FormText(
                               inputLabel: "Nomor Telepon *",
                               hintText: "Masukkan nomor telepon",
-                              keyboardType: TextInputType.phone),
-                          formTextInputView(
+                              keyboardType: TextInputType.phone,
+                              controller: _noTelpController,
+                              ),
+                          FormText(
                               inputLabel: "Alamat *",
-                              hintText: "Masukkan alamat"),
+                              hintText: "Masukkan alamat",
+                              controller: _alamatController,
+                              ),
                         ],
                       ),
                     ),
@@ -235,115 +254,6 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Padding formTextInputView(
-      {String inputLabel = "",
-      double labelFontSize = 14,
-      double labelLetterSpacing = 1.5,
-      bool readOnly = false,
-      String initialValue = "",
-      String hintText = "",
-      double hintTextSize = 12,
-      TextInputType keyboardType = TextInputType.text,
-      String? Function(String?)? validator,}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: TextFormField(
-                readOnly: readOnly,
-                initialValue: initialValue,
-                keyboardType: keyboardType,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: hintText,
-                  hintStyle: TextStyle(
-                      fontSize: hintTextSize,
-                      color: Theme.of(context).colorScheme.secondary),
-                ),
-                validator: validator,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding formDateInputView(
-      {String inputLabel = "",
-      double labelFontSize = 14,
-      double labelLetterSpacing = 1.5,
-      bool readOnly = false,
-      String hintText = "",
-      double hintTextSize = 12,
-      String? Function(String?)? validator,}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: TextFormField(
-                readOnly: readOnly,
-                onTap: () => _selectDate(context),
-                controller: _dateController,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: hintText,
-                  hintStyle: TextStyle(
-                      fontSize: hintTextSize,
-                      color: Theme.of(context).colorScheme.secondary),
-                  suffixIcon: IconButton(
-                      icon: Icon(Icons.calendar_month_outlined, color: Theme.of(context).colorScheme.primary,),
-                      onPressed: () => _selectDate(context)),
-                ),
-                validator: validator,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

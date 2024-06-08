@@ -8,6 +8,9 @@ import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/welcome.dart';
+import 'package:sehatyuk/templates/form/form_text.dart';
+import 'package:sehatyuk/templates/form/form_date.dart';
+import 'package:sehatyuk/templates/form/form_dropdown.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -17,7 +20,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> with AppMixin{
-  double boxHeight = 35.0;
+  double boxHeight = 40.0;
   bool? isChecked = false;
   bool _obscureText = true;
 
@@ -38,50 +41,14 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController(text: "Laki-laki");
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  Widget form(String str, TextEditingController? controller, [String type="text"]){
-    return Container(
-      height: boxHeight,
-      width: MediaQuery.of(context).size.width - 2*sideMargin,
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.tertiary),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
-          controller: controller,
-          cursorWidth: 1.0,
-          keyboardType: type == "number" ? TextInputType.number : null,
-          inputFormatters: type == "number" ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly,] : null,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.zero,
-            isDense: true,
-            hintText: str,
-            hintStyle: TextStyle(
-              fontSize: 11,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-          style: TextStyle(
-            fontSize: 11,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget formWithIcon(String str, String path, String type, TextEditingController? controller){
     return GestureDetector(
       onTap: () {
-        if (type == "date") {
-          _selectDate();
-        }
       },
       child: Container(
         height: 35.0,
@@ -97,9 +64,6 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
             cursorWidth: 1.0,
             readOnly: type == "date", // Set readOnly to true when type is "date"
             onTap: () {
-              if (type == "date") {
-                _selectDate();
-              }
             },
             obscureText: type == "password" ? _obscureText : false,
             decoration: InputDecoration(
@@ -118,9 +82,6 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                       _obscureText = !_obscureText;
                     });
                   }
-                  if (type == "date") {
-                    _selectDate();
-                  }
                 },
                 child: Image(
                   image: AssetImage(path),
@@ -136,43 +97,11 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
     );
   }
 
-  DateTime selectedDate = DateTime.now();
-
-  Future<void> _selectDate() async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900, 1, 1),
-      lastDate: DateTime.now(),
-      locale: Locale('id', 'ID'),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Color(0xFF4A707A),
-              secondary: Color(0xFFC2C8C5),
-              tertiary: Color(0xFF94B0B7),
-              onPrimary: Color(0xFFDDDDDA), // body text color
-              onSecondary: Color(0xFF37363B),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    }
-  }
-
   AuthService auth = AuthService();
 
   Future<String> _register() async {
     String name = _nameController.text;
-    String dob = selectedDate.toString();
+    String dob = _dobController.text;
     String phone = _phoneController.text;
     String gender = _genderController.text;
     String email = _emailController.text;
@@ -191,6 +120,8 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
         alamat: "",
         noBPJS: "",
       );
+
+      print(user);
 
       String result = await auth.register(context, user);
       
@@ -242,57 +173,36 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin{
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
-                SizedBox(height: 25),
-                Text(
-                  'Nama Lengkap *',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 7,),
-                form('Masukkan nama lengkap', _nameController),
-                SizedBox(height: 15,),
-                Text(
-                  'Tanggal Lahir *',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 7,),
-                formWithIcon('Masukkan tanggal lahir', 'assets/images/authenticationPage/calendar.png', 'date', _dobController),
-                SizedBox(height: 15,),
-                Text(
-                  'Jenis Kelamin *',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 7,),
-                form('Masukkan jenis kelamin', _genderController),
-                SizedBox(height: 15,),
-                Text(
-                  'Nomor Telepon *',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 7,),
-                form('Masukkan nomor telepon', _phoneController, 'number'),
-                SizedBox(height: 15,),
-                Text(
-                  'Email *',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                SizedBox(height: 7,),
-                form('Masukkan email', _emailController),
-                SizedBox(height: 15,),
+                 FormText(inputLabel: "Nama Lengkap *",
+                          hintText: "Masukkan nama lengkap",
+                          controller: _nameController,
+                          ),
+                FormDate(
+                          inputLabel: "Tanggal Lahir *",
+                          hintText: "Masukkan tanggal lahir",
+                          controller: _dobController,
+                        ),
+                FormDropdown(
+                          inputLabel: "Jenis Kelamin *",
+                          value: _genderController.text,
+                          dropDownItems: ["Laki-laki", "Perempuan"],
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _genderController.text = newValue!;
+                            });
+                          },
+                        ),
+                FormText(
+                          inputLabel: "Nomor Telepon *",
+                          hintText: "Masukkan nomor telepon",
+                          keyboardType: TextInputType.phone,
+                          controller: _phoneController,
+                        ),
+                FormText(
+                          inputLabel: "Email *",
+                          hintText: "Masukkan email",
+                          controller: _emailController,
+                        ),
                 Text(
                   'Masukkan Password *',
                   style: TextStyle(
