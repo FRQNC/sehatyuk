@@ -367,10 +367,10 @@ class JadwalTemuCard extends StatelessWidget{
                             // // Navigasi ke halaman baru
                             //   if (janji[5].isEmpty) {
                             //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(builder: (context) => AmbilAntrianPage(janjiTemu: janji, id : janji[0], tanggal : janji[1], namadokter : janji[3], spesialisasi: janji[2], harga : janji[6], foto: janji[7])),
-                            //     );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, foto: imageDokter)),
+                                );
                             //   }
                           },
                           child: Container(
