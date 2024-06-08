@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 
 class EditPengingatObat extends StatefulWidget {
   const EditPengingatObat({super.key});

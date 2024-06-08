@@ -7,7 +7,7 @@ import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/tambah_relasi.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/models/relasi.dart';
 
