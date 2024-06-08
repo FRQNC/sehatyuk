@@ -10,6 +10,8 @@ import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/models/janji_temu.dart';
+import 'package:sehatyuk/models/relasi.dart';
+import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 
 import 'package:sehatyuk/auth/auth.dart';
@@ -48,6 +50,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
     _token = await auth.getToken();
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
+    await context.read<RelasiProvider>().fetchData(_user_id, _token);
     setState(() {});
   }
 
@@ -59,7 +62,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   int i = 0;
 
   String? selectedPerson = null;
-  List<String> relation = ['Saya sendiri', 'Anantha Alsava', 'Rich Brian', 'Orang lain'];
+  List<String> relation = ['Saya sendiri', 'Orang lain'];
+  Map<String, String> relationVal = {'Saya sendiri': '0', 'Orang lain': '-1'};
 
   List<String> minatKlinis = [];
   int id_dokter_before = 0;
@@ -69,12 +73,12 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   JanjiTemuProvider janji = JanjiTemuProvider();
   Random _random = Random();
 
-  Future<bool> createJanjiTemu() async {
+  Future<bool> createJanjiTemu(int selectedPerson) async {
     String tgl = selectedDate.toString();
     int id_dokter = widget.doctor.id;
     int id_user = int.parse(_user_id);
-    int is_relasi = (selectedPerson == 'Saya sendiri' ? 0 : 1);
-    int id_relasi = 0;
+    int is_relasi = (selectedPerson == 0 ? 0 : 1);
+    int id_relasi = selectedPerson;
     int biaya = widget.doctor.harga;
     String kode = "SYS" + (_random.nextInt(1000000) + 100000).toString();
 
@@ -87,34 +91,40 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       idRelasi: id_relasi, 
       biaya: biaya,
       dokter: {},
-      user: {}
+      user: {},
+      relasi: {}
     );
 
     return await janji.createJanjiTemu(_token, newJanji);
   }
 
+  void _fillRelasiList(List<Relasi> relasi){
+    // List<Relasi> relasi = context.watch<RelasiProvider>().relasiList;
+    List<String> relasiNames = relasi.map((rel) => rel.namaLengkap).toList();
+
+    relation.insertAll(1, relasiNames);
+
+      // print("KOCAKKKK");
+    for(var item in relasi){
+      relationVal[item.namaLengkap] = item.id_relasi.toString();
+    }
+  }
+
   int selected = -1;
-  // List<int> selected = List<int>.generate(10, (index) => -1);
 
   @override
   Widget build(BuildContext context) {
-    print("Rebuilding Widget");
     var value = context.watch<DoctorProvider>();
+    List<Relasi> relasi = context.watch<RelasiProvider>().relasiList;
 
-      print(value.jadwal_dokter.length);
     if(value.jadwal_dokter.isEmpty || (!value.jadwal_dokter.isEmpty && value.jadwal_dokter[0].idDokter != widget.doctor.id)){
-      // if(!value.jadwal_dokter.isEmpty){
-      //   id_dokter_before = value.jadwal_dokter[0].idDokter;
-      // }
-      // print(id_dokter_before);
       value.fetchDataJadwal(_token, widget.doctor.id.toString());
-      // fetched = true;
-      // if(!value.jadwal_dokter.isEmpty && id_dokter_before != value.jadwal_dokter[0].idDokter)
-      // {
-      //   print("apalah");
-      //   print(value.jadwal_dokter[0].idDokter);
-      //   fetched = true;
-      // }
+    }
+
+    if(!fetched){
+      _fillRelasiList(relasi);
+      if(!relasi.isEmpty)
+        fetched = true;
     }
 
     // final firstJadwal = value.jadwal_dokter.take(1).toList();
@@ -716,7 +726,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                     },
                     items: relation.map((String value) {
                       return DropdownMenuItem<String>(
-                        value: value,
+                        value: relationVal[value],
                         child: Text(
                           value,
                           style: TextStyle(
@@ -740,26 +750,54 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                   Center(
                     child: TextButton(
                       onPressed: () async {
-                        if(selectedPerson == "Orang lain"){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const BuatJanjiOtherPage()));
-                        }
-                        else if(selectedPerson == "Saya sendiri"){
-                          bool isSucceed = await createJanjiTemu();
-                          if(isSucceed){
-                            Navigator.pop(context);
-                            _showDialogBerhasil(remainingJadwal);
+                        if(selected != -1){
+                          if(selectedPerson == "-1"){
+                            if(selectedPerson != null){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => BuatJanjiOtherPage(doctor: widget.doctor,)));
+                            }
+                            else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Pilih Tanggal!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
                           }
                           else{
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Gagal Membuat Janji!'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                            if(selectedPerson != null){
+                              int selectedPersonValue = int.tryParse(selectedPerson ?? "0") ?? 0;
+                              bool isSucceed = await createJanjiTemu(selectedPersonValue);
+                              if(isSucceed){
+                                Navigator.pop(context);
+                                _showDialogBerhasil(remainingJadwal);
+                              }
+                              else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Pilih Buat Janji Untuk Siapa!'),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              }
+                            }
+                            else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Pilih Buat Janji Untuk Siapa!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
                           }
                         }
-                        else if(selectedPerson != null){
-                          _showDialogBerhasil(remainingJadwal);
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Pilih Tanggal!'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
                         }
                       },
                       style: TextButton.styleFrom(

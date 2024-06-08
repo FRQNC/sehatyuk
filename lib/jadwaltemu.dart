@@ -125,7 +125,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       spesialisasi: janji_temu.janjiTemuList[index].dokter["spesialisasi_dokter"],
                       namaDokter: janji_temu.janjiTemuList[index].dokter["nama_lengkap_dokter"],
                       imageDokter: janji_temu.janjiTemuList[index].dokter["foto_dokter"],
-                      namaUser: janji_temu.janjiTemuList[index].user["nama_lengkap_user"],
+                      namaPasien: (janji_temu.janjiTemuList[index].isRelasi == 1 ? janji_temu.janjiTemuList[index].relasi["nama_lengkap_relasi"] : janji_temu.janjiTemuList[index].user["nama_lengkap_user"]),
                   );
                 },
               ),
@@ -150,7 +150,7 @@ class JadwalTemuCard extends StatelessWidget{
   final String spesialisasi;
   final String namaDokter;
   final String imageDokter;
-  final String namaUser;
+  final String namaPasien;
 
   const JadwalTemuCard({
     Key? key,
@@ -166,7 +166,7 @@ class JadwalTemuCard extends StatelessWidget{
     required this.spesialisasi,
     required this.namaDokter,
     required this.imageDokter,
-    required this.namaUser,
+    required this.namaPasien,
   }) : super(key: key);
 
 
@@ -268,7 +268,7 @@ class JadwalTemuCard extends StatelessWidget{
                   SizedBox(height: 5),
                   Text(
                     // nama pasien
-                    namaUser,
+                    namaPasien,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,

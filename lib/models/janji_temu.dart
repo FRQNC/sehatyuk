@@ -9,6 +9,7 @@ class JanjiTemu {
   final int biaya;
   final Map<String, dynamic> dokter;
   final Map<String, dynamic> user;
+  final Map<String, dynamic> relasi;
 
   JanjiTemu({
     this.id,
@@ -20,10 +21,18 @@ class JanjiTemu {
     required this.idRelasi,
     required this.biaya,
     required this.dokter,
-    required this.user
+    required this.user,
+    required this.relasi,
   });
 
   factory JanjiTemu.fromJson(Map<String, dynamic> json) {
+    var rel;
+    if(json['is_relasi'] == 0){
+      rel = {"content": "null"};
+    }
+    else{
+      rel = json['relasi'];
+    }
     return JanjiTemu(
       id: json['id_janji_temu'],
       kodeJanjiTemu: json['kode_janji_temu'],
@@ -35,6 +44,7 @@ class JanjiTemu {
       biaya: json['biaya_janji_temu'],
       dokter: json['dokter'],
       user: json['user'],
+      relasi: rel,
     );
   }
   

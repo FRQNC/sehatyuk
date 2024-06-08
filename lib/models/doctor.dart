@@ -9,6 +9,7 @@ class Doctor {
   final String foto;
   final double rating;
   final int idPoli;
+  final Map<String, dynamic> poli;
 
   Doctor({
     required this.id,
@@ -21,6 +22,7 @@ class Doctor {
     required this.foto,
     required this.rating,
     required this.idPoli,
+    required this.poli,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Doctor {
       foto: json['foto_dokter'],
       rating: json['rating_dokter'].toDouble(),
       idPoli: json['id_poli'],
+      poli: json['poli'],
     );
   }
 

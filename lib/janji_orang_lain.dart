@@ -1,19 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/templates/form/form_text.dart';
 import 'package:sehatyuk/templates/form/form_date.dart';
 
 
 class BuatJanjiOtherPage extends StatefulWidget {
-  const BuatJanjiOtherPage({super.key});
+  final Doctor doctor;
+
+  const BuatJanjiOtherPage({Key? key, required this.doctor}) : super(key: key);
 
   @override
   State<BuatJanjiOtherPage> createState() => _BuatJanjiOtherPageState();
 }
 
 class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+  String poli = "";
+  String nama_dokter = "";
+  TextEditingController _poliController = TextEditingController();
+  TextEditingController _namaDokterController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+    poli = widget.doctor.poli['nama_poli'];
+    nama_dokter = widget.doctor.namaLengkap;
+    _poliController = TextEditingController(text: poli);
+    _namaDokterController = TextEditingController(text: nama_dokter);
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
+  
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -30,8 +60,8 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
   }
 
   TextEditingController _dateController = TextEditingController();
-  TextEditingController _poliController = TextEditingController(text: "Spesialis Jantung");
-  TextEditingController _namaDokterController = TextEditingController(text: "Nama Dokter");
+  // TextEditingController _poliController = TextEditingController(text: poli);
+  // TextEditingController _namaDokterController = TextEditingController(text: "Nama Dokter");
   TextEditingController _namaLengkapController = TextEditingController();
   TextEditingController _noBPJSController = TextEditingController();
   TextEditingController _noTelpController = TextEditingController();

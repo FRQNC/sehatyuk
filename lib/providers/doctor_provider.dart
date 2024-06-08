@@ -9,7 +9,7 @@ import 'package:sehatyuk/providers/endpoint.dart';
 class DoctorProvider extends ChangeNotifier {
   List<Doctor> _doctors = [];
   List<JadwalDokter> _jadwal_dokter = [];
-  Doctor _dataDokter = Doctor(id: 0, namaLengkap: '', spesialis: '', pengalaman: 0, alumnus: '', harga: 0, minatKlinis: '', foto: '', rating: 0, idPoli: 0);
+  Doctor _dataDokter = Doctor(id: 0, namaLengkap: '', spesialis: '', pengalaman: 0, alumnus: '', harga: 0, minatKlinis: '', foto: '', rating: 0, idPoli: 0, poli: {});
   List<Doctor> _dataDokterJoin = [];
 
   List<Doctor> get doctors => _doctors;
