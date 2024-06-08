@@ -57,7 +57,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
 
   @override
   Widget build(BuildContext context) {
-    var janji_temu = context.read<JanjiTemuProvider>();
+    var janji_temu = context.watch<JanjiTemuProvider>();
     print(janji_temu.janjiTemuList);
 
     return Scaffold(
