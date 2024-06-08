@@ -94,7 +94,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
           backgroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () {
-              Navigator.push(context,
+              Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const WelcomePage()));
             },
             child: Icon(
@@ -307,7 +307,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LoginPage()));
