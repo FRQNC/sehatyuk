@@ -22,7 +22,9 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  String searchQuery = "";
 
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -44,6 +46,8 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
     if(obat.obats.isEmpty){
       obat.fetchData(_token);
     }
+
+    var filteredObats = obat.searchObats(searchQuery);
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +81,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                   color: Color(0xFF4A707A),
                 ),
               ),
-              SizedBox(height: 10), // Adding some space between the texts
+              SizedBox(height: 8), // Adding some space between the texts
               Text(
                 'Cari informasi obat yang anda butuhkan disini',
                 style: TextStyle(
@@ -87,69 +91,52 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                   color: Color(0xFF37363B),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(
-                    top: 30.0, left: 10.0, right: 10.0, bottom: 20),
-                child: TextField(
+              SizedBox(height: 32),
+              TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
                   decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xFFF5F5F5),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFF94B0B7)),
-                      borderRadius: BorderRadius.circular(15),
+                    hintText: 'Cari Obat',
+                    suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF94B0B7),
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
                     ),
-                    labelText: 'Cari Obat',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10.0,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF94B0B7),
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                    hintStyle: TextStyle(
+                      fontSize: 10,
                       color: Color(0xFFC2C8C5),
                     ),
-                    suffixIcon: Icon(Icons.search, color: Color(0xFF94B0B7)),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Text(
-                      //   'Filter',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Poppins',
-                      //     fontWeight: FontWeight.w400,
-                      //     fontSize: 12.0,
-                      //     color: Color(0xFF37363B),
-                      //   ),
-                      // ),
-                      // SizedBox(width: 5),
-                      // Icon(Icons.tune, color: Theme.of(context).colorScheme.primary),
-                    ],
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Color(0xFFF5F5F5)), // Set button background color
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Color(0xFF94B0B7)),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
+              SizedBox(height: 24),
               Consumer<ObatProvider>(
                 builder: (context, obat, _) {
                   return GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 3,
-                    children: obat.obats.map((item) {
+                    children: filteredObats.map((item) {
                       return GestureDetector(
                         onTap: () {
                           //apa yang bakal dilakuin kalau kontainer obatnya ditekan
