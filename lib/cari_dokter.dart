@@ -50,19 +50,6 @@ class _CariDokterPageState extends State<CariDokterPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(
-              context,
-            );
-          },
-          child: BackButton(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -71,6 +58,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                SizedBox(height: 32),
                 Text(
                   'Cari Dokter',
                   style: TextStyle(

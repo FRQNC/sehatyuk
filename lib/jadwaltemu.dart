@@ -61,36 +61,23 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     print(janji_temu.janjiTemuList);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-          child: BackButton(
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
+          padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+      SizedBox(height: 32),
               Text(
                 'Jadwal Temu',
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: semi,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 8,),
               Text(
                 'Lihat semua daftar temu yang sudah Anda buat.',
                 style: TextStyle(
