@@ -1,7 +1,7 @@
 class JadwalDokter {
   final int idJadwalDokter;
   final int idDokter;
-  final String tanggalJadwalDokter;
+  final DateTime tanggalJadwalDokter;
   final int isFull;
 
   JadwalDokter({
@@ -15,7 +15,7 @@ class JadwalDokter {
     return JadwalDokter(
       idJadwalDokter: json['id_jadwal_dokter'],
       idDokter: json['id_dokter'],
-      tanggalJadwalDokter: json['tanggal_jadwal_dokter'],
+      tanggalJadwalDokter: DateTime.parse(json['tanggal_jadwal_dokter']),
       isFull: json['is_full'],
     );
   }
