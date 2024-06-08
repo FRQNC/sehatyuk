@@ -43,8 +43,8 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
     var pengingat_minum_obat = context.watch<PengingatMinumObatProvider>();
 
     if(pengingat_minum_obat.pengingatMinumObatList.isEmpty){
-      pengingat_minum_obat.fetchData(_token);
-      pengingat_minum_obat.fetchDataById(_token, _user_id);
+      // pengingat_minum_obat.fetchData(_token);
+      pengingat_minum_obat.fetchData(_token, _user_id);
     }
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -129,11 +129,11 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                       itemBuilder: (context, index) {
                         return PengingatMinumObatCard(
                           token: _token,
-                          id_pengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
+                          idPengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
                           // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
                           // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
-                          foto_obat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
-                          nama_obat: pengingat_minum_obat.pengingatMinumObatList[index].obat["nama_obat"],
+                          fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
+                          namaObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["nama_obat"],
                           dosis: pengingat_minum_obat.pengingatMinumObatList[index].dosis.toString(),
                           sendok: pengingat_minum_obat.pengingatMinumObatList[index].sendok,
                           jadwal: pengingat_minum_obat.pengingatMinumObatList[index].jadwal,
@@ -181,9 +181,9 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
 
 class PengingatMinumObatCard extends StatelessWidget {
   final String token;
-  final String id_pengingat;
-  final String nama_obat;
-  final String foto_obat;
+  final String idPengingat;
+  final String namaObat;
+  final String fotoObat;
   final String dosis;
   final String sendok;
   final String jadwal;
@@ -193,9 +193,9 @@ class PengingatMinumObatCard extends StatelessWidget {
   const PengingatMinumObatCard({
     Key? key,
     required this.token,
-    required this.id_pengingat,
-    required this.nama_obat,
-    required this.foto_obat,
+    required this.idPengingat,
+    required this.namaObat,
+    required this.fotoObat,
     required this.dosis,
     required this.sendok,
     required this.jadwal,
@@ -219,20 +219,20 @@ class PengingatMinumObatCard extends StatelessWidget {
               width: 80,
               height: 80,
               color: Colors.amber,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                    '${Endpoint.url}foto_obat/$id_pengingat',
-                    headers: <String, String>{
-                      'accept': 'application/json',
-                      'Authorization': 'Bearer $token',
-                    },
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(8.0),
+              //   image: DecorationImage(
+              //     image: CachedNetworkImageProvider(
+              //       '${Endpoint.url}foto_obat/$id_pengingat',
+              //       headers: <String, String>{
+              //         'accept': 'application/json',
+              //         'Authorization': 'Bearer $token',
+              //       },
                     
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              //     ),
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
             ),
             SizedBox(width: 16),
             Expanded(
@@ -240,7 +240,7 @@ class PengingatMinumObatCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nama_obat,
+                    namaObat,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
