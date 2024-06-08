@@ -67,4 +67,31 @@ class JanjiTemuProvider extends ChangeNotifier {
       // Handle error sesuai dengan kebutuhan aplikasi Anda
     }
   }
+
+  Future<bool> deleteData(String token, String id) async {
+  try {
+    final url = Uri.parse('${Endpoint.url}delete_janji_temu/$id');
+    final response = await http.delete(
+      url,
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Jika penghapusan berhasil, kita perlu menghapus item dari daftar janji temu lokal
+      _janjiTemuList.removeWhere((janjiTemu) => janjiTemu.id.toString() == id);
+      notifyListeners(); // Memberi tahu pendengar bahwa ada perubahan pada data
+      return true; // Penghapusan berhasil
+    } else {
+      return false; // Penghapusan gagal
+    }
+  } catch (error) {
+    print('Error: $error');
+    return false; // Penghapusan gagal karena kesalahan
+    // Handle error sesuai dengan kebutuhan aplikasi Anda
+  }
+}
+
 } 

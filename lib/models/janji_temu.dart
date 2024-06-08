@@ -30,25 +30,25 @@ class JanjiTemu {
   });
 
   factory JanjiTemu.fromJson(Map<String, dynamic> json) {
-  var rel = json['is_relasi'] == 1 ? json['relasi'] : null;
-  var orangLain = json['id_janji_temu_as_orang_lain'] != 0 ? json['janji_temu_as_orang_lain'] : null;
+    var rel = json['is_relasi'] == 1 ? json['relasi'] : null;
+    var orangLain = json['id_janji_temu_as_orang_lain'] != 0 ? json['janji_temu_as_orang_lain'] : null;
 
-  return JanjiTemu(
-    id: json['id_janji_temu'],
-    kodeJanjiTemu: json['kode_janji_temu'] ?? '',
-    tanggalJanjiTemu: json['tgl_janji_temu'] ?? '',
-    idDokter: json['id_dokter'] ?? 0,
-    idUser: json['id_user'] ?? 0,
-    isRelasi: json['is_relasi'] ?? 0,
-    idRelasi: json['id_relasi'] ?? 0,
-    biaya: json['biaya_janji_temu'] ?? 0, // Pastikan nilai default jika null
-    idOrangLain: json['id_janji_temu_as_orang_lain'] ?? 0,
-    dokter: json['dokter'] ?? {},
-    user: json['user'] ?? {},
-    relasi: rel ?? {},
-    janjiOrangLain: orangLain ?? {},
-  );
-}
+    return JanjiTemu(
+      id: json['id_janji_temu'],
+      kodeJanjiTemu: json['kode_janji_temu'] ?? '',
+      tanggalJanjiTemu: json['tgl_janji_temu'] ?? '',
+      idDokter: json['id_dokter'] ?? 0,
+      idUser: json['id_user'] ?? 0,
+      isRelasi: json['is_relasi'] ?? 0,
+      idRelasi: json['id_relasi'] ?? 0,
+      biaya: json['biaya_janji_temu'] ?? 0, // Pastikan nilai default jika null
+      idOrangLain: json['id_janji_temu_as_orang_lain'] ?? 0,
+      dokter: json['dokter'] ?? {},
+      user: json['user'] ?? {},
+      relasi: rel ?? {},
+      janjiOrangLain: orangLain ?? {},
+    );
+  }
 
 
   
