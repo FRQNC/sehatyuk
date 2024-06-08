@@ -112,6 +112,14 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                   //   currentDoctor = doctor.dataDokter;
                   // }
                   // var detailDokter = doctor.fetchDataById(_token, janjiTemu.idDokter);
+                  var nama;
+                  if(janji_temu.janjiTemuList[index].idOrangLain != 0){
+                    nama = janji_temu.janjiTemuList[index].janjiOrangLain['nama_lengkap_orang_lain'];
+                  }
+                  else{
+                    nama = (janji_temu.janjiTemuList[index].isRelasi == 1 ? janji_temu.janjiTemuList[index].relasi["nama_lengkap_relasi"] : janji_temu.janjiTemuList[index].user["nama_lengkap_user"]);
+                  }
+                  
                   return JadwalTemuCard(
                       token: _token,
                       onPressed: () {},
@@ -125,7 +133,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       spesialisasi: janji_temu.janjiTemuList[index].dokter["spesialisasi_dokter"],
                       namaDokter: janji_temu.janjiTemuList[index].dokter["nama_lengkap_dokter"],
                       imageDokter: janji_temu.janjiTemuList[index].dokter["foto_dokter"],
-                      namaPasien: (janji_temu.janjiTemuList[index].isRelasi == 1 ? janji_temu.janjiTemuList[index].relasi["nama_lengkap_relasi"] : janji_temu.janjiTemuList[index].user["nama_lengkap_user"]),
+                      namaPasien: nama,
                   );
                 },
               ),

@@ -90,9 +90,11 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       isRelasi: is_relasi, 
       idRelasi: id_relasi, 
       biaya: biaya,
+      idOrangLain: 0, 
       dokter: {},
       user: {},
-      relasi: {}
+      relasi: {},
+      janjiOrangLain: {},
     );
 
     return await janji.createJanjiTemu(_token, newJanji);
@@ -753,7 +755,12 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                         if(selected != -1){
                           if(selectedPerson == "-1"){
                             if(selectedPerson != null){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => BuatJanjiOtherPage(doctor: widget.doctor,)));
+                              Navigator.pop(context);
+                              final response = await Navigator.push(context, MaterialPageRoute(builder: (context) => BuatJanjiOtherPage(doctor: widget.doctor, selectedDate: selectedDate,)));
+                              
+                              if(response != null){
+                                _showDialogJanji(remainingJadwal);
+                              }
                             }
                             else{
                               ScaffoldMessenger.of(context).showSnackBar(

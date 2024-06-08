@@ -6,6 +6,7 @@ import 'package:sehatyuk/LoadPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
+import 'package:sehatyuk/providers/janji_temu_as_orang_lain_provider.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
@@ -27,7 +28,8 @@ void main() {
             ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),
             ChangeNotifierProvider(create: (context) => WelcomeDialogProvider()),
             ChangeNotifierProvider(create: (context) => JanjiTemuProvider()),
-            ChangeNotifierProvider(create: (context) => PengingatMinumObatProvider())
+            ChangeNotifierProvider(create: (context) => PengingatMinumObatProvider()),
+            ChangeNotifierProvider(create: (context) => JanjiTemuAsOrangLainProvider()),
           ],
           child: const MainApp(),
         ),
