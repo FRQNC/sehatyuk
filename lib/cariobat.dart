@@ -118,17 +118,17 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'Filter',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.0,
-                          color: Color(0xFF37363B),
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Icon(Icons.tune, color: Theme.of(context).colorScheme.primary),
+                      // Text(
+                      //   'Filter',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Poppins',
+                      //     fontWeight: FontWeight.w400,
+                      //     fontSize: 12.0,
+                      //     color: Color(0xFF37363B),
+                      //   ),
+                      // ),
+                      // SizedBox(width: 5),
+                      // Icon(Icons.tune, color: Theme.of(context).colorScheme.primary),
                     ],
                   ),
                   style: ButtonStyle(
