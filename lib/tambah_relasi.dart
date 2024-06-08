@@ -2,13 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/relasi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:sehatyuk/models/relasi.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/templates/form/form_text.dart';
+import 'package:sehatyuk/templates/form/form_date.dart';
+import 'package:sehatyuk/templates/form/form_dropdown.dart';
 
 class TambahRelasiPage extends StatefulWidget {
   const TambahRelasiPage({super.key});
@@ -101,12 +104,15 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                         formImageInputView(
                           inputLabel: "Foto *",
                         ),
-                        formTextInputView(
-                          inputLabel: "Nama Lengkap *",
+                        // FormText(
+                        //   inputLabel: "Nama Lengkap *",
+                        //   hintText: "Masukkan nama lengkap",
+                        //   controller: _namaLengkapController,
+                        // ),
+                        FormText(inputLabel: "Nama Lengkap *",
                           hintText: "Masukkan nama lengkap",
-                          controller: _namaLengkapController,
-                        ),
-                        formDropdownInputView(
+                          controller: _namaLengkapController,),
+                        FormDropdown(
                           inputLabel: "Hubungan dengan relasi *",
                           value: _tipeRelasi,
                           dropDownItems: ["Orang Tua", "Pasangan", "Saudara Kandung", "Kakek/Nenek", "Lainnya"],
@@ -116,18 +122,17 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                             });
                           },
                         ),
-                        formTextInputView(
+                        FormText(
                           inputLabel: "Nomor BPJS/Asuransi",
                           hintText: "Masukkan nomor BPJS/Asuransi",
                           controller: _noBPJSController,
                         ),
-                        formDateInputView(
+                        FormDate(
                           inputLabel: "Tanggal Lahir *",
                           hintText: "Masukkan tanggal lahir",
-                          readOnly: true,
                           controller: _dateController,
                         ),
-                        formDropdownInputView(
+                        FormDropdown(
                           inputLabel: "Jenis Kelamin *",
                           value: _jenisKelamin,
                           dropDownItems: ["Laki-laki", "Perempuan"],
@@ -137,13 +142,13 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                             });
                           },
                         ),
-                        formTextInputView(
+                        FormText(
                           inputLabel: "Nomor Telepon *",
                           hintText: "Masukkan nomor telepon",
                           keyboardType: TextInputType.phone,
                           controller: _noTelpController,
                         ),
-                        formTextInputView(
+                        FormText(
                           inputLabel: "Alamat *",
                           hintText: "Masukkan alamat",
                           controller: _alamatController,
@@ -214,63 +219,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Padding formTextInputView({
-    required String inputLabel,
-    double labelFontSize = 14,
-    double labelLetterSpacing = 1.5,
-    bool readOnly = false,
-    String hintText = "",
-    double hintTextSize = 12,
-    TextInputType keyboardType = TextInputType.text,
-    TextEditingController? controller,
-    String? Function(String?)? validator,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: TextFormField(
-                readOnly: readOnly,
-                controller: controller,
-                keyboardType: keyboardType,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: hintText,
-                  hintStyle: TextStyle(
-                    fontSize: hintTextSize,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                validator: validator,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -351,69 +299,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding formDateInputView({
-    required String inputLabel,
-    double labelFontSize = 14,
-    double labelLetterSpacing = 1.5,
-    bool readOnly = false,
-    String hintText = "",
-    double hintTextSize = 12,
-    TextEditingController? controller,
-    String? Function(String?)? validator,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: TextFormField(
-                readOnly: readOnly,
-                onTap: () => _selectDate(context),
-                controller: controller,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: hintText,
-                  hintStyle: TextStyle(
-                    fontSize: hintTextSize,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    onPressed: () => _selectDate(context),
-                  ),
-                ),
-                validator: validator,
-              ),
-            ),
           ),
         ],
       ),

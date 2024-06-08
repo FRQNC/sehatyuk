@@ -10,7 +10,7 @@ import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/models/janji_temu.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:provider/provider.dart';

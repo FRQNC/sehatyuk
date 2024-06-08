@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/med_reminder.dart';
-import 'package:sehatyuk/primary_button.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 
 class TambahPengingatObat extends StatefulWidget {
   const TambahPengingatObat({super.key});
