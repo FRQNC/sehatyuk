@@ -85,7 +85,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: 16),
               ListView.builder(
                 shrinkWrap: true, // Agar ListView mengikuti ukuran kontennya
                 physics: NeverScrollableScrollPhysics(), // Agar ListView tidak bisa di-scroll
