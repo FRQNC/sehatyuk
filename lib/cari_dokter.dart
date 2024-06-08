@@ -12,16 +12,20 @@ import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class CariDokterPage extends StatefulWidget {
-  const CariDokterPage({super.key});
+  const CariDokterPage({Key? key}) : super(key: key);
 
   @override
   State<CariDokterPage> createState() => _CariDokterPageState();
 }
 
-class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
+class _CariDokterPageState extends State<CariDokterPage> {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  String searchQuery = "";
+  String selectedSpecialty = "";
+
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -41,7 +45,7 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
   Widget build(BuildContext context) {
     var doctor = context.watch<DoctorProvider>();
 
-    if(doctor.doctors.isEmpty){
+    if (doctor.doctors.isEmpty) {
       doctor.fetchData(_token);
     }
 
@@ -49,7 +53,7 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pop(
               context,
             );
@@ -86,6 +90,12 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                 ),
                 SizedBox(height: 32),
                 TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: 'Cari Dokter',
                     suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
@@ -96,16 +106,16 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    enabledBorder: OutlineInputBorder( // Garis batas ketika TextField tidak dalam keadaan terfokus
+                    enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF94B0B7),
                         width: 2.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    focusedBorder: OutlineInputBorder( // Garis batas ketika TextField dalam keadaan terfokus
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, // Menggunakan warna utama tema saat dalam keadaan terfokus
+                        color: Theme.of(context).colorScheme.primary,
                         width: 2.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
@@ -113,7 +123,6 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                     contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     hintStyle: TextStyle(
                       fontSize: 10,
-                      // fontWeight: FontWeight.w400,
                       color: Color(0xFFC2C8C5),
                     ),
                   ),
@@ -135,13 +144,15 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                       children: [
                         TextButton(
                           onPressed: () {
-                            // Tambahkan fungsi untuk menangani ketika tombol ditekan di sini
+                            setState(() {
+                              selectedSpecialty = "";
+                            });
                           },
                           child: Text(
                             'Lihat Semua',
                             style: TextStyle(
                               fontSize: 10,
-                              fontWeight: medium,
+                              fontWeight: FontWeight.w500,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
@@ -155,15 +166,36 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tht.png', text: 'THT'),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/jantung.png', text: 'Jantung'),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/kulit.png', text: 'Kulit'),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/mata.png', text: 'Mata'),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tulang.png', text: 'Tulang'),
+                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tht.png', text: 'THT', onTap: () {
+                        setState(() {
+                          selectedSpecialty = 'Sp. THT';
+                        });
+                      }),
+                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/jantung.png', text: 'Jantung', onTap: () {
+                        setState(() {
+                          selectedSpecialty = 'Sp. Jantung';
+                        });
+                      }),
+                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/kulit.png', text: 'Kulit', onTap: () {
+                        setState(() {
+                          selectedSpecialty = 'Sp. Kulit';
+                        });
+                      }),
+                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/mata.png', text: 'Mata', onTap: () {
+                        setState(() {
+                          selectedSpecialty = 'Sp. Mata';
+                        });
+                      }),
+                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tulang.png', text: 'Tulang', onTap: () {
+                        setState(() {
+                          selectedSpecialty = 'Sp. Tulang';
+                        });
+                      }),
                     ],
                   ),
                 ),
                 SizedBox(height: 32),
+                // Tampilkan daftar dokter sesuai dengan hasil pencarian
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -175,72 +207,38 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 80), // Set maximum width for the button
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Tambahkan fungsi untuk menangani ketika tombol "Filter" ditekan di sini
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero, backgroundColor: Color(0xFFF5F5F5), // Set background color to F5F5F5
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Filter',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFF37363B),
-                                    ),
-                                  ),
-                                  Spacer(), // Spacer untuk menjaga jarak antara teks dan ikon
-                                  Icon(Icons.tune, color: Theme.of(context).colorScheme.primary), // Add tune icon
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Column(
-                  children: [
+                    SizedBox(height: 8),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: doctor.doctors.length,
                       itemBuilder: (context, index) {
+                        var currentDoctor = doctor.doctors[index];
+                        if (searchQuery.isNotEmpty &&
+                            !currentDoctor.namaLengkap.toLowerCase().contains(searchQuery.toLowerCase())) {
+                          return Container(); // Jika tidak cocok dengan pencarian, kembalikan widget kosong
+                        }
+                        if (selectedSpecialty.isNotEmpty && currentDoctor.spesialis != selectedSpecialty) {
+                          return Container(); // Jika tidak cocok dengan spesialisasi, kembalikan widget kosong
+                        }
                         return DoctorCard(
                           token: _token,
-                          id_dokter: doctor.doctors[index].id.toString(),
-                          imagePath: doctor.doctors[index].foto,
-                          specialty: doctor.doctors[index].spesialis,
-                          doctorName: doctor.doctors[index].namaLengkap,
-                          experience: '${doctor.doctors[index].pengalaman.toString()} tahun | ${doctor.doctors[index].rating.toString()}',
-                          price: doctor.doctors[index].harga.toString(),
+                          id_dokter: currentDoctor.id.toString(),
+                          imagePath: currentDoctor.foto,
+                          specialty: currentDoctor.spesialis,
+                          doctorName: currentDoctor.namaLengkap,
+                          experience: '${currentDoctor.pengalaman.toString()} tahun | ${currentDoctor.rating.toString()}',
+                          price: currentDoctor.harga.toString(),
                           onPressed: () {
                             Navigator.push(
-                              context, 
-                              MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: doctor.doctors[index])),
+                              context,
+                              MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: currentDoctor)),
                             );
-
-                            // Add your onPressed logic here
                           },
                         );
                       },
                     ),
-                    ],
+                  ],
                 ),
               ],
             ),
@@ -251,24 +249,22 @@ class _CariDokterPageState extends State<CariDokterPage> with AppMixin{
   }
 }
 
-
-
 class DoctorSpecialtyItem extends StatelessWidget {
   final String imagePath;
   final String text;
+  final VoidCallback onTap;
 
   const DoctorSpecialtyItem({
     Key? key,
     required this.imagePath,
     required this.text,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Tambahkan logika ketika item ditekan di sini
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.only(right: 16.0),
         child: Column(
@@ -346,7 +342,6 @@ class DoctorCard extends StatelessWidget {
                       'accept': 'application/json',
                       'Authorization': 'Bearer $token',
                     },
-                    
                   ),
                   fit: BoxFit.cover,
                 ),
