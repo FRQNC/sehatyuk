@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/ResumeMedis.dart';
 import 'package:sehatyuk/detail_resume.dart';
@@ -35,6 +36,8 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -154,17 +157,25 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                     itemBuilder: (context, index) {
                       final rekamMedis =
                           rekamMedisProvider.rekamMedisList[index];
+
+                      var nama;
+                      if(rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] != 0){
+                        nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]["nama_lengkap_orang_lain"];
+                      }
+                      else{
+                        nama = (rekamMedis.janjiTemu["is_relasi"] == 1 ? rekamMedis.janjiTemu["relasi"]["nama_lengkap_relasi"] : rekamMedis.janjiTemu["user"]["nama_lengkap_user"]);
+                      }
                       return ListItem(
                         Tanggal:
                             rekamMedis.janjiTemu["tgl_janji_temu"].toString(), 
                         Spesialis:
-                            "awokadoka",// rekamMedis.janjiTemu["spesialisasi_dokter"],
+                            rekamMedis.janjiTemu["dokter"]["spesialisasi_dokter"],// rekamMedis.janjiTemu["spesialisasi_dokter"],
                         Dokter:
-                            "awokadoka",// rekamMedis.janjiTemu["nama_lengkap_dokter"], 
+                            rekamMedis.janjiTemu["dokter"]["nama_lengkap_dokter"],// rekamMedis.janjiTemu["nama_lengkap_dokter"], 
                         Pasien:
-                            "awokadoka",// rekamMedis.janjiTemu["nama_lengkap_user"], 
+                            nama,// rekamMedis.janjiTemu["nama_lengkap_user"], 
                         Harga:
-                            "awokadoka",// rekamMedis.janjiTemu["biaya_janji_temu"], 
+                            rekamMedis.janjiTemu["biaya_janji_temu"].toString(),// rekamMedis.janjiTemu["biaya_janji_temu"], 
                       );
                     },
                   ),
@@ -294,6 +305,7 @@ class ListItem extends StatelessWidget {
                           fontSize: 9.0,
                         ),
                       ),
+                      SizedBox(height: 10.0),
                       Text(
                         Dokter,
                         style: TextStyle(
@@ -301,6 +313,7 @@ class ListItem extends StatelessWidget {
                           fontSize: 12.0,
                         ),
                       ),
+                      SizedBox(height: 10.0),
                       Text(
                         Pasien,
                         style: TextStyle(
@@ -309,39 +322,44 @@ class ListItem extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Text(
-                        Harga,
-                        style: TextStyle(
-                          color: Color(0xFF4A707A),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.8,
-                          fontSize: 9.0,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResumeMedisPage(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Rp${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(Harga))}',
+                            style: TextStyle(
+                              color: Color(0xFF4A707A),
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.8,
+                              fontSize: 9.0,
                             ),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: Color(0xff4A707A),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
                           ),
-                        ),
-                        child: Text(
-                          "Mulai",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.8,
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResumeMedisPage(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
+                              minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
+                              textStyle: TextStyle(
+                                fontSize: 12, // Mengatur ukuran teks
+                                fontWeight: FontWeight.w500,
+                              ),
+                              backgroundColor: Theme.of(context).colorScheme.primary,
+                            ),
+                            child: Text(
+                              'Detail',
+                              style: TextStyle(
+                                color: Color(0xFFFFFFFF),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
