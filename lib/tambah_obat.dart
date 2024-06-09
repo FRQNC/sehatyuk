@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/med_reminder.dart';
+import 'package:sehatyuk/models/pengingat_minum_obat.dart';
+import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/models/obat.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sehatyuk/templates/form/form_dropdown.dart';
+import 'package:sehatyuk/templates/form/form_text.dart';
 
 class TambahPengingatObat extends StatefulWidget {
-  const TambahPengingatObat({super.key});
+  // const TambahPengingatObat({super.key});
 
-  // Obat obat;
-  // String token;
-  // InformasiObatPage({super.key, required this.obat, required this.token});
+  final Obat obat;
+  const TambahPengingatObat({Key? key, required this.obat}) : super(key: key);
 
   @override
   State<TambahPengingatObat> createState() => _TambahPengingatObatState();
@@ -21,6 +26,31 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
     with AppMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   int count = 0;
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+  // String poli = "";
+  // String nama_dokter = "";
+  // TextEditingController _poliController = TextEditingController();
+  // TextEditingController _namaDokterController = TextEditingController();
+  TextEditingController _namaObatController = TextEditingController();
+  String nama_obat = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+    nama_obat = widget.obat.namaObat;
+    _namaObatController = TextEditingController(text: nama_obat);
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -36,12 +66,43 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   }
 
   TextEditingController _dateController = TextEditingController();
+  TextEditingController _dosisController = TextEditingController();
+  TextEditingController _sendokController = TextEditingController(text: "sdm");
+  TextEditingController _jadwalController = TextEditingController(text: "Sehari");
+  TextEditingController _aturanController = TextEditingController(text: "Sebelum makan");
 
   String _selectedValueDosis = "";
   String _selectedValuePeriode = "";
   String _selectedValueHari = "";
   String _selectedValueKaliSehari = "";
   String _selectedValueAturanMinum = "";
+
+  PengingatMinumObatProvider pengingat = PengingatMinumObatProvider();
+
+  Future<bool> createData() async{
+    int idObat = widget.obat.idObat;
+    int idUser = int.parse(_user_id);
+    int dosis = int.parse(_dosisController.text);
+    String sendok = _sendokController.text;
+    String jadwal = _jadwalController.text;
+    String aturan = _aturanController.text;
+
+
+    PengingatMinumObat newData = PengingatMinumObat(
+      idObat: idObat,
+      idUser: idUser,
+      dosis: dosis,
+      sendok: sendok,
+      jadwal: jadwal,
+      aturan: aturan,
+      obat: {},
+      user: {}
+    );
+
+    bool isSucceed = await pengingat.createPengingatMinumObat(_token, newData);
+    
+    return isSucceed;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +133,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 40.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -81,97 +142,139 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                       child: Column(
                         children: [
                           formImageInputView(inputLabel: "Foto Obat*"),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Nama Obat *",
-                              hintText: "nama obat",
-                              border: OutlineInputBorder(), // Border default
-                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                              focusedBorder: OutlineInputBorder( // Border ketika fokus
-                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                              ),
-                            ),
-                            // initialValue: _selectedValuePeriode,
-                            // onChanged: (newValue) {
-                            //   setState(() {
-                            //     _selectedValuePeriode = newValue;
-                            //   });
-                            // },
+                          FormText(
+                            validator: notNullValidator,
+                            inputLabel: "Nama Obat *",
+                            controller: _namaObatController,
+                            readOnly: true,
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Dosis *",
-                              hintText: "Masukkan dosis (angka)",
-                              border: OutlineInputBorder(), // Border default
-                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                              focusedBorder: OutlineInputBorder( // Border ketika fokus
-                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                            initialValue: _selectedValuePeriode,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedValuePeriode = newValue;
-                              });
-                            },
+                          FormText(
+                            validator: notNullValidator,
+                            inputLabel: "Dosis *",
+                            hintText: "Masukkan dosis (angka)",
+                            controller: _dosisController,
                           ),
-                          formDropdownInputView(
+                          FormDropdown(
                             inputLabel: "Sendok *",
-                            hintText: "Pilih",
-                            items: ["sdm", "sdt"],
-                            selectedValue: _selectedValueDosis,
-                            onChanged: (newValue) {
+                            value: _sendokController.text,
+                            dropDownItems: ["sdm", "sdt"],
+                            onChanged: (String? newValue) {
                               setState(() {
-                                _selectedValueDosis = newValue!;
+                                _sendokController.text = newValue!;
                               });
                             },
                           ),
-                          formDropdownInputView(
+                          FormDropdown(
                             inputLabel: "Jadwal *",
-                            hintText: "Pilih",
-                            items: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
-                            selectedValue: _selectedValuePeriode,
-                            onChanged: (newValue) {
+                            value: _jadwalController.text,
+                            dropDownItems: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
+                            onChanged: (String? newValue) {
                               setState(() {
-                                _selectedValuePeriode = newValue!;
+                                _jadwalController.text = newValue!;
                               });
                             },
                           ),
-                          formDropdownInputView(
+                          FormDropdown(
                             inputLabel: "Aturan Minum *",
-                            hintText: "Pilih",
-                            items: ["Sebelum makan", "Setelah Makan"],
-                            selectedValue: _selectedValueAturanMinum,
-                            onChanged: (newValue) {
+                            value: _aturanController.text,
+                            dropDownItems: ["Sebelum makan", "Setelah Makan"],
+                            onChanged: (String? newValue) {
                               setState(() {
-                                _selectedValueAturanMinum = newValue!;
+                                _aturanController.text = newValue!;
                               });
                             },
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: "Aturan *",
-                              hintText: "Aturan",
-                              border: OutlineInputBorder(), // Border default
-                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                              focusedBorder: OutlineInputBorder( // Border ketika fokus
-                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                              ),
-                            ),
-                            initialValue: _selectedValuePeriode,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedValuePeriode = newValue;
-                              });
-                            },
-                          ),
+                          // TextFormField(
+                          //   decoration: InputDecoration(
+                          //     labelText: "Nama Obat *",
+                          //     hintText: widget.obat.namaObat,
+                          //     border: OutlineInputBorder(), // Border default
+                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                          //     ),
+                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
+                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                          //     ),
+                          //   ),
+                          //   // initialValue: _selectedValuePeriode,
+                          //   // onChanged: (newValue) {
+                          //   //   setState(() {
+                          //   //     _selectedValuePeriode = newValue;
+                          //   //   });
+                          //   // },
+                          // ),
+                          // TextFormField(
+                          //   decoration: InputDecoration(
+                          //     labelText: "Dosis *",
+                          //     hintText: "Masukkan dosis (angka)",
+                          //     border: OutlineInputBorder(), // Border default
+                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                          //     ),
+                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
+                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                          //     ),
+                          //   ),
+                          //   keyboardType: TextInputType.number,
+                          //   initialValue: _selectedValuePeriode,
+                          //   onChanged: (newValue) {
+                          //     setState(() {
+                          //       _selectedValuePeriode = newValue;
+                          //     });
+                          //   },
+                          // ),
+                          // formDropdownInputView(
+                          //   inputLabel: "Sendok *",
+                          //   hintText: "Pilih",
+                          //   items: ["sdm", "sdt"],
+                          //   selectedValue: _selectedValueDosis,
+                          //   onChanged: (newValue) {
+                          //     setState(() {
+                          //       _selectedValueDosis = newValue!;
+                          //     });
+                          //   },
+                          // ),
+                          // formDropdownInputView(
+                          //   inputLabel: "Jadwal *",
+                          //   hintText: "Pilih",
+                          //   items: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
+                          //   selectedValue: _selectedValuePeriode,
+                          //   onChanged: (newValue) {
+                          //     setState(() {
+                          //       _selectedValuePeriode = newValue!;
+                          //     });
+                          //   },
+                          // ),
+                          // formDropdownInputView(
+                          //   inputLabel: "Aturan Minum *",
+                          //   hintText: "Pilih",
+                          //   items: ["Sebelum makan", "Setelah Makan"],
+                          //   selectedValue: _selectedValueAturanMinum,
+                          //   onChanged: (newValue) {
+                          //     setState(() {
+                          //       _selectedValueAturanMinum = newValue!;
+                          //     });
+                          //   },
+                          // ),
+                          // TextFormField(
+                          //   decoration: InputDecoration(
+                          //     labelText: "Aturan *",
+                          //     hintText: "Aturan",
+                          //     border: OutlineInputBorder(), // Border default
+                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                          //     ),
+                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
+                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                          //     ),
+                          //   ),
+                          //   initialValue: _selectedValuePeriode,
+                          //   onChanged: (newValue) {
+                          //     setState(() {
+                          //       _selectedValuePeriode = newValue;
+                          //     });
+                          //   },
+                          // ),
                         ],
                       ),
                     ),
@@ -187,10 +290,31 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                         buttonText: "Simpan",
                         containerWidth: 160,
                         fontSize: 18,
-                        onPressed: () {
-                          Navigator.popUntil(context, (route) {
-                            return count++ == 2;
-                          });
+                        onPressed: () async {
+                          bool isSucceed = await createData();
+                          if(isSucceed){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Berhasil Membuat Pengingat!'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                            Navigator.popUntil(context, (route) {
+                              return count++ == 3;
+                            });
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => MedicationReminderPage()),
+                            );
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Gagal Membuat Pengingat!'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                          }
                           // Navigator.popUntil(context, MaterialPageRoute(builder: (context) => const MedicationReminderPage()));
                         },
                       ),
@@ -243,11 +367,12 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                     alignment: Alignment.center,
                     children: [
                       ClipOval(
-                        child: Image.asset(
-                          'assets/images/pilihObatUntukPengingatPage/Metformin.png',
-                          width: 120,
-                          height: 120,
-                          fit: BoxFit.cover,
+                        child: CachedNetworkImage(
+                          imageUrl: '${Endpoint.url}obat_image/${widget.obat.idObat}',
+                          httpHeaders: <String, String>{
+                            'accept': 'application/json',
+                            'Authorization': 'Bearer $_token',
+                          },
                         ),
                       ),
                     ],

@@ -18,6 +18,33 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> createPengingatMinumObat(String token, PengingatMinumObat pengingat_minum_obat) async {
+    final response = await http.post(
+      Uri.parse('${Endpoint.url}create_pengingat_minum_obat/'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(pengingat_minum_obat.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      _pengingatMinumObatList.add(PengingatMinumObat.fromJson(json.decode(response.body)));
+      notifyListeners();
+      // login(context, user);
+      // return loginEmail(context, user.email, user.password); // registration successful
+      return true;
+    } else {
+      // String result = response.body;
+      // if(result.contains("Error: Email sudah digunakan") || result.contains("Error: No telp sudah digunakan")){
+      //   return "credential_error";
+      // }
+      // return "failed";
+      return false;
+    }
+  }
+
   Future<void> fetchData(String token, String idUser) async {
     try {
       final url = Uri.parse('${Endpoint.url}get_pengingat_minum_obat/$idUser'); // url read obat

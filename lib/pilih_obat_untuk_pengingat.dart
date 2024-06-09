@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/models/obat.dart';
 // import 'package:sehatyuk/tambah_obat.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/tambah_obat.dart';
@@ -58,6 +59,7 @@ class _PilihObatUntukPengingatPageState
     _token = await auth.getToken();
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
+    context.read<ObatProvider>().fetchData(_token);
     setState(() {});
   }
 
@@ -65,9 +67,8 @@ class _PilihObatUntukPengingatPageState
   Widget build(BuildContext context) {
     var obat = context.watch<ObatProvider>();
 
-    if(obat.obats.isEmpty){
-      obat.fetchData(_token);
-    }
+    // if(obat.obats.isEmpty){
+    // }
     var filteredObats = obat.searchObats(searchQuery);
 
     return Scaffold(
@@ -142,6 +143,7 @@ class _PilihObatUntukPengingatPageState
                         return GridView.count(
                           shrinkWrap: true,
                           crossAxisCount: 1,
+                          physics: NeverScrollableScrollPhysics(),
                           childAspectRatio: 2.5,
                           children: filteredObats.map((item) {
                             return GestureDetector(
@@ -158,7 +160,8 @@ class _PilihObatUntukPengingatPageState
                                 imagePath: item.fotoObat,
                                 text: item.namaObat,
                                 additionaltext: item.jenisObat["jenis_obat"],
-                                token: _token
+                                token: _token,
+                                obat: item,
                               ),
                             );
                           }).toList(),
@@ -190,8 +193,9 @@ class ObatView extends StatelessWidget {
   final String text;
   final String additionaltext;
   final String token;
+  Obat obat;
 
-  ObatView({required this.id, required this.imagePath, required this.text, required this.additionaltext, required this.token});
+  ObatView({required this.id, required this.imagePath, required this.text, required this.additionaltext, required this.token, required this.obat});
 
 
   @override
@@ -281,7 +285,7 @@ class ObatView extends StatelessWidget {
                           fontSize: 12,
                           containerWidth: 0,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahPengingatObat()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TambahPengingatObat(obat: obat,)));
                           },
                         ))
                   ],

@@ -132,6 +132,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                           token: _token,
                           idPengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
                           idUser: pengingat_minum_obat.pengingatMinumObatList[index].idUser.toString(),
+                          idObat: pengingat_minum_obat.pengingatMinumObatList[index].idObat.toString(),
                           // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
                           // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
                           fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
@@ -185,6 +186,7 @@ class PengingatMinumObatCard extends StatelessWidget {
   final String token;
   final String idPengingat;
   final String idUser;
+  final String idObat;
   final String namaObat;
   final String fotoObat;
   final String dosis;
@@ -198,6 +200,7 @@ class PengingatMinumObatCard extends StatelessWidget {
     required this.token,
     required this.idPengingat,
     required this.idUser,
+    required this.idObat,
     required this.namaObat,
     required this.fotoObat,
     required this.dosis,
@@ -227,7 +230,7 @@ class PengingatMinumObatCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
                   image: CachedNetworkImageProvider(
-                    '${Endpoint.url}foto_obat/$idUser',
+                    '${Endpoint.url}obat_image/$idObat',
                     headers: <String, String>{
                       'accept': 'application/json',
                       'Authorization': 'Bearer $token',

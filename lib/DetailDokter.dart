@@ -107,7 +107,6 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
 
     relation.insertAll(1, relasiNames);
 
-      // print("KOCAKKKK");
     for(var item in relasi){
       relationVal[item.namaLengkap] = item.id_relasi.toString();
     }
