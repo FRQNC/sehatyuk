@@ -112,6 +112,12 @@ class _PilihObatUntukPengingatPageState
                                     BorderRadius.all(Radius.circular(10.0)),
                               ),
                               child: TextFormField(
+                                controller: searchController,
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchQuery = value;
+                                  });
+                                },
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(8),
                                   border: OutlineInputBorder(
