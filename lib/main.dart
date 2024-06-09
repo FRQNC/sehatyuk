@@ -13,6 +13,7 @@ import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
 import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
+import 'package:sehatyuk/providers/rekam_medis_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ void main() {
             ChangeNotifierProvider(create: (context) => JanjiTemuProvider()),
             ChangeNotifierProvider(create: (context) => PengingatMinumObatProvider()),
             ChangeNotifierProvider(create: (context) => JanjiTemuAsOrangLainProvider()),
+            ChangeNotifierProvider(create: (context) => RekamMedisProvider()),
           ],
           child: const MainApp(),
         ),

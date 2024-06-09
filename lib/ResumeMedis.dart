@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
+import 'package:sehatyuk/auth/auth.dart';
 
 class ResumeMedisPage extends StatefulWidget {
   const ResumeMedisPage({super.key});
