@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/edit_profile.dart';
+import 'package:sehatyuk/ganti_password.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/welcome.dart';
@@ -304,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child : Column(
                             children : <Widget>[
                               TextButton(
-                                onPressed: () {},
+                                onPressed: (){ Navigator.push(context, MaterialPageRoute(builder:(context) => const GantiPasswordPage(),));},
                                 child: Row(
                                   children : <Widget>[
                                      Expanded( //icon
