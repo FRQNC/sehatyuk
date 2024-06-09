@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sehatyuk/ResumeMedis.dart';
 import 'package:sehatyuk/detail_resume.dart';
 import 'package:sehatyuk/homepage.dart';
+import 'package:sehatyuk/models/rekam_medis.dart';
 import 'package:sehatyuk/providers/rekam_medis_provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 
@@ -176,6 +177,8 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                             nama,// rekamMedis.janjiTemu["nama_lengkap_user"], 
                         Harga:
                             rekamMedis.janjiTemu["biaya_janji_temu"].toString(),// rekamMedis.janjiTemu["biaya_janji_temu"], 
+                        Detail:
+                            rekamMedis,
                       );
                     },
                   ),
@@ -195,6 +198,7 @@ class ListItem extends StatelessWidget {
   final String Dokter;
   final String Pasien;
   final String Harga;
+  final RekamMedis Detail;
 
   ListItem({
     required this.Tanggal,
@@ -202,6 +206,7 @@ class ListItem extends StatelessWidget {
     required this.Dokter,
     required this.Pasien,
     required this.Harga,
+    required this.Detail,
   });
 
   @override
@@ -339,7 +344,7 @@ class ListItem extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResumeMedisPage(),
+                                  builder: (context) => ResumeMedisPage(detail: Detail,),
                                 ),
                               );
                             },
