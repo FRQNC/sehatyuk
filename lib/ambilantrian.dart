@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +31,10 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
   late String spesialisasi;// Simpan spesialisasidalam state
   late String harga;// Simpan hargadalam state
   late String id_dokter; // Simpan id_dokter dalam state
+
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
   
   @override
   void initState() {
@@ -40,6 +45,15 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
     spesialisasi = widget.spesialisasi; // Inisialisasi spesialisasi dengan nilai yang diterima dari konstruktor
     harga = widget.harga; // Inisialisasi harga dengan nilai yang diterima dari konstruktor
     id_dokter = widget.id_dokter; // Inisialisasi foto dengan nilai yang diterima dari konstruktor
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
   }
 
   @override
@@ -213,8 +227,8 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
                       backgroundImage: CachedNetworkImageProvider(
                         '${Endpoint.url}dokter_image/$id_dokter',
                         headers: <String, String>{
-                          // 'accept': 'application/json',
-                          // 'Authorization': 'Bearer $token',
+                          'accept': 'application/json',
+                          'Authorization': 'Bearer $_token',
                         },
                       ),
                       radius: 47.5,
