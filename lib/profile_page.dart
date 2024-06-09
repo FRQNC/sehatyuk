@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/edit_profile.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/welcome.dart';
@@ -28,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _fetchToken();
+    _fetchData();
   }
 
   Future<void> _fetchToken() async {
@@ -38,14 +40,16 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {});
   }
 
+  Future<void> _fetchData() async{
+    await Provider.of<UserProvider>(context, listen: false).fetchData();
+  }
+
+  Future<void> _refreshData() async {
+    await Provider.of<UserProvider>(context, listen: false).fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var user = context.watch<UserProvider>();
-
-    if(user.userData.namaLengkap == ""){
-      user.fetchData();
-    }
-
     return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
@@ -151,7 +155,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
+                                      if(result){
+                                        await _refreshData();
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xff4a707a),
                                     ),
