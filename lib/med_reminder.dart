@@ -36,6 +36,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
+    await context.read<PengingatMinumObatProvider>().fetchData(_token, _user_id);
   }
 
   @override
@@ -130,6 +131,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                         return PengingatMinumObatCard(
                           token: _token,
                           idPengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
+                          idUser: pengingat_minum_obat.pengingatMinumObatList[index].idUser.toString(),
                           // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
                           // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
                           fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
@@ -182,6 +184,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
 class PengingatMinumObatCard extends StatelessWidget {
   final String token;
   final String idPengingat;
+  final String idUser;
   final String namaObat;
   final String fotoObat;
   final String dosis;
@@ -194,6 +197,7 @@ class PengingatMinumObatCard extends StatelessWidget {
     Key? key,
     required this.token,
     required this.idPengingat,
+    required this.idUser,
     required this.namaObat,
     required this.fotoObat,
     required this.dosis,
@@ -218,21 +222,21 @@ class PengingatMinumObatCard extends StatelessWidget {
             Container(
               width: 80,
               height: 80,
-              color: Colors.amber,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(8.0),
-              //   image: DecorationImage(
-              //     image: CachedNetworkImageProvider(
-              //       '${Endpoint.url}foto_obat/$id_pengingat',
-              //       headers: <String, String>{
-              //         'accept': 'application/json',
-              //         'Authorization': 'Bearer $token',
-              //       },
+              // color: Colors.amber,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    '${Endpoint.url}foto_obat/$idUser',
+                    headers: <String, String>{
+                      'accept': 'application/json',
+                      'Authorization': 'Bearer $token',
+                    },
                     
-              //     ),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             SizedBox(width: 16),
             Expanded(
