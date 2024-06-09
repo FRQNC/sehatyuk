@@ -629,6 +629,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                               itemBuilder: (context, index) {
                                 String day = DateFormat('EEEE', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
                                 String date = DateFormat('dd MMMM yyyy', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
+                                String start = remainingJadwal[index].startTime;
+                                String end = remainingJadwal[index].endTime;
               
                                     // print("INDEXXXX " + index.toString() + ' ' + selected.toString());
                                 return GestureDetector(
@@ -664,7 +666,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                           ),
                                           Expanded(child: Container()),
                                           Text(
-                                            '08.00 - 13.00',
+                                            '$start - $end',
                                             style: TextStyle(
                                               color: Theme.of(context).colorScheme.onPrimary,
                                               fontWeight: FontWeight.w600,
