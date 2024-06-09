@@ -95,6 +95,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       user: {},
       relasi: {},
       janjiOrangLain: {},
+      status: "Menunggu Ambil Antrian",
     );
 
     return await janji.createJanjiTemu(_token, newJanji);

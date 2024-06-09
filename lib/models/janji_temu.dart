@@ -8,6 +8,7 @@ class JanjiTemu {
   final int idRelasi;
   final int biaya;
   final int idOrangLain;
+  final String status;
   final Map<String, dynamic> dokter;
   final Map<String, dynamic> user;
   final Map<String, dynamic> relasi;
@@ -27,6 +28,7 @@ class JanjiTemu {
     required this.user,
     required this.relasi,
     required this.janjiOrangLain,
+    required this.status,
   });
 
   factory JanjiTemu.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class JanjiTemu {
       idRelasi: json['id_relasi'] ?? 0,
       biaya: json['biaya_janji_temu'] ?? 0, // Pastikan nilai default jika null
       idOrangLain: json['id_janji_temu_as_orang_lain'] ?? 0,
+      status: json['status'] ?? 1,
       dokter: json['dokter'] ?? {},
       user: json['user'] ?? {},
       relasi: rel ?? {},
@@ -62,6 +65,7 @@ class JanjiTemu {
       'id_relasi': idRelasi,
       'biaya_janji_temu': biaya,
       'id_janji_temu_as_orang_lain': idOrangLain,
+      'status': status,
     };
   }
 

@@ -113,6 +113,7 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
         idRelasi: id_relasi, 
         biaya: biaya,
         idOrangLain: result['id_janji_temu_as_orang_lain'], 
+        status: "Menunggu Ambil Antrian",
         dokter: {},
         user: {},
         relasi: {},
