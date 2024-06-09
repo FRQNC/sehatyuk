@@ -491,276 +491,314 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
       builder: (context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AlertDialog(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            insetPadding: EdgeInsets.all(25),
-            content: SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.8,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                insetPadding: EdgeInsets.all(25),
+                content: SizedBox(
+                  // height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: Container(),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          selected = -1;
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.close,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'Pilih Jadwal',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: bold,
-                      fontSize: 21,
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    // color: Colors.amber,
-                    height: MediaQuery.of(context).size.height * 0.3, // Batasi tinggi ListView
-                    child: ListView(
-                      children: [
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: GestureDetector(
-                        //         onTap: () {
-                        //           _selectDate(); // Assuming this function is defined
-                        //         },
-                        //         child: Container(
-                        //           height: MediaQuery.of(context).size.height * 0.1,
-                        //           // width: MediaQuery.of(context).size.width * 0.5,
-                        //           // child: Image(
-                        //           //   image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
-                        //           // ),
-                        //           child: AspectRatio(
-                        //             aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
-                        //             child: Image(
-                        //               image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
-                        //             ),
-                        //           ),
-                        //           decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.all(Radius.circular(10)),
-                        //             color: Theme.of(context).colorScheme.onSecondary,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     SizedBox(width: 10),
-                        //     // Menampilkan dua data pertama
-                        //     // for (var jadwal in firstJadwal)
-                        //       // Expanded(
-                        //       //   child: 
-                        //       //   Container(
-                        //       //     height: MediaQuery.of(context).size.height * 0.1,
-                        //       //     // width: MediaQuery.of(context).size.width * 0.5,
-                        //       //     // margin: EdgeInsets.only(right: 10),
-                        //       //     child: AspectRatio(
-                        //       //       aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
-                        //       //       child: Padding(
-                        //       //         padding: const EdgeInsets.all(8.0),
-                        //       //         child: Column(
-                        //       //           crossAxisAlignment: CrossAxisAlignment.start,
-                        //       //           children: [
-                        //       //             Text(
-                        //       //               "Senin", // Atur hari dinamis jika diperlukan
-                        //       //               style: TextStyle(
-                        //       //                 color: Theme.of(context).colorScheme.primary,
-                        //       //                 fontWeight: FontWeight.w600,
-                        //       //                 fontSize: 14,
-                        //       //               ),
-                        //       //             ),
-                        //       //             Text(
-                        //       //               jadwal.tanggalJadwalDokter.toString(),
-                        //       //               style: TextStyle(
-                        //       //                 color: Theme.of(context).colorScheme.tertiary,
-                        //       //                 fontWeight: FontWeight.w500,
-                        //       //                 fontSize: 12,
-                        //       //               ),
-                        //       //             ),
-                        //       //             Expanded(child: Container()),
-                        //       //             Text(
-                        //       //               '08.00 - 13.00',
-                        //       //               style: TextStyle(
-                        //       //                 color: Theme.of(context).colorScheme.onPrimary,
-                        //       //                 fontWeight: FontWeight.w600,
-                        //       //                 fontSize: 12,
-                        //       //               ),
-                        //       //             ),
-                        //       //           ],
-                        //       //         ),
-                        //       //       ),
-                        //       //     ),
-                        //       //     decoration: BoxDecoration(
-                        //       //       borderRadius: BorderRadius.all(Radius.circular(10)),
-                        //       //       color: Theme.of(context).colorScheme.onSecondary,
-                        //       //     ),
-                        //       //   ),
-                        //       // ),
-                        //   ],
-                        // ),
-                        // SizedBox(height: 10),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(), // Untuk menghindari konflik scroll dengan ListView utama
-                          itemCount: remainingJadwal.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, // Jumlah kolom dalam grid
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 1.8, // Menyesuaikan proporsi item dalam grid
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(),
                           ),
-                          itemBuilder: (context, index) {
-                            String day = DateFormat('EEEE', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
-                            String date = DateFormat('dd MMMM yyyy', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
-
-                                // print("INDEXXXX " + index.toString() + ' ' + selected.toString());
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selected = index;
-                                  selectedDate = remainingJadwal[index].tanggalJadwalDokter;
-                                });
-                                // print("INDEXXXX" + selected.toString());
-                              },
-                              child: Container(
-                                height: MediaQuery.of(context).size.height * 0.1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        day, // Atur hari dinamis jika diperlukan
-                                        style: TextStyle(
-                                          color: Theme.of(context).colorScheme.primary,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        date,
-                                        style: TextStyle(
-                                          color: Theme.of(context).colorScheme.tertiary,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      Expanded(child: Container()),
-                                      Text(
-                                        '08.00 - 13.00',
-                                        style: TextStyle(
-                                          color: Theme.of(context).colorScheme.onPrimary,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  color: Theme.of(context).colorScheme.onSecondary,
-                                  border: Border.all(
-                                    color: selected == index ? Theme.of(context).colorScheme.primary : Colors.transparent,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                          GestureDetector(
+                            onTap: (){
+                              // selected = -1;
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'Pilih Jadwal',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: bold,
+                          fontSize: 21,
                         ),
-                      ],
-                    ),
-                  ),
-                  
-                  SizedBox(height: 10,),
-                  Text(
-                    'Buat janji untuk siapa?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: bold,
-                      fontSize: 21,
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 12.0, right: 12.0),
-                      fillColor: Colors.white,
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary), // Change the color here
-                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary), // Change the color here
-                        borderRadius: BorderRadius.circular(10.0),
+                      SizedBox(height: 20,),
+                      Container(
+                        // color: Colors.amber,
+                        height: MediaQuery.of(context).size.height * 0.3, // Batasi tinggi ListView
+                        child: ListView(
+                          children: [
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: GestureDetector(
+                            //         onTap: () {
+                            //           _selectDate(); // Assuming this function is defined
+                            //         },
+                            //         child: Container(
+                            //           height: MediaQuery.of(context).size.height * 0.1,
+                            //           // width: MediaQuery.of(context).size.width * 0.5,
+                            //           // child: Image(
+                            //           //   image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                            //           // ),
+                            //           child: AspectRatio(
+                            //             aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
+                            //             child: Image(
+                            //               image: AssetImage('assets/images/detailDokterPage/calendar_primary.png'),
+                            //             ),
+                            //           ),
+                            //           decoration: BoxDecoration(
+                            //             borderRadius: BorderRadius.all(Radius.circular(10)),
+                            //             color: Theme.of(context).colorScheme.onSecondary,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 10),
+                            //     // Menampilkan dua data pertama
+                            //     // for (var jadwal in firstJadwal)
+                            //       // Expanded(
+                            //       //   child: 
+                            //       //   Container(
+                            //       //     height: MediaQuery.of(context).size.height * 0.1,
+                            //       //     // width: MediaQuery.of(context).size.width * 0.5,
+                            //       //     // margin: EdgeInsets.only(right: 10),
+                            //       //     child: AspectRatio(
+                            //       //       aspectRatio: 1.8, // Sesuaikan aspek rasio sesuai kebutuhan
+                            //       //       child: Padding(
+                            //       //         padding: const EdgeInsets.all(8.0),
+                            //       //         child: Column(
+                            //       //           crossAxisAlignment: CrossAxisAlignment.start,
+                            //       //           children: [
+                            //       //             Text(
+                            //       //               "Senin", // Atur hari dinamis jika diperlukan
+                            //       //               style: TextStyle(
+                            //       //                 color: Theme.of(context).colorScheme.primary,
+                            //       //                 fontWeight: FontWeight.w600,
+                            //       //                 fontSize: 14,
+                            //       //               ),
+                            //       //             ),
+                            //       //             Text(
+                            //       //               jadwal.tanggalJadwalDokter.toString(),
+                            //       //               style: TextStyle(
+                            //       //                 color: Theme.of(context).colorScheme.tertiary,
+                            //       //                 fontWeight: FontWeight.w500,
+                            //       //                 fontSize: 12,
+                            //       //               ),
+                            //       //             ),
+                            //       //             Expanded(child: Container()),
+                            //       //             Text(
+                            //       //               '08.00 - 13.00',
+                            //       //               style: TextStyle(
+                            //       //                 color: Theme.of(context).colorScheme.onPrimary,
+                            //       //                 fontWeight: FontWeight.w600,
+                            //       //                 fontSize: 12,
+                            //       //               ),
+                            //       //             ),
+                            //       //           ],
+                            //       //         ),
+                            //       //       ),
+                            //       //     ),
+                            //       //     decoration: BoxDecoration(
+                            //       //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                            //       //       color: Theme.of(context).colorScheme.onSecondary,
+                            //       //     ),
+                            //       //   ),
+                            //       // ),
+                            //   ],
+                            // ),
+                            // SizedBox(height: 10),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(), // Untuk menghindari konflik scroll dengan ListView utama
+                              itemCount: remainingJadwal.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // Jumlah kolom dalam grid
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 1.8, // Menyesuaikan proporsi item dalam grid
+                              ),
+                              itemBuilder: (context, index) {
+                                String day = DateFormat('EEEE', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
+                                String date = DateFormat('dd MMMM yyyy', 'id').format(remainingJadwal[index].tanggalJadwalDokter);
+              
+                                    // print("INDEXXXX " + index.toString() + ' ' + selected.toString());
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selected = index;
+                                      selectedDate = remainingJadwal[index].tanggalJadwalDokter;
+                                    });
+                                    // print("INDEXXXX" + selected.toString());
+                                  },
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            day, // Atur hari dinamis jika diperlukan
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            date,
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.tertiary,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          Expanded(child: Container()),
+                                          Text(
+                                            '08.00 - 13.00',
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onPrimary,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      color: Theme.of(context).colorScheme.onSecondary,
+                                      border: Border.all(
+                                        color: selected == index ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                                        width: 2,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    hint: Text(
-                      'Pilih',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primary,
+                      
+                      SizedBox(height: 10,),
+                      Text(
+                        'Buat janji untuk siapa?',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: bold,
+                          fontSize: 21,
+                        ),
                       ),
-                    ),
-                    value: selectedPerson,
-                    isDense: true,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedPerson = newValue;
-                        print('Selected person: $selectedPerson');
-                      });
-                    },
-                    items: relation.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: relationVal[value],
-                        child: Text(
-                          value,
+                      SizedBox(height: 20,),
+                      DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 12.0, right: 12.0),
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary), // Change the color here
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).colorScheme.tertiary), // Change the color here
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        hint: Text(
+                          'Pilih',
                           style: TextStyle(
                             fontSize: 12,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
-                      );
-                    }).toList(),
-                    dropdownColor: Colors.white,
-                    elevation: 3,
-                    isExpanded: true,
-                    icon: Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    )
-                    // icon: SizedBox.shrink(),
-                  
-                  ),
-                  SizedBox(height: 40,),
-                  Center(
-                    child: TextButton(
-                      onPressed: () async {
-                        if(selected != -1){
-                          if(selectedPerson == "-1"){
-                            if(selectedPerson != null){
-                              Navigator.pop(context);
-                              final response = await Navigator.push(context, MaterialPageRoute(builder: (context) => BuatJanjiOtherPage(doctor: widget.doctor, selectedDate: selectedDate,)));
-                              
-                              if(response != null){
-                                _showDialogJanji(remainingJadwal);
+                        value: selectedPerson,
+                        isDense: true,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedPerson = newValue;
+                            print('Selected person: $selectedPerson');
+                          });
+                        },
+                        items: relation.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: relationVal[value],
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        dropdownColor: Colors.white,
+                        elevation: 3,
+                        isExpanded: true,
+                        icon: Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                        // icon: SizedBox.shrink(),
+                      
+                      ),
+                      SizedBox(height: 40,),
+                      Center(
+                        child: TextButton(
+                          onPressed: () async {
+                            if(selected != -1){
+                              if(selectedPerson == "-1"){
+                                if(selectedPerson != null){
+                                  Navigator.pop(context);
+                                  final response = await Navigator.push(context, MaterialPageRoute(builder: (context) => BuatJanjiOtherPage(doctor: widget.doctor, selectedDate: selectedDate,)));
+                                  
+                                  if(response != null){
+                                    _showDialogJanji(remainingJadwal);
+                                  }
+                                }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Pilih Tanggal!'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
+                              }
+                              else{
+                                if(selectedPerson != null){
+                                  int selectedPersonValue = int.tryParse(selectedPerson ?? "0") ?? 0;
+                                  bool isSucceed = await createJanjiTemu(selectedPersonValue);
+                                  if(isSucceed){
+                                    Navigator.pop(context);
+                                    _showDialogBerhasil(remainingJadwal);
+                                  }
+                                  else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Pilih Buat Janji Untuk Siapa!'),
+                                        duration: Duration(seconds: 1),
+                                      ),
+                                    );
+                                  }
+                                }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Pilih Buat Janji Untuk Siapa!'),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
                               }
                             }
                             else{
@@ -771,59 +809,25 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                                 ),
                               );
                             }
-                          }
-                          else{
-                            if(selectedPerson != null){
-                              int selectedPersonValue = int.tryParse(selectedPerson ?? "0") ?? 0;
-                              bool isSucceed = await createJanjiTemu(selectedPersonValue);
-                              if(isSucceed){
-                                Navigator.pop(context);
-                                _showDialogBerhasil(remainingJadwal);
-                              }
-                              else{
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Pilih Buat Janji Untuk Siapa!'),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              }
-                            }
-                            else{
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Pilih Buat Janji Untuk Siapa!'),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            }
-                          }
-                        }
-                        else{
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Pilih Tanggal!'),
-                              duration: Duration(seconds: 1),
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                          ),
+                          child: Text(
+                            'Buat Janji',
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontWeight: semi,
+                              color: Colors.white,
                             ),
-                          );
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: Text(
-                        'Buat Janji',
-                        style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: semi,
-                          color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            }
           ),
           
           Image(
