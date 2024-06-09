@@ -45,6 +45,32 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> deleteData(String token, String idPengingat) async {
+    try {
+      final url = Uri.parse('${Endpoint.url}delete_pengingat_minum_obat_by_id/$idPengingat');
+      final response = await http.delete(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Hapus item dari daftar lokal
+        _pengingatMinumObatList.removeWhere((pengingat) => pengingat.idPengingat.toString() == idPengingat);
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      print('Error: $error');
+      return false;
+    }
+  }
+
+
   Future<void> fetchData(String token, String idUser) async {
     try {
       final url = Uri.parse('${Endpoint.url}get_pengingat_minum_obat/$idUser'); // url read obat
