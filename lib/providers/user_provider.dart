@@ -102,6 +102,7 @@ class UserProvider extends ChangeNotifier {
       dynamic data = jsonDecode(response.body);
       auth.setId(data['user_id'].toString());
       auth.setToken(data['access_token']);
+      fetchData();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const RoutePage()));
       return "sukses";
