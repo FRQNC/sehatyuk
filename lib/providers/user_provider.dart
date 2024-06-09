@@ -142,6 +142,34 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  Future<String> updateUserPassword(String oldPassword, String newPassword) async{
+    String id = await auth.getId();
+    String token = await auth.getToken();
+
+    final response = await http.put(
+      Uri.parse("${Endpoint.url}update_password/$id"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        "old_password" : oldPassword,
+        "new_password" : newPassword
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return "success";
+    }
+    else{
+      String result = response.body;
+      if (result.contains("Error: Password tidak sesuai")) {
+        return "wrong_password";
+      }
+      return "failed";
+    }
+  }
+
   Future<void> fetchData() async {
     try {
       String id = await auth.getId();
@@ -167,38 +195,4 @@ class UserProvider extends ChangeNotifier {
       print('Error: $error');
     }
   }
-
-  // Future<int> update(Users user) async {
-  //   String id = await auth.getId();
-  //   String token = await auth.getToken();
-
-  //   try {
-  //     final response =
-  //         await http.put(Uri.parse("${Endpoint.url}update_user/$id"),
-  //             headers: <String, String>{
-  //               'Content-Type': 'application/json; charset=UTF-8',
-  //               'Authorization': 'Bearer $token',
-  //             },
-  //             body: jsonEncode({
-  //               "nama_lengkap_user": user.namaLengkap,
-  //               "tgl_lahir_user": user.tanggalLahir,
-  //               "gender_user": user.gender,
-  //               "alamat_user": user.alamat,
-  //               "no_bpjs_user": user.noBPJS,
-  //               "no_telp_user": user.noTelp,
-  //               "email_user": user.email,
-  //               "foto_user": user.photoUrl,
-  //             }));
-  //     if (response.statusCode == 200) {
-  //       _userData = user;
-  //       notifyListeners();
-  //     } else {
-  //       throw Exception('Failed to load data');
-  //     }
-  //       return response.statusCode;
-  //   } on Exception catch (e) {
-  //     print("Error: $e");
-  //   }
-  // }
-
 }
