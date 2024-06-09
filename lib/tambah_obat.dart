@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/med_reminder.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
+import 'package:sehatyuk/models/obat.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class TambahPengingatObat extends StatefulWidget {
   const TambahPengingatObat({super.key});
+
+  // Obat obat;
+  // String token;
+  // InformasiObatPage({super.key, required this.obat, required this.token});
 
   @override
   State<TambahPengingatObat> createState() => _TambahPengingatObatState();
@@ -74,10 +81,49 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                       child: Column(
                         children: [
                           formImageInputView(inputLabel: "Foto Obat*"),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Nama Obat *",
+                              hintText: "nama obat",
+                              border: OutlineInputBorder(), // Border default
+                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                              focusedBorder: OutlineInputBorder( // Border ketika fokus
+                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                              ),
+                            ),
+                            // initialValue: _selectedValuePeriode,
+                            // onChanged: (newValue) {
+                            //   setState(() {
+                            //     _selectedValuePeriode = newValue;
+                            //   });
+                            // },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Dosis *",
+                              hintText: "Masukkan dosis (angka)",
+                              border: OutlineInputBorder(), // Border default
+                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                              focusedBorder: OutlineInputBorder( // Border ketika fokus
+                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                              ),
+                            ),
+                            keyboardType: TextInputType.number,
+                            initialValue: _selectedValuePeriode,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedValuePeriode = newValue;
+                              });
+                            },
+                          ),
                           formDropdownInputView(
-                            inputLabel: "Dosis Obat *",
+                            inputLabel: "Sendok *",
                             hintText: "Pilih",
-                            items: ["1/2 tablet", "1 tablet", "2 tablet"],
+                            items: ["sdm", "sdt"],
                             selectedValue: _selectedValueDosis,
                             onChanged: (newValue) {
                               setState(() {
@@ -86,35 +132,13 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                             },
                           ),
                           formDropdownInputView(
-                            inputLabel: "Periode Minum Obat *",
+                            inputLabel: "Jadwal *",
                             hintText: "Pilih",
-                            items: ["7 hari", "14 hari", "Sampai habis"],
+                            items: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
                             selectedValue: _selectedValuePeriode,
                             onChanged: (newValue) {
                               setState(() {
                                 _selectedValuePeriode = newValue!;
-                              });
-                            },
-                          ),
-                          formDropdownInputView(
-                            inputLabel: "Pilih Hari *",
-                            hintText: "Pilih",
-                            items: ["Senin", "Selasa", "Rabu"],
-                            selectedValue: _selectedValueHari,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedValueHari = newValue!;
-                              });
-                            },
-                          ),
-                          formDropdownInputView(
-                            inputLabel: "Berapa Kali Sehari *",
-                            hintText: "Pilih",
-                            items: ["1 x", "2 x", "3 x"],
-                            selectedValue: _selectedValueKaliSehari,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedValueKaliSehari = newValue!;
                               });
                             },
                           ),
@@ -126,6 +150,25 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                             onChanged: (newValue) {
                               setState(() {
                                 _selectedValueAturanMinum = newValue!;
+                              });
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Aturan *",
+                              hintText: "Aturan",
+                              border: OutlineInputBorder(), // Border default
+                              enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
+                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                              ),
+                              focusedBorder: OutlineInputBorder( // Border ketika fokus
+                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                              ),
+                            ),
+                            initialValue: _selectedValuePeriode,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedValuePeriode = newValue;
                               });
                             },
                           ),

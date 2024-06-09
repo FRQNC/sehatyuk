@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
+// import 'package:sehatyuk/tambah_obat.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/tambah_obat.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
@@ -148,7 +149,7 @@ class _PilihObatUntukPengingatPageState
                                 //apa yang bakal dilakuin kalau kontainer obatnya ditekan
                                 // Navigator.push(
                                 //   context,
-                                //   MaterialPageRoute(builder: (context) => InformasiObatPage(obat: item, token: _token)),
+                                //   MaterialPageRoute(builder: (context) => TambahPengingatObat(obat: item, token: _token)),
                                 // );
                               },
                               child: ObatView(
