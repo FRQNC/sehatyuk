@@ -67,8 +67,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
           backgroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const WelcomePage()));
+              Navigator.pop(context);
             },
             child: Icon(
               Icons.arrow_back_rounded,
