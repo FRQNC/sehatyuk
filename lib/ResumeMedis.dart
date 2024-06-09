@@ -4,17 +4,107 @@ import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
+import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/models/rekam_medis.dart';
 
 class ResumeMedisPage extends StatefulWidget {
-  const ResumeMedisPage({super.key});
+  final RekamMedis detail;
+
+  const ResumeMedisPage({Key? key, required this.detail}) : super(key: key);
 
   @override
   State<ResumeMedisPage> createState() => _ResumeMedisPageState();
 }
 
 class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
+  String pasien = "";
+  String bpjs = "";
+  int usia = 0;
+  String gender = "";
+  late RekamMedis data;
+  
+  @override
+  void initState(){
+    super.initState();
+    data = widget.detail;
+    if(data.janjiTemu['id_janji_temu_as_orang_lain'] != 0){
+      pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
+      bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
+      usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
+      gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
+    }
+    else if(data.janjiTemu['is_relasi'] == 1){
+      pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
+      bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
+      usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
+      gender = data.janjiTemu['relasi']['gender_relasi'];
+    }
+    else{
+      pasien = data.janjiTemu['user']['nama_lengkap_user'];
+      bpjs = data.janjiTemu['user']['no_bpjs_user'];
+      usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
+      gender = data.janjiTemu['user']['gender_user'];
+    }
+  }
+
+  int calculateAge(String bod) {
+    DateTime birthDate = DateTime.parse(bod);
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // if(data.janjiTemu['id_janji_temu_as_orang_lain'] == 0){
+    //   pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
+    //   bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
+    //   usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
+    //   gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
+    // }
+    // else if(data.janjiTemu['is_relasi'] == 1){
+    //   pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
+    //   bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
+    //   usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
+    //   gender = data.janjiTemu['relasi']['gender_relasi'];
+    // }
+    // else{
+    //   pasien = data.janjiTemu['user']['nama_lengkap_user'];
+    //   bpjs = data.janjiTemu['user']['no_bpjs_user'];
+    //   usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
+    //   gender = data.janjiTemu['user']['gender_user'];
+    // }
+
+    // if(type == 1){
+    //   pasien = data.janjiTemu['user']['nama_lengkap_user'];
+    //   bpjs = data.janjiTemu['user']['no_bpjs_user'];
+    //   usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
+    //   gender = data.janjiTemu['user']['gender_user'];
+    // }
+    // else if(type == 2){
+    //   pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
+    //   bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
+    //   usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
+    //   gender = data.janjiTemu['relasi']['gender_relasi'];
+    // }
+    // else{
+    //   pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
+    //   bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
+    //   usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
+    //   gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
+    // }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -71,7 +161,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                             Text(
-                              '12345',
+                              data.janjiTemu["kode_janji_temu"],
                               style: TextStyle(
                                 color: Color(0xff37363B),
                                 fontSize: 14,
@@ -94,7 +184,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                             Text(
-                              '-',
+                              (bpjs == "" ? "-" : bpjs),
                               style: TextStyle(
                                 color: Color(0xff37363B),
                                 fontSize: 14,
@@ -108,7 +198,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           height: 10,
                         ),
                         Text(
-                          'Aurora Alsava | 17 tahun',
+                          '$pasien | $usia tahun',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -117,7 +207,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           ),
                         ),
                         Text(
-                          'Perempuan',
+                          gender,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -155,7 +245,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          'THT | Dr. Ujang Suherman',
+                          '${data.janjiTemu['dokter']['spesialisasi_dokter']} | ${data.janjiTemu['dokter']['nama_lengkap_dokter']}',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -183,7 +273,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          'Otitis Eksterna',
+                          data.hasilDiagnosis,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -211,7 +301,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          'Diberi resep obat tetes telinga.',
+                          data.pengobatan,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -239,7 +329,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          'Antibiotik | 1 tetes 2 x sehari',
+                          data.obat + ' | 1 tetes 2x sehari',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
@@ -267,7 +357,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          'Disarankan untuk menjaga telinganya tetap kering.',
+                          data.catatan,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,

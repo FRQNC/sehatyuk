@@ -97,31 +97,6 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                     height: 30,
                   ),
                   Column(
-                    children: [
-                      Container(
-                        constraints: BoxConstraints(
-                            minHeight:
-                                MediaQuery.of(context).size.height * 0.65),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Lihat Semua",
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.primary,
-                              ),
-                            )),
-
-                            
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
                   children: [
                     ListView.builder(
                       shrinkWrap: true,
@@ -132,6 +107,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                           token: _token,
                           idPengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
                           idUser: pengingat_minum_obat.pengingatMinumObatList[index].idUser.toString(),
+                          idObat: pengingat_minum_obat.pengingatMinumObatList[index].idObat.toString(),
                           // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
                           // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
                           fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
@@ -185,6 +161,7 @@ class PengingatMinumObatCard extends StatelessWidget {
   final String token;
   final String idPengingat;
   final String idUser;
+  final String idObat;
   final String namaObat;
   final String fotoObat;
   final String dosis;
@@ -198,6 +175,7 @@ class PengingatMinumObatCard extends StatelessWidget {
     required this.token,
     required this.idPengingat,
     required this.idUser,
+    required this.idObat,
     required this.namaObat,
     required this.fotoObat,
     required this.dosis,
@@ -227,7 +205,7 @@ class PengingatMinumObatCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
                   image: CachedNetworkImageProvider(
-                    '${Endpoint.url}foto_obat/$idUser',
+                    '${Endpoint.url}obat_image/$idObat',
                     headers: <String, String>{
                       'accept': 'application/json',
                       'Authorization': 'Bearer $token',
@@ -243,42 +221,68 @@ class PengingatMinumObatCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    namaObat,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0XFF37363B),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        namaObat,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0XFF37363B),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () async {
+                          bool deleted = await context.read<PengingatMinumObatProvider>().deleteData(token, idPengingat);
+
+                          // bool deleted = await context.read<JanjiTemuProvider>().deleteData(token, id_janji_temu);
+                          if (deleted) {
+                            // Jika penghapusan berhasil, lakukan sesuatu, misalnya, tampilkan pesan sukses atau perbarui tampilan
+                            print('Pengingat berhasil dihapus');
+                          } else {
+                            // Jika penghapusan gagal, lakukan sesuatu, misalnya, tampilkan pesan error
+                            print('Gagal menghapus pengingat');
+                          }
+                          // Navigator.of(context).pop(); // 
+                          // Tambahkan logika untuk menghapus obat di sini
+                        },
+                      ),
+                    ],
                   ),
+
                   
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        dosis.toString(),
+                        '$dosis $sendok x $jadwal',
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Color(0XFF37363B),
                         ),
                       ),
-                      Text(
-                        sendok,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0XFF37363B),
-                        ),
-                      ),
-                      Text(
-                        jadwal,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0XFF37363B),
-                        ),
-                      ),
+                      // Text(
+                      //   sendok,
+                      //   style: TextStyle(
+                      //     fontSize: 10,
+                      //     fontWeight: FontWeight.w600,
+                      //     color: Color(0XFF37363B),
+                      //   ),
+                      // ),
+                      // Text(
+                      //   jadwal,
+                      //   style: TextStyle(
+                      //     fontSize: 10,
+                      //     fontWeight: FontWeight.w600,
+                      //     color: Color(0XFF37363B),
+                      //   ),
+                      // ),
                       // ElevatedButton(
                       //   onPressed: onPressed,
                       //   style: ElevatedButton.styleFrom(
@@ -299,10 +303,11 @@ class PengingatMinumObatCard extends StatelessWidget {
                       // ),
                     ],
                   ),
+                  SizedBox(height: 10,),
                   Text(
                     aturan,
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.primary,
                     ),

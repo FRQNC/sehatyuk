@@ -1,5 +1,5 @@
 class PengingatMinumObat {
-  final int idPengingat;
+  final int? idPengingat;
   final int idObat;
   final int idUser;
   final int dosis;
@@ -12,7 +12,7 @@ class PengingatMinumObat {
   // Map<String, dynamic> fotoObat;
 
   PengingatMinumObat({
-    required this.idPengingat,
+    this.idPengingat,
     required this.idObat,
     required this.idUser,
     required this.dosis,
@@ -41,4 +41,14 @@ class PengingatMinumObat {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id_obat': idObat,
+      'id_user': idUser,
+      'dosis': dosis,
+      'sendok': sendok,
+      'jadwal': jadwal,
+      'aturan': aturan,
+    };
+  }
 }
