@@ -44,6 +44,10 @@ class _ProfilePageState extends State<ProfilePage> {
     await Provider.of<UserProvider>(context, listen: false).fetchData();
   }
 
+  Future<void> _refreshData() async {
+    await Provider.of<UserProvider>(context, listen: false).fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,8 +155,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
+                                    onPressed: () async {
+                                      final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage()));
+                                      if(result){
+                                        await _refreshData();
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xff4a707a),

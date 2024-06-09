@@ -39,7 +39,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
   String _jenisKelamin = "Laki-laki";
   String _tipeRelasi = "Orang Tua";
 
-    Future<void> _fetchToken() async {
+  Future<void> _fetchToken() async {
     // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
@@ -91,18 +91,22 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                         formImageInputView(
                           inputLabel: "Foto *",
                         ),
-                        // FormText(
-                        //   inputLabel: "Nama Lengkap *",
-                        //   hintText: "Masukkan nama lengkap",
-                        //   controller: _namaLengkapController,
-                        // ),
-                        FormText(inputLabel: "Nama Lengkap *",
+                        FormText(
+                          validator: notNullValidator,
+                          inputLabel: "Nama Lengkap *",
                           hintText: "Masukkan nama lengkap",
-                          controller: _namaLengkapController,),
+                          controller: _namaLengkapController,
+                        ),
                         FormDropdown(
                           inputLabel: "Hubungan dengan relasi *",
                           value: _tipeRelasi,
-                          dropDownItems: ["Orang Tua", "Pasangan", "Saudara Kandung", "Kakek/Nenek", "Lainnya"],
+                          dropDownItems: [
+                            "Orang Tua",
+                            "Pasangan",
+                            "Saudara Kandung",
+                            "Kakek/Nenek",
+                            "Lainnya"
+                          ],
                           onChanged: (String? newValue) {
                             setState(() {
                               _tipeRelasi = newValue!;
@@ -110,6 +114,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           },
                         ),
                         FormText(
+                          validator: notNullValidator,
                           inputLabel: "Nomor BPJS/Asuransi",
                           hintText: "Masukkan nomor BPJS/Asuransi",
                           controller: _noBPJSController,
@@ -118,6 +123,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           inputLabel: "Tanggal Lahir *",
                           hintText: "Masukkan tanggal lahir",
                           controller: _dateController,
+                          validator: notNullValidator,
                         ),
                         FormDropdown(
                           inputLabel: "Jenis Kelamin *",
@@ -130,12 +136,14 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           },
                         ),
                         FormText(
+                          validator: phoneNumberValidator,
                           inputLabel: "Nomor Telepon *",
                           hintText: "Masukkan nomor telepon",
                           keyboardType: TextInputType.phone,
                           controller: _noTelpController,
                         ),
                         FormText(
+                          validator: notNullValidator,
                           inputLabel: "Alamat *",
                           hintText: "Masukkan alamat",
                           controller: _alamatController,
@@ -161,35 +169,30 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           _formkey.currentState!.save();
 
                           Relasi relasi = Relasi(
-                            id_user: int.parse(_user_id),
-                            namaLengkap: _namaLengkapController.text,
-                            noBPJS: _noBPJSController.text,
-                            tanggalLahir: _dateController.text,
-                            gender: _jenisKelamin,
-                            noTelp: _noTelpController.text,
-                            alamat: _alamatController.text,
-                            photoUrl: _fotoRelasi,
-                            tipe: _tipeRelasi
-                          );
+                              id_user: int.parse(_user_id),
+                              namaLengkap: _namaLengkapController.text,
+                              noBPJS: _noBPJSController.text,
+                              tanggalLahir: _dateController.text,
+                              gender: _jenisKelamin,
+                              noTelp: _noTelpController.text,
+                              alamat: _alamatController.text,
+                              photoUrl: _fotoRelasi,
+                              tipe: _tipeRelasi);
 
-                          int? response = await relasiProvider.addRelasi(_token, relasi);
+                          int? response =
+                              await relasiProvider.addRelasi(_token, relasi);
 
-                          if(response == 200){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Berhasil menambah relasi')
-                                ),
-                              );
-                            }
-                          else{
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Gagal menambah relasi')
-                                ),
-                              );
+                          if (response == 200) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Berhasil menambah relasi')),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Gagal menambah relasi')),
+                            );
                           }
                         }
-
 
                         // Navigate to the RelasiPage
                         // Navigator.push(
@@ -291,6 +294,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
       ),
     );
   }
+
   Padding formDropdownInputView({
     required String inputLabel,
     required String value,
@@ -318,27 +322,25 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
               height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).colorScheme.primary),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.primary),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: DropdownButtonFormField<String>(
                 value: value,
                 onChanged: onChanged,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Colors.white,
-                  filled: true
-                ),
-                items: dropDownItems
-                    .map<DropdownMenuItem<String>>((String value) {
+                    border: InputBorder.none,
+                    fillColor: Colors.white,
+                    filled: true),
+                items:
+                    dropDownItems.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(
-                        fontSize: 14
-                      ),
-                      ),
+                      style: TextStyle(fontSize: 14),
+                    ),
                   );
                 }).toList(),
                 dropdownColor: Colors.white,
@@ -350,4 +352,3 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
     );
   }
 }
-

@@ -39,7 +39,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   String _fotoUser = "";
   String _jenisKelamin = "Laki-laki";
 
-    Future<void> _fetchToken() async {
+  Future<void> _fetchToken() async {
     // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
@@ -47,7 +47,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
     setState(() {});
   }
 
-  Future<void> _fetchData() async{
+  Future<void> _fetchData() async {
     await userProvider.fetchData();
     setState(() {
       _dateController.text = userProvider.userData.tanggalLahir;
@@ -57,10 +57,9 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       _noTelpController.text = userProvider.userData.noTelp;
       _alamatController.text = userProvider.userData.alamat;
       _fotoUser = userProvider.userData.photoUrl;
-      if(userProvider.userData.gender == 'L'){
+      if (userProvider.userData.gender == 'L') {
         _jenisKelamin = "Laki-laki";
-      }
-      else if(userProvider.userData.gender == 'P'){
+      } else if (userProvider.userData.gender == 'P') {
         _jenisKelamin = "Perempuan";
       }
     });
@@ -111,22 +110,26 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                         formImageInputView(
                           inputLabel: "Foto *",
                         ),
-                        FormText(inputLabel: "Email *",
-                          hintText: "Masukkan email",
-                          controller: _emailController,),
-                        FormText(inputLabel: "Nama Lengkap *",
-                          hintText: "Masukkan nama lengkap",
-                          controller: _namaLengkapController,),
                         FormText(
-                          inputLabel: "Nomor BPJS/Asuransi",
-                          hintText: "Masukkan nomor BPJS/Asuransi",
-                          controller: _noBPJSController,
-                        ),
+                            inputLabel: "Email *",
+                            hintText: "Masukkan email",
+                            controller: _emailController,
+                            validator: emailValidator),
+                        FormText(
+                            inputLabel: "Nama Lengkap *",
+                            hintText: "Masukkan nama lengkap",
+                            controller: _namaLengkapController,
+                            validator: notNullValidator),
+                        FormText(
+                            inputLabel: "Nomor BPJS/Asuransi",
+                            hintText: "Masukkan nomor BPJS/Asuransi",
+                            controller: _noBPJSController,
+                            validator: notNullValidator),
                         FormDate(
-                          inputLabel: "Tanggal Lahir *",
-                          hintText: "Masukkan tanggal lahir",
-                          controller: _dateController,
-                        ),
+                            inputLabel: "Tanggal Lahir *",
+                            hintText: "Masukkan tanggal lahir",
+                            controller: _dateController,
+                            validator: notNullValidator),
                         FormDropdown(
                           inputLabel: "Jenis Kelamin *",
                           value: _jenisKelamin,
@@ -138,16 +141,16 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                           },
                         ),
                         FormText(
-                          inputLabel: "Nomor Telepon *",
-                          hintText: "Masukkan nomor telepon",
-                          keyboardType: TextInputType.phone,
-                          controller: _noTelpController,
-                        ),
+                            inputLabel: "Nomor Telepon *",
+                            hintText: "Masukkan nomor telepon",
+                            keyboardType: TextInputType.phone,
+                            controller: _noTelpController,
+                            validator: phoneNumberValidator),
                         FormText(
-                          inputLabel: "Alamat *",
-                          hintText: "Masukkan alamat",
-                          controller: _alamatController,
-                        ),
+                            inputLabel: "Alamat *",
+                            hintText: "Masukkan alamat",
+                            controller: _alamatController,
+                            validator: notNullValidator),
                       ],
                     ),
                   ),
@@ -168,7 +171,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                         if (_formkey.currentState!.validate()) {
                           _formkey.currentState!.save();
 
-                           Users userUpdate = Users(
+                          Users userUpdate = Users(
                             id_user: _user_id,
                             email: _emailController.text,
                             namaLengkap: _namaLengkapController.text,
@@ -180,36 +183,27 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                             photoUrl: _fotoUser,
                           );
 
-                          String? response = await userProvider.updateUserProfile(userUpdate);
+                          String? response =
+                              await userProvider.updateUserProfile(userUpdate);
 
-                          if(response == "success"){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Berhasil memperbarui data')
-                                ),
-                              );
-                            }
-                            else if(response == "credential_error"){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Email atau No. Telp sudah digunakan')
-                                  ),
-                                );
-                            }
-                            else{
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Gagal memperbarui data')
-                                  ),
-                                );
-                            }
+                          if (response == "success") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Berhasil memperbarui data')),
+                            );
+                          } else if (response == "credential_error") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      'Email atau No. Telp sudah digunakan')),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Gagal memperbarui data')),
+                            );
                           }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
+                        }
+                        Navigator.pop(context, true);
                       },
                     ),
                   ),
@@ -303,6 +297,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       ),
     );
   }
+
   Padding formDropdownInputView({
     required String inputLabel,
     required String value,
@@ -330,27 +325,25 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
               height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).colorScheme.primary),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.primary),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: DropdownButtonFormField<String>(
                 value: value,
                 onChanged: onChanged,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Colors.white,
-                  filled: true
-                ),
-                items: dropDownItems
-                    .map<DropdownMenuItem<String>>((String value) {
+                    border: InputBorder.none,
+                    fillColor: Colors.white,
+                    filled: true),
+                items:
+                    dropDownItems.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(
-                        fontSize: 14
-                      ),
-                      ),
+                      style: TextStyle(fontSize: 14),
+                    ),
                   );
                 }).toList(),
                 dropdownColor: Colors.white,
@@ -362,4 +355,3 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
     );
   }
 }
-

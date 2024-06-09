@@ -1,20 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
+// import 'package:sehatyuk/tambah_obat.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/tambah_obat.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/providers/obat_provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import 'package:sehatyuk/auth/auth.dart';
 
-class MedicationInfo {
-  String medicationName,
-      medicationType,
-      medicationDescription,
-      medicationImagePath;
-  MedicationInfo(
-      {required this.medicationName,
-      required this.medicationType,
-      required this.medicationDescription,
-      required this.medicationImagePath});
-}
+// class MedicationInfo {
+//   String medicationName,
+//       medicationType,
+//       medicationDescription,
+//       medicationImagePath;
+//   MedicationInfo(
+//       {required this.medicationName,
+//       required this.medicationType,
+//       required this.medicationDescription,
+//       required this.medicationImagePath});
+// }
 
 class PilihObatUntukPengingatPage extends StatefulWidget {
   const PilihObatUntukPengingatPage({super.key});
@@ -26,17 +32,44 @@ class PilihObatUntukPengingatPage extends StatefulWidget {
 
 class _PilihObatUntukPengingatPageState
     extends State<PilihObatUntukPengingatPage> with AppMixin {
-  List<MedicationInfo> medItem = [
-    MedicationInfo(
-        medicationName: "Metformin HCI",
-        medicationType: "Tablet",
-        medicationDescription: "Obat diabetes",
-        medicationImagePath:
-            'assets/images/pilihObatUntukPengingatPage/Metformin.png'),
-  ];
+  // List<MedicationInfo> medItem = [
+  //   MedicationInfo(
+  //       medicationName: "Metformin HCI",
+  //       medicationType: "Tablet",
+  //       medicationDescription: "Obat diabetes",
+  //       medicationImagePath:
+  //           'assets/images/pilihObatUntukPengingatPage/Metformin.png'),
+  // ];
+
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
+  String searchQuery = "";
+
+  TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    var obat = context.watch<ObatProvider>();
+
+    if(obat.obats.isEmpty){
+      obat.fetchData(_token);
+    }
+    var filteredObats = obat.searchObats(searchQuery);
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -102,30 +135,70 @@ class _PilihObatUntukPengingatPageState
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    SizedBox(height: 10,),
+                    Consumer<ObatProvider>(
+                      builder: (context, obat, _) {
+                        return GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 1,
+                          childAspectRatio: 2.5,
+                          children: filteredObats.map((item) {
+                            return GestureDetector(
+                              onTap: () {
+                                //apa yang bakal dilakuin kalau kontainer obatnya ditekan
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(builder: (context) => TambahPengingatObat(obat: item, token: _token)),
+                                // );
+                              },
+                              child: ObatView(
+
+                                id: item.idObat.toString(),
+                                imagePath: item.fotoObat,
+                                text: item.namaObat,
+                                additionaltext: item.jenisObat["jenis_obat"],
+                                token: _token
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: medItem.length,
-                  itemBuilder: (context, index) {
-                    return medicationReminderItemView(medItem[index]);
-                  })
+              // ListView.builder(
+              //     shrinkWrap: true,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     itemCount: medItem.length,
+              //     itemBuilder: (context, index) {
+              //       return medicationReminderItemView(medItem[index]);
+              //     })
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Column medicationReminderItemView(MedicationInfo medInfo) {
-    return Column(
-      children: [
-        Container(
+
+class ObatView extends StatelessWidget {
+  final String id;
+  final String imagePath;
+  final String text;
+  final String additionaltext;
+  final String token;
+
+  ObatView({required this.id, required this.imagePath, required this.text, required this.additionaltext, required this.token});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
           margin: EdgeInsets.only(bottom: 20),
-          height: 140,
+          height: MediaQuery.of(context).size.height * 0.1,
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -151,11 +224,14 @@ class _PilihObatUntukPengingatPageState
                       flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          medInfo.medicationImagePath,
-                          width: 70,
+                        child: CachedNetworkImage(
+                          imageUrl: '${Endpoint.url}obat_image/$id',
+                          httpHeaders: <String, String>{
+                            'accept': 'application/json',
+                            'Authorization': 'Bearer $token',
+                          },
+                          width: 91,
                           height: 70,
-                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -165,7 +241,7 @@ class _PilihObatUntukPengingatPageState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              medInfo.medicationName,
+                              text,
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,
@@ -175,7 +251,7 @@ class _PilihObatUntukPengingatPageState
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              medInfo.medicationType,
+                              additionaltext,
                               style: const TextStyle(
                                   color: Color(0xFF94B0B7),
                                   fontSize: 12.0,
@@ -183,19 +259,19 @@ class _PilihObatUntukPengingatPageState
                                   letterSpacing: 1.9),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                medInfo.medicationDescription,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    fontSize: 13.0,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 1.9),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 8.0),
+                            //   child: Text(
+                            //     medInfo.medicationDescription,
+                            //     style: TextStyle(
+                            //         color:
+                            //             Theme.of(context).colorScheme.onPrimary,
+                            //         fontSize: 13.0,
+                            //         fontWeight: FontWeight.w600,
+                            //         letterSpacing: 1.9),
+                            //     overflow: TextOverflow.ellipsis,
+                            //   ),
+                            // ),
                           ],
                         )),
                     Expanded(
@@ -213,8 +289,6 @@ class _PilihObatUntukPengingatPageState
               ),
             ],
           ),
-        ),
-      ],
-    );
+        );
   }
 }

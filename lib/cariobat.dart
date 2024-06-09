@@ -187,7 +187,7 @@ class GridItem extends StatelessWidget {
   GridItem({required this.id, required this.imagePath, required this.text, required this.additionaltext, required this.token});
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
   return Container(
     margin: EdgeInsets.all(4.0),
     padding: EdgeInsets.all(4.0),
