@@ -181,6 +181,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<String> fitur1 = [
     'assets/images/homePage/f3.png',
+    'assets/images/homePage/f6.png',
     'assets/images/homePage/f2.png',
     'assets/images/homePage/f4.png'
   ];
@@ -198,45 +199,15 @@ class _HomePageState extends State<HomePage> {
   // ];
 
   final List<String> ft1 = [
+    'Buat Janji',
     'Resume Medis',
     'Cari Obat',
     'Pengingat Minum Obat',
   ];
-  // final List<String> ft1 = [
-  //   'Resume Medis',
-  //   'Cari Dokter',
-  //   'Cari Obat',
-  //   'Pengingat Minum Obat',
-  // ];
-  // final List<String> ft2 = [
-  //   'Daftar Temu',
-  //   'Diari Kesehatan',
-  //   'Fitur',
-  //   'Fitur',
-  // ];
-
-  // final List<String> articles = [
-  //   'assets/images/homePage/a1.jpg',
-  //   'assets/images/homePage/a2.jpg',
-  //   'assets/images/homePage/a3.jpg'
-  // ];
-
-  // final List<String> judul = [
-  //   'Makanan Sehat untuk Puasa',
-  //   'Olahraga',
-  //   'Menjaga Kesehatan Jantung'
-  // ];
-  
-  // final List<String> deskripsi= [
-  //   'Temukan rekomendasi makanan sehat kaya nutrisi untuk puasa kuat dan lancar.',
-  //   'Temukan rekomendasi olahraga agar tubuh tetap bugar.',
-  //   'Jaga kesehatan jantung Anda sejak dini.'
-  // ];
-  // final List<String> categories = ['Makanan', 'Gaya Hidup', 'Jantung'];
   
   final List<Widget> pages1 = [
+    CariDokterPage(),
     DaftarResumePage(),
-    // CariDokterPage(),
     CariObatPage(),
     MedicationReminderPage(),
   ];
@@ -336,57 +307,6 @@ class _HomePageState extends State<HomePage> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 5),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: fitur2.asMap().entries.map((entry) {
-            //     String image = entry.value;
-            //     return GestureDetector(
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) => pages2[entry.key],
-            //           ),
-            //         );
-            //       },
-            //       child: Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: 6.0),
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.start,
-            //           children: [
-            //             ClipOval(
-            //               child: Image.asset(
-            //                 image,
-            //                 height: 65,
-            //                 width: 65,
-            //                 fit: BoxFit.cover,
-            //               ),
-            //             ),
-            //             SizedBox(height: 4),
-            //             Container(
-            //               width: 88,
-            //               height: 45,
-            //               child: Text(
-            //                 ft2[entry.key],
-            //                 style: TextStyle(
-            //                   fontSize: 12,
-            //                   fontFamily: 'Poppins',
-            //                   fontWeight: FontWeight.w500,
-            //                   color: Color(0xFF37363B),
-            //                   letterSpacing: 0.05,
-            //                 ),
-            //                 textAlign: TextAlign.center,
-            //                 overflow: TextOverflow.fade,
-            //                 maxLines: 3,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     );
-            //   }).toList(),
-            // ),
 
             SizedBox(height: 20),
             // carousel
