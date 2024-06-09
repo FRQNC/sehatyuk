@@ -140,4 +140,45 @@ mixin AppMixin{
   Color boxColor = Color(0xFFD9D9D9).withOpacity(0.45);
   Color dividerColor = Color(0xFFD9D9D9);
   double sideMargin = 20;
+
+  String? notNullValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'Field tidak boleh kosong';
+    }
+    return null;
+  }
+
+  String? emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email tidak boleh kosong';
+    }
+
+    // Regular expression for validating an email address
+    final RegExp emailRegExp = RegExp(
+      r'^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+
+    if (!emailRegExp.hasMatch(value)) {
+      return 'Format email tidak valid';
+    }
+
+    return null;
+  }
+
+  String? phoneNumberValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Nomor telepon tidak boleh kosong';
+    }
+
+    // Regular expression for validating a phone number (only digits)
+    final RegExp phoneRegExp = RegExp(
+      r'^\d{10,15}$',
+    );
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'Format nomor telepon tidak valid';
+    }
+
+    return null;
+  }
 }

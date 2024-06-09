@@ -40,13 +40,17 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController(text: "Laki-laki");
+  final TextEditingController _genderController =
+      TextEditingController(text: "Laki-laki");
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   AuthService auth = AuthService();
 
@@ -81,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
       return "konfirmasi ulang";
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -107,223 +111,236 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
           child: Padding(
             padding:
                 EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Lengkapi Identitas Diri',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: semi,
-                    color: Theme.of(context).colorScheme.primary,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Lengkapi Identitas Diri',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: semi,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Agar Anda dapat terhubung dengan semua fasilitas kesehatan yang pernah dikunjungi.',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                FormText(
-                  inputLabel: "Nama Lengkap *",
-                  hintText: "Masukkan nama lengkap",
-                  controller: _nameController,
-                ),
-                FormDate(
-                  inputLabel: "Tanggal Lahir *",
-                  hintText: "Masukkan tanggal lahir",
-                  controller: _dobController,
-                ),
-                FormDropdown(
-                  inputLabel: "Jenis Kelamin *",
-                  value: _genderController.text,
-                  dropDownItems: ["Laki-laki", "Perempuan"],
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _genderController.text = newValue!;
-                    });
-                  },
-                ),
-                FormText(
-                  inputLabel: "Nomor Telepon *",
-                  hintText: "Masukkan nomor telepon",
-                  keyboardType: TextInputType.phone,
-                  controller: _phoneController,
-                ),
-                FormText(
-                  inputLabel: "Email *",
-                  hintText: "Masukkan email",
-                  controller: _emailController,
-                ),
-                FormWithIcon(
-                  inputLabel: 'Masukkan Password *',
-                  icon: Icons.remove_red_eye,
-                  controller: _passwordController,
-                  onPressed: () {
-                    setState(() {
-                      _obscureText = !_obscureText;
-                    });
-                  },
-                  obscureText: _obscureText,
-                ),
-                FormWithIcon(
-                  inputLabel: 'Konfirmasi Password *',
-                  icon: Icons.remove_red_eye,
-                  controller: _confirmPasswordController,
-                  onPressed: () {
-                    setState(() {
-                      _obscureTextConfirm = !_obscureTextConfirm;
-                    });
-                  },
-                  obscureText: _obscureTextConfirm,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      // height: 10,
-                      width: 20,
-                      child: Checkbox(
-                        value: isChecked,
-                        activeColor: Theme.of(context).colorScheme.primary,
-                        checkColor: Colors.white,
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.tertiary,
+                  Text(
+                    'Agar Anda dapat terhubung dengan semua fasilitas kesehatan yang pernah dikunjungi.',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                  FormText(
+                    inputLabel: "Nama Lengkap *",
+                    hintText: "Masukkan nama lengkap",
+                    controller: _nameController,
+                    validator: notNullValidator,
+                  ),
+                  FormDate(
+                    inputLabel: "Tanggal Lahir *",
+                    hintText: "Masukkan tanggal lahir",
+                    controller: _dobController,
+                    validator: notNullValidator,
+                  ),
+                  FormDropdown(
+                    inputLabel: "Jenis Kelamin *",
+                    value: _genderController.text,
+                    dropDownItems: ["Laki-laki", "Perempuan"],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _genderController.text = newValue!;
+                      });
+                    },
+                  ),
+                  FormText(
+                    inputLabel: "Nomor Telepon *",
+                    hintText: "Masukkan nomor telepon",
+                    keyboardType: TextInputType.phone,
+                    controller: _phoneController,
+                    validator: phoneNumberValidator,
+                  ),
+                  FormText(
+                    inputLabel: "Email *",
+                    hintText: "Masukkan email",
+                    controller: _emailController,
+                    validator: emailValidator,
+                  ),
+                  FormWithIcon(
+                    inputLabel: 'Masukkan Password *',
+                    icon: Icons.remove_red_eye,
+                    controller: _passwordController,
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                      
+                    },
+                    obscureText: _obscureText,
+                  ),
+                  FormWithIcon(
+                    inputLabel: 'Konfirmasi Password *',
+                    icon: Icons.remove_red_eye,
+                    controller: _confirmPasswordController,
+                    onPressed: () {
+                      setState(() {
+                        _obscureTextConfirm = !_obscureTextConfirm;
+                      });
+                    },
+                    obscureText: _obscureTextConfirm,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        // height: 10,
+                        width: 20,
+                        child: Checkbox(
+                          value: isChecked,
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          checkColor: Colors.white,
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          onChanged: (newBool) {
+                            alterChecked(newBool);
+                          },
                         ),
-                        onChanged: (newBool) {
-                          alterChecked(newBool);
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text:
+                                    'Dengan menyatakan Setuju, Anda menerima segala isi ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'Poppins',
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Syarat & Ketentuan ',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: bold,
+                                  fontFamily: 'Poppins',
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Penggunaan dan Pemberitahuan Privasi',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'Poppins',
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Container(
+                      width: 150,
+                      child: TextButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            String isSucceed = await _register();
+                            if (isSucceed == "sukses") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Registrasi Sukses!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
+                            } else if (isSucceed == "konfirmasi ulang") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Konfirmasi Ulang Password!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (isSucceed == "credential_error") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Email/No Telp Sudah Digunakan Akun Lain!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Registrasi Gagal!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            }
+                          }
                         },
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Flexible(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text:
-                                  'Dengan menyatakan Setuju, Anda menerima segala isi ',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'Poppins',
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Syarat & Ketentuan ',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: bold,
-                                fontFamily: 'Poppins',
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Penggunaan dan Pemberitahuan Privasi',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'Poppins',
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                          ],
+                        style: TextButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Center(
-                  child: Container(
-                    width: 150,
-                    child: TextButton(
-                      onPressed: () async {
-                        String isSucceed = await _register();
-                        if (isSucceed == "sukses") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Registrasi Sukses!'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
-                        } else if (isSucceed == "konfirmasi ulang") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Konfirmasi Ulang Password!'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        } else if (isSucceed == "credential_error") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Email/No Telp Sudah Digunakan Akun Lain!'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Registrasi Gagal!'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: Text(
-                        'Daftar',
-                        style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: semi,
-                          color: Colors.white,
+                        child: Text(
+                          'Daftar',
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: semi,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Sudah memiliki akun? ',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
-                      },
-                      child: Text(
-                        'Masuk',
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Sudah memiliki akun? ',
                         style: TextStyle(
                           fontSize: 12,
-                          fontWeight: bold,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
+                        child: Text(
+                          'Masuk',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
