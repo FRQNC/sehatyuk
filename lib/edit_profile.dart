@@ -204,12 +204,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                                 );
                             }
                           }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
+                        Navigator.pop(context, true);
                       },
                     ),
                   ),
