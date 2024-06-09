@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
 
 class AmbilAntrianPage extends StatefulWidget {
   // final List<dynamic> janjiTemu;
@@ -12,9 +14,9 @@ class AmbilAntrianPage extends StatefulWidget {
   final String namadokter; // Tambahkan parameter namadokter
   final String spesialisasi; // Tambahkan parameter spesialisasi
   final String harga; // Tambahkan parameter harga
-  final String foto; // Tambahkan parameter foto
+  final String id_dokter; // Tambahkan parameter id_dokter
 
-  const AmbilAntrianPage({Key? key, required this.id, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.foto}) : super(key: key);
+  const AmbilAntrianPage({Key? key, required this.id, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.id_dokter}) : super(key: key);
 
   @override
   State<AmbilAntrianPage> createState() => _AmbilAntrianPageState();
@@ -28,7 +30,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
   late String namadokter; // Simpan namadokter dalam state
   late String spesialisasi;// Simpan spesialisasidalam state
   late String harga;// Simpan hargadalam state
-  late String foto; // Simpan foto dalam state
+  late String id_dokter; // Simpan id_dokter dalam state
+
+  AuthService auth = AuthService();
+  String _token = "";
+  String _user_id = "";
   
   @override
   void initState() {
@@ -38,7 +44,16 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
     namadokter = widget.namadokter; // Inisialisasi namadokter dengan nilai yang diterima dari konstruktor
     spesialisasi = widget.spesialisasi; // Inisialisasi spesialisasi dengan nilai yang diterima dari konstruktor
     harga = widget.harga; // Inisialisasi harga dengan nilai yang diterima dari konstruktor
-    foto = widget.foto; // Inisialisasi foto dengan nilai yang diterima dari konstruktor
+    id_dokter = widget.id_dokter; // Inisialisasi foto dengan nilai yang diterima dari konstruktor
+    _fetchToken();
+  }
+
+  Future<void> _fetchToken() async {
+    // Fetch the token asynchronously
+    _token = await auth.getToken();
+    _user_id = await auth.getId();
+    // Once token is fetched, trigger a rebuild of the widget tree
+    setState(() {});
   }
 
   @override
@@ -209,13 +224,13 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
                       ],
                     ),
                     child: CircleAvatar(
-                      // backgroundImage: CachedNetworkImageProvider(
-                      //   '${Endpoint.url}dokter_image/$id_dokter',
-                      //   headers: <String, String>{
-                      //     'accept': 'application/json',
-                      //     'Authorization': 'Bearer $token',
-                      //   },
-                      // ),
+                      backgroundImage: CachedNetworkImageProvider(
+                        '${Endpoint.url}dokter_image/$id_dokter',
+                        headers: <String, String>{
+                          'accept': 'application/json',
+                          'Authorization': 'Bearer $_token',
+                        },
+                      ),
                       radius: 47.5,
                     ),
                   ),
