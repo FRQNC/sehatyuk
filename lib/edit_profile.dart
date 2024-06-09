@@ -2,42 +2,42 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
+import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
-import 'package:sehatyuk/relasi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:sehatyuk/models/relasi.dart';
-import 'package:sehatyuk/providers/relasi_provider.dart';
+import 'package:sehatyuk/models/users.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/templates/form/form_text.dart';
 import 'package:sehatyuk/templates/form/form_date.dart';
 import 'package:sehatyuk/templates/form/form_dropdown.dart';
 
-class TambahRelasiPage extends StatefulWidget {
-  const TambahRelasiPage({super.key});
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({super.key});
 
   @override
-  State<TambahRelasiPage> createState() => _TambahRelasiPageState();
+  State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
+class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
 
-  RelasiProvider relasiProvider = RelasiProvider();
+  UserProvider userProvider = UserProvider();
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController _namaLengkapController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _noBPJSController = TextEditingController();
   TextEditingController _noTelpController = TextEditingController();
   TextEditingController _alamatController = TextEditingController();
 
-  String _fotoRelasi = "";
+  String _fotoUser = "";
   String _jenisKelamin = "Laki-laki";
-  String _tipeRelasi = "Orang Tua";
 
     Future<void> _fetchToken() async {
     // Fetch the token asynchronously
@@ -47,10 +47,30 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
     setState(() {});
   }
 
+  Future<void> _fetchData() async{
+    await userProvider.fetchData();
+    setState(() {
+      _dateController.text = userProvider.userData.tanggalLahir;
+      _namaLengkapController.text = userProvider.userData.namaLengkap;
+      _emailController.text = userProvider.userData.email;
+      _noBPJSController.text = userProvider.userData.noBPJS;
+      _noTelpController.text = userProvider.userData.noTelp;
+      _alamatController.text = userProvider.userData.alamat;
+      _fotoUser = userProvider.userData.photoUrl;
+      if(userProvider.userData.gender == 'L'){
+        _jenisKelamin = "Laki-laki";
+      }
+      else if(userProvider.userData.gender == 'P'){
+        _jenisKelamin = "Perempuan";
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchToken();
+    _fetchData();
   }
 
   @override
@@ -91,24 +111,12 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                         formImageInputView(
                           inputLabel: "Foto *",
                         ),
-                        // FormText(
-                        //   inputLabel: "Nama Lengkap *",
-                        //   hintText: "Masukkan nama lengkap",
-                        //   controller: _namaLengkapController,
-                        // ),
+                        FormText(inputLabel: "Email *",
+                          hintText: "Masukkan email",
+                          controller: _emailController,),
                         FormText(inputLabel: "Nama Lengkap *",
                           hintText: "Masukkan nama lengkap",
                           controller: _namaLengkapController,),
-                        FormDropdown(
-                          inputLabel: "Hubungan dengan relasi *",
-                          value: _tipeRelasi,
-                          dropDownItems: ["Orang Tua", "Pasangan", "Saudara Kandung", "Kakek/Nenek", "Lainnya"],
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              _tipeRelasi = newValue!;
-                            });
-                          },
-                        ),
                         FormText(
                           inputLabel: "Nomor BPJS/Asuransi",
                           hintText: "Masukkan nomor BPJS/Asuransi",
@@ -160,44 +168,48 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                         if (_formkey.currentState!.validate()) {
                           _formkey.currentState!.save();
 
-                          Relasi relasi = Relasi(
-                            id_user: int.parse(_user_id),
+                           Users userUpdate = Users(
+                            id_user: _user_id,
+                            email: _emailController.text,
                             namaLengkap: _namaLengkapController.text,
                             noBPJS: _noBPJSController.text,
                             tanggalLahir: _dateController.text,
                             gender: _jenisKelamin,
                             noTelp: _noTelpController.text,
                             alamat: _alamatController.text,
-                            photoUrl: _fotoRelasi,
-                            tipe: _tipeRelasi
+                            photoUrl: _fotoUser,
                           );
 
-                          int? response = await relasiProvider.addRelasi(_token, relasi);
+                          String? response = await userProvider.updateUserProfile(userUpdate);
 
-                          if(response == 200){
+                          if(response == "success"){
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Berhasil menambah relasi')
+                                  content: Text('Berhasil memperbarui data')
                                 ),
                               );
                             }
-                          else{
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Gagal menambah relasi')
-                                ),
-                              );
+                            else if(response == "credential_error"){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Email atau No. Telp sudah digunakan')
+                                  ),
+                                );
+                            }
+                            else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Gagal memperbarui data')
+                                  ),
+                                );
+                            }
                           }
-                        }
-
-
-                        // Navigate to the RelasiPage
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const RelasiPage(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -240,7 +252,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                       await FilePicker.platform.pickFiles();
                   if (result != null) {
                     File file = File(result.files.single.path!);
-                    _fotoRelasi = p.basename(file.path);
+                    _fotoUser = p.basename(file.path);
                   } else {
                     // User canceled the picker
                   }
