@@ -27,6 +27,7 @@ class JanjiTemuProvider extends ChangeNotifier {
     );
 
     print(response.statusCode);
+    print(janji_temu.idOrangLain);
 
     if (response.statusCode == 200) {
       // login(context, user);
@@ -66,4 +67,64 @@ class JanjiTemuProvider extends ChangeNotifier {
       // Handle error sesuai dengan kebutuhan aplikasi Anda
     }
   }
+
+  Future<bool> deleteData(String token, String id) async {
+    try {
+      final url = Uri.parse('${Endpoint.url}delete_janji_temu/$id');
+      final response = await http.delete(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Jika penghapusan berhasil, kita perlu menghapus item dari daftar janji temu lokal
+        _janjiTemuList.removeWhere((janjiTemu) => janjiTemu.id.toString() == id);
+        notifyListeners(); // Memberi tahu pendengar bahwa ada perubahan pada data
+        return true; // Penghapusan berhasil
+      } else {
+        return false; // Penghapusan gagal
+      }
+    } catch (error) {
+      print('Error: $error');
+      return false; // Penghapusan gagal karena kesalahan
+      // Handle error sesuai dengan kebutuhan aplikasi Anda
+    }
+  }
+
+  Future<bool> alter_status(String token, String id) async {
+    try {
+      final url = Uri.parse('${Endpoint.url}alter_status/$id');
+      final response = await http.put(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Jika penghapusan berhasil, kita perlu menghapus item dari daftar janji temu lokal
+        final updatedJanjiTemu = JanjiTemu.fromJson(json.decode(response.body));
+      
+        // Update the status of the item in the local list
+        final index = _janjiTemuList.indexWhere((janjiTemu) => janjiTemu.id == updatedJanjiTemu.id);
+        if (index != -1) {
+          _janjiTemuList[index] = updatedJanjiTemu;
+          notifyListeners(); // Notify listeners about the data change
+        }
+        
+        return true; // Penghapusan berhasil
+      } else {
+        return false; // Penghapusan gagal
+      }
+    } catch (error) {
+      print('Error: $error');
+      return false; // Penghapusan gagal karena kesalahan
+      // Handle error sesuai dengan kebutuhan aplikasi Anda
+    }
+  }
+
 } 

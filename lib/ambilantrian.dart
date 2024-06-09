@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AmbilAntrianPage extends StatefulWidget {
-  final List<dynamic> janjiTemu;
+  // final List<dynamic> janjiTemu;
   final String id; // Tambahkan parameter id
   final String tanggal; // Tambahkan parameter tanggal
   final String namadokter; // Tambahkan parameter namadokter
@@ -13,7 +14,7 @@ class AmbilAntrianPage extends StatefulWidget {
   final String harga; // Tambahkan parameter harga
   final String foto; // Tambahkan parameter foto
 
-  const AmbilAntrianPage({Key? key, required this.janjiTemu, required this.id, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.foto}) : super(key: key);
+  const AmbilAntrianPage({Key? key, required this.id, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.foto}) : super(key: key);
 
   @override
   State<AmbilAntrianPage> createState() => _AmbilAntrianPageState();
@@ -198,11 +199,9 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white, // Atur warna latar belakang sesuai kebutuhan
-                      // borderRadius: BorderRadius.circular(10), // Atur border radius sesuai kebutuhan
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
-                          // color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 1,
                           blurRadius: 4,
                           offset: Offset(0, 3), // changes position of shadow
@@ -210,7 +209,13 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
                       ],
                     ),
                     child: CircleAvatar(
-                      backgroundImage: AssetImage(foto),
+                      // backgroundImage: CachedNetworkImageProvider(
+                      //   '${Endpoint.url}dokter_image/$id_dokter',
+                      //   headers: <String, String>{
+                      //     'accept': 'application/json',
+                      //     'Authorization': 'Bearer $token',
+                      //   },
+                      // ),
                       radius: 47.5,
                     ),
                   ),
@@ -415,26 +420,6 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
         ),
       
       ),
-      // body: SingleChildScrollView(
-      //   child: Padding(
-      //     padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
-      //     child: Column(
-      //       children: [
-      //         Stack(
-      //           alignment: Alignment.centerLeft,
-      //           children: [
-      //             // ... kode lainnya
-      //             CircleAvatar(
-      //               backgroundImage: AssetImage(foto), // Gunakan foto yang disimpan dalam state
-      //               radius: 47.5
-      //             ),
-      //           ],
-      //         ),
-      //         // ... kode lainnya
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

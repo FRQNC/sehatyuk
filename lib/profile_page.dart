@@ -52,10 +52,12 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 54.0, 20.0, 0),
+                padding: const EdgeInsets.all(24.0),
+                // padding: const EdgeInsets.fromLTRB(20.0, 54.0, 20.0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    SizedBox(height: 32),
                     Column(
                       //profile
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text("Profil",
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
-                                fontSize: 18.0,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2.4)),
                         const SizedBox(height: 20.0),

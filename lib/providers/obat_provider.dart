@@ -70,4 +70,11 @@ class ObatProvider extends ChangeNotifier {
       // Handle error sesuai dengan kebutuhan aplikasi Anda
     }
   }
+
+  List<Obat> searchObats(String query) {
+    if (query.isEmpty) {
+      return _obats;
+    }
+    return _obats.where((obat) => obat.namaObat.toLowerCase().contains(query.toLowerCase())).toList();
+  }
 }

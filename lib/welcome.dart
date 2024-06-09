@@ -62,7 +62,7 @@ class _WelcomePageState extends State<WelcomePage> with AppMixin {
               width: 150,
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
@@ -82,7 +82,7 @@ class _WelcomePageState extends State<WelcomePage> with AppMixin {
               width: 150,
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,

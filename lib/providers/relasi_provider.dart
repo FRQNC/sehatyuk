@@ -27,6 +27,7 @@ class RelasiProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
+      print(response.body);
       if (response.statusCode == 200) {
         final List<dynamic> responseData = jsonDecode(response.body);
         _relasiList = responseData.map((data) => Relasi.fromJson(data)).toList();
