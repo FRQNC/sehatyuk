@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/ambilantrian.dart';
+import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:intl/intl.dart';
@@ -61,6 +62,21 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     print(janji_temu.janjiTemuList);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pop(
+              context,
+              MaterialPageRoute(builder: (context) => CariDokterPage()),
+            );
+          },
+          child: Icon(
+            Icons.arrow_back_rounded,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(

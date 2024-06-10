@@ -43,6 +43,7 @@ flutter:
     - assets/icon/backarrow.png
     - assets/images/CariObatPage/
     - assets/images/LoadPage/
+    - assets/images/ambilAntrianPage/
   fonts:
     - family: Poppins
       fonts:
