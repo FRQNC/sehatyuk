@@ -64,18 +64,21 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => CariDokterPage()),
-            );
-          },
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+        leading: BackButton(
+          color: Theme.of(context).colorScheme.primary,
         ),
+        // leading: GestureDetector(
+        //   onTap: (){
+        //     Navigator.pop(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => CariDokterPage()),
+        //     );
+        //   },
+        //   child: Icon(
+        //     Icons.arrow_back_rounded,
+        //     color: Theme.of(context).colorScheme.primary,
+        //   ),
+        // ),
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

@@ -61,18 +61,25 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => JadwalTemuPage()),
-            );
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            Navigator.pop(context);
           },
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          color: Theme.of(context).colorScheme.primary,
         ),
+        // leading: GestureDetector(
+        //   onTap: (){
+        //     Navigator.pop(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => JadwalTemuPage()),
+        //     );
+        //   },
+        //   child: Icon(
+        //     Icons.arrow_back_rounded,
+        //     color: Theme.of(context).colorScheme.primary,
+        //   ),
+        // ),
         title: Text(
           'Ambil Nomor Antrian',
           style: TextStyle(
