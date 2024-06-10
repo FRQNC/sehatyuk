@@ -1,17 +1,17 @@
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/profile_page.dart';
-import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
-import 'package:sehatyuk/models/users.dart';
-import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/templates/form/form_text.dart';
+import 'package:sehatyuk/models/users.dart';
+import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/providers/user_provider.dart';
+import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/templates/form/form_date.dart';
 import 'package:sehatyuk/templates/form/form_dropdown.dart';
+import 'package:sehatyuk/templates/form/form_text.dart';
+import 'package:sehatyuk/main.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -21,29 +21,37 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   AuthService auth = AuthService();
-  String _token = "";
-  String _user_id = "";
-
   UserProvider userProvider = UserProvider();
 
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _namaLengkapController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _noBPJSController = TextEditingController();
-  TextEditingController _noTelpController = TextEditingController();
-  TextEditingController _alamatController = TextEditingController();
-
-  String _fotoUser = "";
+  String _token = "";
+  String _userId = "";
+  String _fotoUserNew = "";
   String _jenisKelamin = "Laki-laki";
 
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _namaLengkapController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _noBPJSController = TextEditingController();
+  final TextEditingController _noTelpController = TextEditingController();
+  final TextEditingController _alamatController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    await _fetchToken();
+    await _fetchData();
+  }
+
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
-    _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
+    _userId = await auth.getId();
     setState(() {});
   }
 
@@ -56,20 +64,9 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       _noBPJSController.text = userProvider.userData.noBPJS;
       _noTelpController.text = userProvider.userData.noTelp;
       _alamatController.text = userProvider.userData.alamat;
-      _fotoUser = userProvider.userData.photoUrl;
-      if (userProvider.userData.gender == 'L') {
-        _jenisKelamin = "Laki-laki";
-      } else if (userProvider.userData.gender == 'P') {
-        _jenisKelamin = "Perempuan";
-      }
+      _userId = userProvider.userData.id_user;
+      _jenisKelamin = userProvider.userData.gender == 'L' ? "Laki-laki" : "Perempuan";
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchToken();
-    _fetchData();
   }
 
   @override
@@ -85,7 +82,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
           color: Theme.of(context).colorScheme.primary,
         ),
         title: Text(
-          'Tambah Relasi',
+          'Edit Profil',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -104,32 +101,34 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Form(
-                    key: _formkey,
+                    key: _formKey,
                     child: Column(
                       children: [
-                        formImageInputView(
-                          inputLabel: "Foto *",
+                        formImageInputView(inputLabel: "Foto *"),
+                        FormText(
+                          inputLabel: "Email *",
+                          hintText: "Masukkan email",
+                          controller: _emailController,
+                          validator: emailValidator,
                         ),
                         FormText(
-                            inputLabel: "Email *",
-                            hintText: "Masukkan email",
-                            controller: _emailController,
-                            validator: emailValidator),
+                          inputLabel: "Nama Lengkap *",
+                          hintText: "Masukkan nama lengkap",
+                          controller: _namaLengkapController,
+                          validator: notNullValidator,
+                        ),
                         FormText(
-                            inputLabel: "Nama Lengkap *",
-                            hintText: "Masukkan nama lengkap",
-                            controller: _namaLengkapController,
-                            validator: notNullValidator),
-                        FormText(
-                            inputLabel: "Nomor BPJS/Asuransi",
-                            hintText: "Masukkan nomor BPJS/Asuransi",
-                            controller: _noBPJSController,
-                            validator: notNullValidator),
+                          inputLabel: "Nomor BPJS/Asuransi",
+                          hintText: "Masukkan nomor BPJS/Asuransi",
+                          controller: _noBPJSController,
+                          validator: notNullValidator,
+                        ),
                         FormDate(
-                            inputLabel: "Tanggal Lahir *",
-                            hintText: "Masukkan tanggal lahir",
-                            controller: _dateController,
-                            validator: notNullValidator),
+                          inputLabel: "Tanggal Lahir *",
+                          hintText: "Masukkan tanggal lahir",
+                          controller: _dateController,
+                          validator: notNullValidator,
+                        ),
                         FormDropdown(
                           inputLabel: "Jenis Kelamin *",
                           value: _jenisKelamin,
@@ -141,16 +140,18 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                           },
                         ),
                         FormText(
-                            inputLabel: "Nomor Telepon *",
-                            hintText: "Masukkan nomor telepon",
-                            keyboardType: TextInputType.phone,
-                            controller: _noTelpController,
-                            validator: phoneNumberValidator),
+                          inputLabel: "Nomor Telepon *",
+                          hintText: "Masukkan nomor telepon",
+                          keyboardType: TextInputType.phone,
+                          controller: _noTelpController,
+                          validator: phoneNumberValidator,
+                        ),
                         FormText(
-                            inputLabel: "Alamat *",
-                            hintText: "Masukkan alamat",
-                            controller: _alamatController,
-                            validator: notNullValidator),
+                          inputLabel: "Alamat *",
+                          hintText: "Masukkan alamat",
+                          controller: _alamatController,
+                          validator: notNullValidator,
+                        ),
                       ],
                     ),
                   ),
@@ -167,12 +168,11 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                       containerWidth: 160,
                       fontSize: 18,
                       onPressed: () async {
-                        // Store the values in the corresponding variables
-                        if (_formkey.currentState!.validate()) {
-                          _formkey.currentState!.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
                           Users userUpdate = Users(
-                            id_user: _user_id,
+                            id_user: _userId,
                             email: _emailController.text,
                             namaLengkap: _namaLengkapController.text,
                             noBPJS: _noBPJSController.text,
@@ -180,34 +180,31 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                             gender: _jenisKelamin,
                             noTelp: _noTelpController.text,
                             alamat: _alamatController.text,
-                            photoUrl: _fotoUser,
+                            photoUrl: p.basename(_fotoUserNew),
                           );
 
-                          String? response =
-                              await userProvider.updateUserProfile(userUpdate);
+                          String? response = await userProvider.updateUserProfile(userUpdate);
 
                           if (response == "success") {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Berhasil memperbarui data')),
+                              SnackBar(content: Text('Berhasil memperbarui data')),
                             );
                           } else if (response == "credential_error") {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Email atau No. Telp sudah digunakan')),
+                              SnackBar(content: Text('Email atau No. Telp sudah digunakan')),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Gagal memperbarui data')),
                             );
                           }
+
+                          Navigator.pop(context, true);
                         }
-                        Navigator.pop(context, true);
                       },
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
@@ -226,7 +223,6 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Teks dan container gambar di kiri
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -238,17 +234,15 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                   letterSpacing: labelLetterSpacing,
                 ),
               ),
-              SizedBox(height: 10), // Spacer
+              SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
-                  // Tambahkan Function
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                  FilePickerResult? result = await FilePicker.platform.pickFiles();
                   if (result != null) {
                     File file = File(result.files.single.path!);
-                    _fotoUser = p.basename(file.path);
-                  } else {
-                    // User canceled the picker
+                    setState(() {
+                      _fotoUserNew = file.path;
+                    });
                   }
                 },
                 child: Container(
@@ -261,13 +255,19 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Center(
-                        child: Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Color(0xFF4A707A),
+                      if(_userId.isNotEmpty)
+                        CircleAvatar(
+                          backgroundImage: 
+                          _fotoUserNew.isEmpty ?
+                          CachedNetworkImageProvider(
+                            '${Endpoint.url}user_image/$_userId',
+                            headers: <String, String>{
+                              'accept': 'application/json',
+                              'Authorization': 'Bearer $_token',
+                            },
+                          ) : FileImage(File(_fotoUserNew)) as ImageProvider,
+                          radius: 60,
                         ),
-                      ),
                       Positioned(
                         bottom: 4,
                         right: 4,
@@ -280,7 +280,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.add,
+                              Icons.camera_alt_outlined,
                               size: 20,
                               color: Colors.white,
                             ),
@@ -292,63 +292,6 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding formDropdownInputView({
-    required String inputLabel,
-    required String value,
-    required List<String> dropDownItems,
-    required void Function(String?) onChanged,
-    double labelFontSize = 14,
-    double labelLetterSpacing = 1.5,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: DropdownButtonFormField<String>(
-                value: value,
-                onChanged: onChanged,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Colors.white,
-                    filled: true),
-                items:
-                    dropDownItems.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  );
-                }).toList(),
-                dropdownColor: Colors.white,
-              ),
-            ),
           ),
         ],
       ),
