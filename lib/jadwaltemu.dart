@@ -169,7 +169,7 @@ class JadwalTemuCard extends StatelessWidget{
   Widget build(BuildContext context){
     return Container( // Tambahkan Container di sini
       margin: EdgeInsets.only(bottom: 20),
-      height: 180,
+      // height: 180,
       padding: EdgeInsets.all(10), // Atur padding sesuai kebutuhan
       decoration: BoxDecoration(
         color: Colors.white, // Atur warna latar belakang sesuai kebutuhan
@@ -183,230 +183,413 @@ class JadwalTemuCard extends StatelessWidget{
           ),
         ],
       ),
-      child: Row(
+      child: 
+      Column(
         children: [
-          Expanded(
-            flex: 7,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          Row(
+            children: [
+              Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        // ID
-                        kode_janji_temu,
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
-                      Text(
-                        ' | ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
-                      Text(
-                        // Tanggal
-                        tgl_janji_temu,
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        // Spesialisasi
-                        spesialisasi,
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Text(
-                        ' | ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Text(
-                        // Nama Dokter
-                        namaDokter,
-                        style: TextStyle(
-                          fontSize: 15,
-                          letterSpacing: 0.8,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    // nama pasien
-                    namaPasien,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: Color(0xFF94B0B7),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  // Text(
-                  //   // nomor antrian
-                  //   'Antrian ke: ${janji[5].isEmpty ? '-' : janji[5]}',
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.w500,
-                  //     fontSize: 15,
-                  //     color: Theme.of(context).colorScheme.primary,
-                  //   ),
-                  // ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        // harga
-                        'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(biaya_janji_temu))}', // formatting uang
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                      ),
-                      SizedBox(width: 32), // Spasi antara teks harga dan tombol delete
-                      GestureDetector(
-                        onTap: () async {
-                          _showCancelConfirmationDialog(context);
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                            // height: 26,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Cancel Antrian',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            // Gunakan CachedNetworkImageProvider
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                '${Endpoint.url}dokter_image/$id_dokter',
-                                headers: <String, String>{
-                                  'accept': 'application/json',
-                                  'Authorization': 'Bearer $token',
-                                },
-                              ),
-                              fit: BoxFit.cover,
+                      Row(
+                        children: [
+                          Text(
+                            // ID
+                            kode_janji_temu,
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // // Navigasi ke halaman baru
-                            //   if (janji[5].isEmpty) {
-                            //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
-                            // print("dokter: $id_dokter");
-                                Navigator.push(          
-                                  context,
-                                  MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
-                                );
-                            //   }
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            // height: 26,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Ambil Antrian',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
+                          Text(
+                            ' | ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
+                          Text(
+                            // Tanggal
+                            tgl_janji_temu,
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text(
+                            // Spesialisasi
+                            spesialisasi,
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          Text(
+                            ' | ',
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          Text(
+                            // Nama Dokter
+                            namaDokter,
+                            style: TextStyle(
+                              fontSize: 15,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        // nama pasien
+                        namaPasien,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: Color(0xFF94B0B7),
                         ),
-                      ],
-                    ),
-
-                  ],
+                      ),
+                      SizedBox(height: 10),
+                      // Text(
+                      //   // nomor antrian
+                      //   'Antrian ke: ${janji[5].isEmpty ? '-' : janji[5]}',
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.w500,
+                      //     fontSize: 15,
+                      //     color: Theme.of(context).colorScheme.primary,
+                      //   ),
+                      // ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Text(
+                            // harga
+                            'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(biaya_janji_temu))}', // formatting uang
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          SizedBox(width: 32), // Spasi antara teks harga dan tombol delete
+                          // GestureDetector(
+                          //   onTap: 
+                          //() async {
+                          //     _showCancelConfirmationDialog(context);
+                          //   },
+                          //   child: Container(
+                          //     alignment: Alignment.center,
+                          //       // height: 26,
+                          //       width: 80,
+                          //       decoration: BoxDecoration(
+                          //         // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                          //         color: Theme.of(context).colorScheme.primary,
+                          //         borderRadius: BorderRadius.circular(7),
+                          //       ),
+                          //       child: Center(
+                          //         child: Text(
+                          //           'Cancel Antrian',
+                          //           style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontSize: 13,
+                          //             fontWeight: FontWeight.w500,
+                          //           ),
+                          //           maxLines: 2,
+                          //           overflow: TextOverflow.ellipsis,
+                          //           textAlign: TextAlign.center,
+                          //         ),
+                          //       ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                // Gunakan CachedNetworkImageProvider
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                    '${Endpoint.url}dokter_image/$id_dokter',
+                                    headers: <String, String>{
+                                      'accept': 'application/json',
+                                      'Authorization': 'Bearer $token',
+                                    },
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // SizedBox(height: 15),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        //   children: [
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         // // Navigasi ke halaman baru
+                        //         //   if (janji[5].isEmpty) {
+                        //         //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
+                        //         // print("dokter: $id_dokter");
+                        //             Navigator.push(          
+                        //               context,
+                        //               MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
+                        //             );
+                        //         //   }
+                        //       },
+                        //       child: Container(
+                        //         alignment: Alignment.center,
+                        //         // height: 26,
+                        //         width: 80,
+                        //         decoration: BoxDecoration(
+                        //           // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                        //           color: Theme.of(context).colorScheme.primary,
+                        //           borderRadius: BorderRadius.circular(7),
+                        //         ),
+                        //         child: Center(
+                        //           child: Text(
+                        //             'Ambil Antrian',
+                        //             style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 13,
+                        //               fontWeight: FontWeight.w500,
+                        //             ),
+                        //             maxLines: 2,
+                        //             overflow: TextOverflow.ellipsis,
+                        //             textAlign: TextAlign.center,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+          
+                      ],
+                    ),
+                  ),
+                ),
+                // Expanded(
+                //   child: 
+                //   Padding(
+                //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                //     child: Row(children: [
+                //       GestureDetector(
+                //         onTap: () {
+                //           // // Navigasi ke halaman baru
+                //           //   if (janji[5].isEmpty) {
+                //           //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
+                //           // print("dokter: $id_dokter");
+                //               Navigator.push(          
+                //                 context,
+                //                 MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
+                //               );
+                //           //   }
+                //         },
+                //         child: Container(
+                //           alignment: Alignment.center,
+                //           // height: 26,
+                //           width: 80,
+                //           decoration: BoxDecoration(
+                //             // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                //             color: Theme.of(context).colorScheme.primary,
+                //             borderRadius: BorderRadius.circular(7),
+                //           ),
+                //           child: Center(
+                //             child: Text(
+                //               'Ambil Antrian',
+                //               style: TextStyle(
+                //                 color: Colors.white,
+                //                 fontSize: 13,
+                //                 fontWeight: FontWeight.w500,
+                //               ),
+                //               maxLines: 2,
+                //               overflow: TextOverflow.ellipsis,
+                //               textAlign: TextAlign.center,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () async {
+                //           _showCancelConfirmationDialog(context);
+                //         },
+                //         child: Container(
+                //           alignment: Alignment.center,
+                //             // height: 26,
+                //             width: 80,
+                //             decoration: BoxDecoration(
+                //               // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                //               color: Theme.of(context).colorScheme.primary,
+                //               borderRadius: BorderRadius.circular(7),
+                //             ),
+                //             child: Center(
+                //               child: Text(
+                //                 'Cancel Antrian',
+                //                 style: TextStyle(
+                //                   color: Colors.white,
+                //                   fontSize: 13,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //                 maxLines: 2,
+                //                 overflow: TextOverflow.ellipsis,
+                //                 textAlign: TextAlign.center,
+                //               ),
+                //             ),
+                //         ),
+                //       ),
+                //     ],),
+                    
+                //   )
+                // )
+            ],
+          ),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  _showCancelConfirmationDialog(context);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                    // height: 26,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Cancel Antrian',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ),
+              ),
+              SizedBox(width: 10,),
+              GestureDetector(
+                onTap: () {
+                  // // Navigasi ke halaman baru
+                  //   if (janji[5].isEmpty) {
+                  //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
+                  // print("dokter: $id_dokter");
+                      Navigator.push(          
+                        context,
+                        MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
+                      );
+                  //   }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  // height: 26,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Ambil Antrian',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+              // GestureDetector(
+              //   onTap: () async {
+              //     _showCancelConfirmationDialog(context);
+              //   },
+              //   child: Container(
+              //     alignment: Alignment.center,
+              //       // height: 26,
+              //       width: 80,
+              //       decoration: BoxDecoration(
+              //         // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+              //         color: Theme.of(context).colorScheme.primary,
+              //         borderRadius: BorderRadius.circular(7),
+              //       ),
+              //       child: Center(
+              //         child: Text(
+              //           'Bayar',
+              //           style: TextStyle(
+              //             color: Colors.white,
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w500,
+              //           ),
+              //           maxLines: 2,
+              //           overflow: TextOverflow.ellipsis,
+              //           textAlign: TextAlign.center,
+              //         ),
+              //       ),
+              //   ),
+              // ),
+              
+            ],),
+            
+          )
         ],
       ),
+      
     );
   }
   Future<void> _showCancelConfirmationDialog(BuildContext context) async {
@@ -450,4 +633,46 @@ class JadwalTemuCard extends StatelessWidget{
       },
     );
   }
+ 
+  // Future<void> _showPaymentConfirmationDialog(BuildContext context) async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         backgroundColor: Colors.white,
+  //         title: Text('Konfirmasi'),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text('Apakah Anda yakin ingin membatalkan antrian ini?'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Batal'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop(); // Tutup dialog
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text('Ya'),
+  //             onPressed: () async {
+  //               bool deleted = await context.read<JanjiTemuProvider>().deleteData(token, id_janji_temu);
+  //               if (deleted) {
+  //                 // Jika penghapusan berhasil, lakukan sesuatu, misalnya, tampilkan pesan sukses atau perbarui tampilan
+  //                 print('Pembayaran Berhasil');
+  //               } else {
+  //                 // Jika penghapusan gagal, lakukan sesuatu, misalnya, tampilkan pesan error
+  //                 print('Pembayaran Gagal');
+  //               }
+  //               Navigator.of(context).pop(); // Tutup dialog
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }

@@ -211,6 +211,25 @@ class _HomePageState extends State<HomePage> {
     CariObatPage(),
     MedicationReminderPage(),
   ];
+
+  final List<String> articles = [
+    'assets/images/homePage/a1.jpg',
+    'assets/images/homePage/a2.jpg',
+    'assets/images/homePage/a3.jpg'
+  ];
+
+  final List<String> judul = [
+    'Makanan Sehat untuk Puasa',
+    'Olahraga',
+    'Menjaga Kesehatan Jantung'
+  ];
+  
+  final List<String> deskripsi= [
+    'Temukan rekomendasi makanan sehat kaya nutrisi untuk puasa kuat dan lancar.',
+    'Temukan rekomendasi olahraga agar tubuh tetap bugar.',
+    'Jaga kesehatan jantung Anda sejak dini.'
+  ];
+  final List<String> categories = ['Makanan', 'Gaya Hidup', 'Jantung'];
   // final List<Widget> pages1 = [
   //   DaftarResumePage(),
   //   CariDokterPage(),
@@ -365,176 +384,176 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            // SizedBox(height: 20),
-            // // artikel
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     SizedBox(
-            //       width: 21,
-            //     ),
-            //     Text(
-            //       'Artikel Kesehatan',
-            //       style: TextStyle(
-            //         fontSize: 25,
-            //         fontFamily: 'Poppins',
-            //         fontWeight: FontWeight.w600,
-            //         color: Color(0xFF4A707A),
-            //         letterSpacing: 0.08,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 10),
-            // Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
-            // children: [
-            //   GestureDetector(
-            //     onTap: () {
-            //       // Navigasi ke halaman yang dituju
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(builder: (context) => CariArtikelPage()),
-            //       );
-            //     },
-            //     child: Text(
-            //       'Lihat Semua',
-            //       style: TextStyle(
-            //         fontSize: 12,
-            //         fontFamily: 'Poppins',
-            //         fontWeight: FontWeight.w500,
-            //         color: Color(0xFF4A707A),
-            //         letterSpacing: 0.05,
-            //       ),
-            //     ),
-            //   ),
-            //   SizedBox(
-            //     width: 21,
-            //   ),
-            // ],
-            // ),
-          // SizedBox(
-          //   height: 15,
-          // ),
-          // Column(
-          //   children: articles.asMap().entries.map((entry) {
-          //     String imagePath = entry.value;
-          //     int index = entry.key; // Ambil indeks gambar saat ini
-          //     return Padding(
-          //       padding: const EdgeInsets.symmetric(vertical: 5.0),
-          //       child: Column(
-          //         children: [
-          //           Row(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: [
-          //               SizedBox(width: 21),
-          //               Container(
-          //                 height: 88,
-          //                 width: 88,
-          //                 decoration: BoxDecoration(
-          //                   color: Colors.black12,
-          //                   borderRadius: BorderRadius.circular(
-          //                       5), // Tambahkan borderRadius di dalam BoxDecoration
-          //                 ),
-          //                 child: ClipRRect(
-          //                   borderRadius: BorderRadius.circular(
-          //                       5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
-          //                   child: Image.asset(
-          //                     imagePath, // Gunakan imagePath langsung
-          //                     height: 65,
-          //                     width: 65,
-          //                     fit: BoxFit.cover,
-          //                   ),
-          //                 ),
-          //               ),
-          //               SizedBox(
-          //                   width:
-          //                       15), // Tambahkan ruang horizontal di antara gambar dan teks
-          //               Expanded(
-          //                 child: Container(
-          //                   // height: 88,
-          //                   width: double
-          //                       .infinity, // Lebar container mengikuti lebar yang tersedia
-          //                   // color: Colors.amber,
-          //                   padding: EdgeInsets.all(
-          //                       20.0), // Beri padding agar teks terlihat lebih baik
-          //                   child: Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Container(
-          //                         padding: EdgeInsets.symmetric(
-          //                             horizontal: 10.0,
-          //                             vertical:
-          //                                 2.0), // Atur padding untuk kontainer kategori
-          //                         decoration: BoxDecoration(
-          //                           color: Color(
-          //                               0xFF94B0B7), // Warna latar belakang kontainer kategori
-          //                           borderRadius: BorderRadius.circular(
-          //                               15), // Atur border radius untuk kontainer kategori
-          //                         ),
-          //                         child: Text(
-          //                           '${categories[index]}',
-          //                           textAlign: TextAlign.left,
-          //                           style: TextStyle(
-          //                             fontSize: 12,
-          //                             color: Color(
-          //                                 0xFF37363B), // Warna teks kategori
-          //                             fontWeight: FontWeight.w500,
-          //                             letterSpacing: 0.05,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                       SizedBox(
-          //                           height: 4), // Spacer vertikal antara teks
-          //                       Text(
-          //                         judul[
-          //                             index], // Mengambil judul dari list berdasarkan index gambar saat ini
-          //                         style: TextStyle(
-          //                           fontSize:
-          //                               13, // Mengatur ukuran teks judul
-          //                           color: Color(0xFF37363B),
-          //                           fontWeight: FontWeight
-          //                               .w600, // Membuat teks judul menjadi tebal
-          //                           letterSpacing: 0.08,
-          //                         ),
-          //                         maxLines:
-          //                             1, // Hanya menampilkan satu baris untuk judul
-          //                         overflow: TextOverflow
-          //                             .ellipsis, // Mengatur overflow jika teks terlalu panjang
-          //                       ),
-          //                       SizedBox(
-          //                           height: 4), // Spacer vertikal antara teks
-          //                       Text(
-          //                         deskripsi[index],
-          //                         style: TextStyle(
-          //                           fontSize: 12,
-          //                         ),
-          //                         maxLines:
-          //                             2, // Hanya menampilkan dua baris untuk deskripsi
-          //                         overflow: TextOverflow
-          //                             .ellipsis, // Mengatur overflow jika teks terlalu panjang
-          //                       ),
-          //                     ],
-          //                   ),
-          //                 ),
-          //               ),
-          //               SizedBox(width: 15),
-          //             ],
-          //           ),
+            SizedBox(height: 20),
+            // artikel
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 21,
+                ),
+                Text(
+                  'Artikel Kesehatan',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4A707A),
+                    letterSpacing: 0.08,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // Navigasi ke halaman yang dituju
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CariArtikelPage()),
+                  );
+                },
+                child: Text(
+                  'Lihat Semua',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF4A707A),
+                    letterSpacing: 0.05,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 21,
+              ),
+            ],
+            ),
+          SizedBox(
+            height: 15,
+          ),
+          Column(
+            children: articles.asMap().entries.map((entry) {
+              String imagePath = entry.value;
+              int index = entry.key; // Ambil indeks gambar saat ini
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 21),
+                        Container(
+                          height: 88,
+                          width: 88,
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.circular(
+                                5), // Tambahkan borderRadius di dalam BoxDecoration
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
+                            child: Image.asset(
+                              imagePath, // Gunakan imagePath langsung
+                              height: 65,
+                              width: 65,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width:
+                                15), // Tambahkan ruang horizontal di antara gambar dan teks
+                        Expanded(
+                          child: Container(
+                            // height: 88,
+                            width: double
+                                .infinity, // Lebar container mengikuti lebar yang tersedia
+                            // color: Colors.amber,
+                            padding: EdgeInsets.all(
+                                20.0), // Beri padding agar teks terlihat lebih baik
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.0,
+                                      vertical:
+                                          2.0), // Atur padding untuk kontainer kategori
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                        0xFF94B0B7), // Warna latar belakang kontainer kategori
+                                    borderRadius: BorderRadius.circular(
+                                        15), // Atur border radius untuk kontainer kategori
+                                  ),
+                                  child: Text(
+                                    '${categories[index]}',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(
+                                          0xFF37363B), // Warna teks kategori
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 0.05,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 4), // Spacer vertikal antara teks
+                                Text(
+                                  judul[
+                                      index], // Mengambil judul dari list berdasarkan index gambar saat ini
+                                  style: TextStyle(
+                                    fontSize:
+                                        13, // Mengatur ukuran teks judul
+                                    color: Color(0xFF37363B),
+                                    fontWeight: FontWeight
+                                        .w600, // Membuat teks judul menjadi tebal
+                                    letterSpacing: 0.08,
+                                  ),
+                                  maxLines:
+                                      1, // Hanya menampilkan satu baris untuk judul
+                                  overflow: TextOverflow
+                                      .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                ),
+                                SizedBox(
+                                    height: 4), // Spacer vertikal antara teks
+                                Text(
+                                  deskripsi[index],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                  maxLines:
+                                      2, // Hanya menampilkan dua baris untuk deskripsi
+                                  overflow: TextOverflow
+                                      .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                      ],
+                    ),
 
-          //           Padding(
-          //             padding: const EdgeInsets.symmetric(
-          //                 horizontal:
-          //                     20.0), // Atur jarak horizontal dari divider
-          //             child: Divider(
-          //               color: Color(0xFFDDDDDA),
-          //             ), // Tambahkan garis divider di antara setiap item
-          //           ), // Tambahkan garis divider di antara setiap item
-          //         ],
-          //       ),
-          //     );
-          //   }).toList(),
-          // ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal:
+                              20.0), // Atur jarak horizontal dari divider
+                      child: Divider(
+                        color: Color(0xFFDDDDDA),
+                      ), // Tambahkan garis divider di antara setiap item
+                    ), // Tambahkan garis divider di antara setiap item
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
           
           ],
         ),
