@@ -186,7 +186,9 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text('Berhasil menambah relasi')),
+                                  
                             );
+                             Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Gagal menambah relasi')),
