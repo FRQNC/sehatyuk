@@ -8,7 +8,9 @@ import 'package:sehatyuk/informasiobat.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/kosong.dart';
 import 'package:sehatyuk/med_reminder.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
+import 'package:sehatyuk/route.dart';
 // import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
@@ -206,7 +208,7 @@ class _HomePageState extends State<HomePage> {
   ];
   
   final List<Widget> pages1 = [
-    CariDokterPage(),
+    RoutePage(),
     DaftarResumePage(),
     CariObatPage(),
     MedicationReminderPage(),
@@ -249,13 +251,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var user = context.watch<UserProvider>();
-
-    // if(user.userId == null && !fetched){
-    //   user.fetchData();
-    //   print(user.userId.toString()+"uuuuuuuuuuuuuuuu");
-    //   fetched = true;
-    // }
+    var route = context.watch<RouteProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -282,12 +278,23 @@ class _HomePageState extends State<HomePage> {
                 String image = entry.value;
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => pages1[entry.key],
-                      ),
-                    );
+                    if(entry.key == 0){
+                      route.pageIndex = 1;
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pages1[entry.key],
+                        ),
+                      );
+                    }
+                    else{
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => pages1[entry.key],
+                        ),
+                      );
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 6.0),

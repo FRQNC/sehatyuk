@@ -8,6 +8,7 @@ import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_as_orang_lain_provider.dart';
 import 'package:sehatyuk/providers/obat_provider.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
@@ -32,6 +33,7 @@ void main() {
             ChangeNotifierProvider(create: (context) => PengingatMinumObatProvider()),
             ChangeNotifierProvider(create: (context) => JanjiTemuAsOrangLainProvider()),
             ChangeNotifierProvider(create: (context) => RekamMedisProvider()),
+            ChangeNotifierProvider(create: (context) => RouteProvider()),
           ],
           child: const MainApp(),
         ),

@@ -5,6 +5,8 @@ import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/profile_page.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
+import 'package:provider/provider.dart';
 
 class RoutePage extends StatefulWidget {
   const RoutePage({super.key});
@@ -21,21 +23,25 @@ class _RoutePageState extends State<RoutePage> {
     ProfilePage(),
   ];
   
-  int currentPageIndex = 0;
+  // int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    var routeIdx = context.watch<RouteProvider>();
+    // currentPageIndex = context.watch<RouteProvider>().
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _pages[currentPageIndex],
+      body: _pages[routeIdx.pageIndex],
+      // body: _pages[currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
+          routeIdx.pageIndex = index;
+          // setState(() {
+          //   currentPageIndex = index;
+          // });
         },
         indicatorColor: Color(0xFF7697A0),
-        selectedIndex: currentPageIndex,
+        selectedIndex: routeIdx.pageIndex,
         destinations: const <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home),

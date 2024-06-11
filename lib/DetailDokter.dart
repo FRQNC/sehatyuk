@@ -12,6 +12,8 @@ import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/models/janji_temu.dart';
 import 'package:sehatyuk/models/relasi.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
+import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 
 import 'package:sehatyuk/auth/auth.dart';
@@ -840,6 +842,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   }
 
   _showDialogBerhasil(remainingJadwal){
+    var route = context.read<RouteProvider>();
+    
     return showDialog(
       context: context,
       builder: (context) => Column(
@@ -939,7 +943,12 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){ Navigator.pop(context); _showDialogJanji(remainingJadwal); }, buttonText: "Buat Janji", fontSize: 15),
-                            PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){ Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (context) => const JadwalTemuPage())); }, buttonText: "Cek Janji", fontSize: 15)
+                            PrimaryButton(containerWidth: MediaQuery.of(context).size.width*0.3, onPressed: (){
+                              route.pageIndex = 2;
+                              Navigator.pop(context); 
+                              Navigator.pop(context); 
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage())); 
+                            }, buttonText: "Cek Janji", fontSize: 15)
                           ],
                         )
                       ],

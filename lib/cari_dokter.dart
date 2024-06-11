@@ -50,21 +50,21 @@ class _CariDokterPageState extends State<CariDokterPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-          },
-          child: Icon(
-            Icons.arrow_back_rounded,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   leading: GestureDetector(
+      //     onTap: (){
+      //       Navigator.pop(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => HomePage()),
+      //       );
+      //     },
+      //     child: Icon(
+      //       Icons.arrow_back_rounded,
+      //       color: Theme.of(context).colorScheme.primary,
+      //     ),
+      //   ),
+      // ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(

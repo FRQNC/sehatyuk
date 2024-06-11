@@ -9,10 +9,13 @@ import 'package:sehatyuk/models/janji_temu.dart';
 import 'package:sehatyuk/models/janji_temu_as_orang_lain.dart';
 import 'package:sehatyuk/providers/janji_temu_as_orang_lain_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
+import 'package:sehatyuk/route.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/templates/form/form_dropdown.dart';
 import 'package:sehatyuk/templates/form/form_text.dart';
 import 'package:sehatyuk/templates/form/form_date.dart';
+import 'package:provider/provider.dart';
 
 class BuatJanjiOtherPage extends StatefulWidget {
   final Doctor doctor;
@@ -244,6 +247,7 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
                           bool isSucceed = await createJanjiTemu(context);
                           if (isSucceed) {
                             // Navigator.pop(context);
+                            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                             _showDialogBerhasil();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -267,6 +271,8 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
   }
 
   _showDialogBerhasil() {
+    var route = context.read<RouteProvider>();
+    
     return showDialog(
         context: context,
         builder: (context) => Column(
@@ -384,12 +390,15 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
                                           MediaQuery.of(context).size.width *
                                               0.3,
                                       onPressed: () {
+                                        route.pageIndex = 2;
                                         Navigator.pop(context);
-                                        Navigator.push(
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const JadwalTemuPage()));
+                                                    const RoutePage()));
                                       },
                                       buttonText: "Cek Janji",
                                       fontSize: 15)
