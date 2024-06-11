@@ -12,7 +12,7 @@ class CariArtikelPage extends StatefulWidget {
   State<CariArtikelPage> createState() => _CariArtikelPageState();
 }
 
-class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
+class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin {
   final List<String> articles = [
     'assets/images/homePage/a1.jpg',
     'assets/images/homePage/a2.jpg',
@@ -24,8 +24,8 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
     'Olahraga',
     'Menjaga Kesehatan Jantung'
   ];
-  
-  final List<String> deskripsi= [
+
+  final List<String> deskripsi = [
     'Temukan rekomendasi makanan sehat kaya nutrisi untuk puasa kuat dan lancar.',
     'Temukan rekomendasi olahraga agar tubuh tetap bugar.',
     'Jaga kesehatan jantung Anda sejak dini.'
@@ -38,7 +38,7 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pop(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
@@ -78,7 +78,8 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                 TextField(
                   decoration: InputDecoration(
                     hintText: 'Cari Artikel',
-                    suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+                    suffixIcon: Icon(Icons.search,
+                        color: Theme.of(context).colorScheme.primary),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF94B0B7),
@@ -86,24 +87,24 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    enabledBorder: OutlineInputBorder( // Garis batas ketika TextField tidak dalam keadaan terfokus
+                    enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF94B0B7),
                         width: 2.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    focusedBorder: OutlineInputBorder( // Garis batas ketika TextField dalam keadaan terfokus
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, // Menggunakan warna utama tema saat dalam keadaan terfokus
+                        color: Theme.of(context).colorScheme.primary,
                         width: 2.0,
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     hintStyle: TextStyle(
                       fontSize: 10,
-                      // fontWeight: FontWeight.w400,
                       color: Color(0xFFC2C8C5),
                     ),
                   ),
@@ -116,19 +117,19 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 80), // Set maximum width for the button
+                          constraints: BoxConstraints(maxWidth: 80),
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Tambahkan fungsi untuk menangani ketika tombol "Filter" ditekan di sini
-                            },
+                            onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero, backgroundColor: Color(0xFFF5F5F5), // Set background color to F5F5F5
+                              padding: EdgeInsets.zero,
+                              backgroundColor: Color(0xFFF5F5F5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
                               child: Row(
                                 children: [
                                   Text(
@@ -139,8 +140,11 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                                       color: Color(0xFF37363B),
                                     ),
                                   ),
-                                  Spacer(), // Spacer untuk menjaga jarak antara teks dan ikon
-                                  Icon(Icons.tune, color: Theme.of(context).colorScheme.primary), // Add tune icon
+                                  Spacer(),
+                                  Icon(Icons.tune,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                                 ],
                               ),
                             ),
@@ -152,77 +156,71 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                     Column(
                       children: articles.asMap().entries.map((entry) {
                         String imagePath = entry.value;
-                        int index = entry.key; // Ambil indeks gambar saat ini
+                        int index = entry.key;
                         return Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 88, width: 88, // ganti jadi responsif
+                                  height: 88,
+                                  width: 88,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
+                                    borderRadius: BorderRadius.circular(5),
                                     child: Image.asset(
-                                      imagePath, // Gunakan imagePath langsung
+                                      imagePath,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                    width:15), // Tambahkan ruang horizontal di antara gambar dan teks
+                                SizedBox(width: 15),
                                 Expanded(
                                   child: Container(
-                                    // height: 88,
-                                    width: double.infinity, // Lebar container mengikuti lebar yang tersedia
-                                    // color: Colors.amber,
-                                    padding: EdgeInsets.all(20.0), // Beri padding agar teks terlihat lebih baik
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(20.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical:2.0), // Atur padding untuk kontainer kategori
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.0, vertical: 2.0),
                                           decoration: BoxDecoration(
-                                            color: Color( 0xFF94B0B7), // Warna latar belakang kontainer kategori
-                                            borderRadius: BorderRadius.circular( 15), // Atur border radius untuk kontainer kategori
+                                            color: Color(0xFF94B0B7),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
                                           child: Text(
                                             '${categories[index]}',
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Color(   0xFF37363B), // Warna teks kategori
+                                              color: Color(0xFF37363B),
                                               fontWeight: FontWeight.w500,
                                               letterSpacing: 0.05,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                            height: 4), // Spacer vertikal antara teks
+                                        SizedBox(height: 4),
                                         Text(
-                                          judul[
-                                              index], // Mengambil judul dari list berdasarkan index gambar saat ini
+                                          judul[index],
                                           style: TextStyle(
-                                            fontSize:13, // Mengatur ukuran teks judul
+                                            fontSize: 13,
                                             color: Color(0xFF37363B),
-                                            fontWeight: FontWeight.w600, // Membuat teks judul menjadi tebal
+                                            fontWeight: FontWeight.w600,
                                             letterSpacing: 0.08,
                                           ),
-                                          maxLines:
-                                              1, // Hanya menampilkan satu baris untuk judul
-                                          overflow: TextOverflow
-                                              .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        SizedBox(
-                                            height: 4), // Spacer vertikal antara teks
+                                        SizedBox(height: 4),
                                         Text(
                                           deskripsi[index],
                                           style: TextStyle(
                                             fontSize: 12,
                                           ),
-                                          maxLines:
-                                              2, // Hanya menampilkan dua baris untuk deskripsi
-                                          overflow: TextOverflow
-                                              .ellipsis, // Mengatur overflow jika teks terlalu panjang
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),
@@ -230,26 +228,19 @@ class _CariArtikelPageState extends State<CariArtikelPage> with AppMixin{
                                 ),
                               ],
                             ),
-                                  
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal:
-                                      0), // Atur jarak horizontal dari divider
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 0),
                               child: Divider(
                                 color: Color(0xFFDDDDDA),
-                              ), // Tambahkan garis divider di antara setiap item
-                            ), // Tambahkan garis divider di antara setiap item
+                              ),
+                            ),
                           ],
                         );
                       }).toList(),
                     ),
-                    
-                      
-                    
-                    
                   ],
                 ),
-                
               ],
             ),
           ),

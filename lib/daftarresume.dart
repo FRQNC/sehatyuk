@@ -17,6 +17,7 @@ class DaftarResumePage extends StatefulWidget {
 class _DaftarResumePageState extends State<DaftarResumePage> {
   String _token = "";
   String _userId = "";
+  String _searchQuery = "";
 
   @override
   void initState() {
@@ -28,16 +29,12 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
     AuthService auth = AuthService();
     _token = await auth.getToken();
     _userId = await auth.getId();
-
-    // Fetch data using the provider
     await Provider.of<RekamMedisProvider>(context, listen: false)
         .fetchRekamMedisByUser(_token, int.parse(_userId));
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -63,6 +60,20 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
           if (rekamMedisProvider.rekamMedisList.isEmpty) {
             return Center(child: Text('Tidak ada rekam medis.'));
           }
+
+          var filteredList = rekamMedisProvider.rekamMedisList.where((rekamMedis) {
+            var nama;
+            if (rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] != 0) {
+              nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]
+                  ["nama_lengkap_orang_lain"];
+            } else {
+              nama = (rekamMedis.janjiTemu["is_relasi"] == 1
+                  ? rekamMedis.janjiTemu["relasi"]["nama_lengkap_relasi"]
+                  : rekamMedis.janjiTemu["user"]["nama_lengkap_user"]);
+            }
+
+            return nama.toLowerCase().contains(_searchQuery.toLowerCase());
+          }).toList();
 
           return SingleChildScrollView(
             child: Padding(
@@ -94,6 +105,11 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                     margin: EdgeInsets.only(
                         top: 30.0, left: 10.0, right: 10.0, bottom: 20),
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xFFF5F5F5),
@@ -115,69 +131,37 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Filter',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12.0,
-                              color: Color(0xFF37363B),
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Icon(Icons.tune,
-                              color: Theme.of(context).colorScheme.primary),
-                        ],
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFFF5F5F5)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Color(0xFF94B0B7)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: rekamMedisProvider.rekamMedisList.length,
+                    itemCount: filteredList.length,
                     itemBuilder: (context, index) {
-                      final rekamMedis =
-                          rekamMedisProvider.rekamMedisList[index];
+                      final rekamMedis = filteredList[index];
 
                       var nama;
-                      if(rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] != 0){
-                        nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]["nama_lengkap_orang_lain"];
-                      }
-                      else{
-                        nama = (rekamMedis.janjiTemu["is_relasi"] == 1 ? rekamMedis.janjiTemu["relasi"]["nama_lengkap_relasi"] : rekamMedis.janjiTemu["user"]["nama_lengkap_user"]);
+                      if (rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] !=
+                          0) {
+                        nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]
+                            ["nama_lengkap_orang_lain"];
+                      } else {
+                        nama = (rekamMedis.janjiTemu["is_relasi"] == 1
+                            ? rekamMedis.janjiTemu["relasi"]
+                                ["nama_lengkap_relasi"]
+                            : rekamMedis.janjiTemu["user"]
+                                ["nama_lengkap_user"]);
                       }
                       return ListItem(
                         Tanggal:
-                            rekamMedis.janjiTemu["tgl_janji_temu"].toString(), 
-                        Spesialis:
-                            rekamMedis.janjiTemu["dokter"]["spesialisasi_dokter"],// rekamMedis.janjiTemu["spesialisasi_dokter"],
-                        Dokter:
-                            rekamMedis.janjiTemu["dokter"]["nama_lengkap_dokter"],// rekamMedis.janjiTemu["nama_lengkap_dokter"], 
-                        Pasien:
-                            nama,// rekamMedis.janjiTemu["nama_lengkap_user"], 
+                            rekamMedis.janjiTemu["tgl_janji_temu"].toString(),
+                        Spesialis: rekamMedis.janjiTemu["dokter"]
+                            ["spesialisasi_dokter"],
+                        Dokter: rekamMedis.janjiTemu["dokter"]
+                            ["nama_lengkap_dokter"],
+                        Pasien: nama,
                         Harga:
-                            rekamMedis.janjiTemu["biaya_janji_temu"].toString(),// rekamMedis.janjiTemu["biaya_janji_temu"], 
-                        Detail:
-                            rekamMedis,
+                            rekamMedis.janjiTemu["biaya_janji_temu"].toString(),
+                        Detail: rekamMedis,
                       );
                     },
                   ),
@@ -343,18 +327,22 @@ class ListItem extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResumeMedisPage(detail: Detail,),
+                                  builder: (context) => ResumeMedisPage(
+                                    detail: Detail,
+                                  ),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
-                              minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              minimumSize: Size(64, 24),
                               textStyle: TextStyle(
-                                fontSize: 12, // Mengatur ukuran teks
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
-                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
                             ),
                             child: Text(
                               'Detail',

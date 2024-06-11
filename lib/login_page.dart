@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with AppMixin{
+class _LoginPageState extends State<LoginPage> with AppMixin {
   double sideMargin = 20;
   bool isPhone = true;
   bool _obscureText = true;
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
     }
   }
 
-  void alterPage(){
+  void alterPage() {
     setState(() {
       isPhone = !isPhone;
       print('$isPhone');
@@ -71,7 +71,8 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
           backgroundColor: Colors.white,
           leading: GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WelcomePage()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const WelcomePage()));
             },
             child: Icon(
               Icons.arrow_back_rounded,
@@ -81,7 +82,8 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
+            padding:
+                EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -98,28 +100,29 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                   children: [
                     Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5 - sideMargin,
-                        height: 40,
+                        width: MediaQuery.of(context).size.width * 0.5 -
+                            sideMargin,
+                        height: 35,
                         child: TextButton(
                           onPressed: () {
-                            if(!isPhone){
+                            if (!isPhone) {
                               alterPage();
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0),
-                              )
-                            )
-                          ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(5.0),
+                            topRight: Radius.circular(5.0),
+                          ))),
                           child: Text(
                             'Nomor Telepon',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: semi,
-                              color: isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                              color: isPhone
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ),
@@ -127,28 +130,29 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                     Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5 - sideMargin,
-                        height: 40,
+                        width: MediaQuery.of(context).size.width * 0.5 -
+                            sideMargin,
+                        height: 35,
                         child: TextButton(
                           onPressed: () {
-                            if(isPhone){
+                            if (isPhone) {
                               alterPage();
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5.0),
-                                topRight: Radius.circular(5.0),
-                              )
-                            )
-                          ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(5.0),
+                            topRight: Radius.circular(5.0),
+                          ))),
                           child: Text(
                             'Email',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: semi,
-                              color: !isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                              color: !isPhone
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.secondary,
                             ),
                           ),
                         ),
@@ -156,7 +160,6 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                   ],
                 ),
-                // SizedBox(height: 10,),
                 Row(
                   children: [
                     Expanded(
@@ -167,7 +170,9 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                             topLeft: Radius.circular(100.0),
                             bottomLeft: Radius.circular(100.0),
                           ),
-                          color: isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                          color: isPhone
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
@@ -179,13 +184,17 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                             topRight: Radius.circular(100.0),
                             bottomRight: Radius.circular(100.0),
                           ),
-                          color: !isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                          color: !isPhone
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
                   isPhone ? 'Nomor Telepon *' : 'Email *',
                   style: TextStyle(
@@ -193,14 +202,17 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                SizedBox(height: 7,),
+                SizedBox(
+                  height: 7,
+                ),
                 Visibility(
                   visible: isPhone,
                   child: Container(
                     height: 35.0,
-                    width: MediaQuery.of(context).size.width - 2*sideMargin,
+                    width: MediaQuery.of(context).size.width - 2 * sideMargin,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).colorScheme.tertiary),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.tertiary),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Padding(
@@ -209,7 +221,9 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         controller: _identifierController,
                         cursorWidth: 1.0,
                         keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly,],
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.zero,
@@ -223,7 +237,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         style: TextStyle(
                           fontSize: 14,
                         ),
-                      ), 
+                      ),
                     ),
                   ),
                 ),
@@ -231,9 +245,10 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                   visible: !isPhone,
                   child: Container(
                     height: 35.0,
-                    width: MediaQuery.of(context).size.width - 2*sideMargin,
+                    width: MediaQuery.of(context).size.width - 2 * sideMargin,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).colorScheme.tertiary),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.tertiary),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: Padding(
@@ -254,11 +269,13 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         style: TextStyle(
                           fontSize: 14,
                         ),
-                      ), 
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(height: 15,),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
                   'Masukkan Password *',
                   style: TextStyle(
@@ -266,12 +283,15 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                SizedBox(height: 7,),
+                SizedBox(
+                  height: 7,
+                ),
                 Container(
                   height: 35.0,
-                  width: MediaQuery.of(context).size.width - 2*sideMargin,
+                  width: MediaQuery.of(context).size.width - 2 * sideMargin,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).colorScheme.tertiary),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.tertiary),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   child: Padding(
@@ -296,7 +316,8 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                             });
                           },
                           child: Image(
-                            image: AssetImage('assets/images/authenticationPage/eye_icon_unlocked.png'),
+                            image: AssetImage(
+                                'assets/images/authenticationPage/eye_icon_unlocked.png'),
                           ),
                         ),
                       ),
@@ -306,43 +327,46 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'Lupa password?',
                   style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.primary,
-                    fontWeight: bold,  
+                    fontWeight: bold,
                   ),
                 ),
-                SizedBox(height: 40,),
+                SizedBox(
+                  height: 40,
+                ),
                 Center(
                   child: Container(
                     width: 150,
                     child: TextButton(
                       onPressed: () async {
                         String isSucceed;
-                        if(isPhone) isSucceed = await _loginPhone();
-                        else isSucceed = await _loginEmail();
+                        if (isPhone)
+                          isSucceed = await _loginPhone();
+                        else
+                          isSucceed = await _loginEmail();
 
-                        if(isSucceed == "sukses"){
+                        if (isSucceed == "sukses") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Login Sukses!'),
                               duration: Duration(seconds: 1),
                             ),
                           );
-                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
-                        } 
-                        else if(isSucceed == "credential_error"){
+                        } else if (isSucceed == "credential_error") {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Email/No Telp/Password Salah!'),
                               duration: Duration(seconds: 1),
                             ),
                           );
-                        }
-                        else {
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Login Gagal!'),
@@ -365,7 +389,9 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                   ),
                 ),
-                SizedBox(height: 3,),
+                SizedBox(
+                  height: 3,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -378,7 +404,10 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignUpPage()));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUpPage()));
                       },
                       child: Text(
                         'Daftar',

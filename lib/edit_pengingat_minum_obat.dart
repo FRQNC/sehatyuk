@@ -9,8 +9,7 @@ class EditPengingatObat extends StatefulWidget {
   State<EditPengingatObat> createState() => _EditPengingatObatState();
 }
 
-class _EditPengingatObatState extends State<EditPengingatObat>
-    with AppMixin {
+class _EditPengingatObatState extends State<EditPengingatObat> with AppMixin {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -165,7 +164,6 @@ class _EditPengingatObatState extends State<EditPengingatObat>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Teks dan container gambar di kiri
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -177,17 +175,15 @@ class _EditPengingatObatState extends State<EditPengingatObat>
                   letterSpacing: labelLetterSpacing,
                 ),
               ),
-              SizedBox(height: 10), // Spacer
+              SizedBox(height: 10),
               GestureDetector(
-                onTap: () {
-                  // Tambahkan Function
-                },
+                onTap: () {},
                 child: Container(
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey.withOpacity(0.5), // Placeholder color
+                    color: Colors.grey.withOpacity(0.5),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
@@ -238,8 +234,8 @@ class _EditPengingatObatState extends State<EditPengingatObat>
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: Theme.of(context).colorScheme.primary),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.primary),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: DropdownButtonFormField<String>(
@@ -250,7 +246,7 @@ class _EditPengingatObatState extends State<EditPengingatObat>
                   ),
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    fontSize: 12, // Adjust as needed
+                    fontSize: 12,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
@@ -263,7 +259,6 @@ class _EditPengingatObatState extends State<EditPengingatObat>
                     child: Text(value),
                   );
                 }).toList(),
-                
               ),
             ),
           ),
@@ -272,5 +267,3 @@ class _EditPengingatObatState extends State<EditPengingatObat>
     );
   }
 }
-
-

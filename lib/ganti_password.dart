@@ -138,35 +138,38 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            if (_newPasswordController.text == _confirmPasswordController.text) {
-                              String result = await Provider.of<UserProvider>(context, listen: false).updateUserPassword(_oldPasswordController.text,_newPasswordController.text);
-                              if(result == "success"){
+                            if (_newPasswordController.text ==
+                                _confirmPasswordController.text) {
+                              String result = await Provider.of<UserProvider>(
+                                      context,
+                                      listen: false)
+                                  .updateUserPassword(
+                                      _oldPasswordController.text,
+                                      _newPasswordController.text);
+                              if (result == "success") {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text('Berhasil mengganti password!')
-                                  ),
+                                      content:
+                                          Text('Berhasil mengganti password!')),
                                 );
                                 Navigator.pop(context);
-                              }
-                              else if(result == "wrong_password"){
+                              } else if (result == "wrong_password") {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text('Password lama salah!')
-                                  ),
+                                      content: Text('Password lama salah!')),
                                 );
-                              }
-                              else{
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text('Gagal mengganti password')
-                                  ),
+                                      content:
+                                          Text('Gagal mengganti password')),
                                 );
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                    content: Text('Konfirmasi password tidak cocok')
-                                ),
+                                    content: Text(
+                                        'Konfirmasi password tidak cocok')),
                               );
                             }
                           }

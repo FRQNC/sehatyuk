@@ -19,7 +19,6 @@ class RelasiPage extends StatefulWidget {
 }
 
 class _RelasiPageState extends State<RelasiPage> with AppMixin {
-
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
@@ -31,10 +30,8 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
     await context.read<RelasiProvider>().fetchData(_user_id, _token);
   }
@@ -93,15 +90,14 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            //Med item card
                             ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: relasiList.length,
-                              itemBuilder: (context, index){
-                                return relasiItemView(relasiList[index], _token);
-                              }
-                            )
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: relasiList.length,
+                                itemBuilder: (context, index) {
+                                  return relasiItemView(
+                                      relasiList[index], _token);
+                                })
                           ],
                         ),
                       )
@@ -116,7 +112,11 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                               buttonText: "Tambah",
                               containerWidth: 160,
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const TambahRelasiPage()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TambahRelasiPage()));
                               },
                               fontSize: 15),
                         ),
@@ -147,7 +147,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 1,
                 blurRadius: 4,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: Offset(0, 3),
               ),
             ],
           ),
@@ -160,49 +160,49 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      flex: 5,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            relasiInfo.namaLengkap,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 14,
-                                fontWeight:FontWeight.w600,
-                                letterSpacing: 1.9),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            relasiInfo.tipe,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontSize: 12,
-                                fontWeight:FontWeight.w500,
-                                letterSpacing: 1.9),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      )
-                    ),
+                        flex: 5,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              relasiInfo.namaLengkap,
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.9),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              relasiInfo.tipe,
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.9),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        )),
                     Container(
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors.grey.withOpacity(0.5), // Warna border
-                          width: 0, // Lebar border
+                          color: Colors.grey.withOpacity(0.5),
+                          width: 0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
                         image: DecorationImage(
                           image: CachedNetworkImageProvider(
                             '${Endpoint.url}relasi_image/${relasiInfo.id_relasi}',
                             headers: <String, String>{
-                                'accept': 'application/json',
-                                'Authorization': 'Bearer $token',
-                              },
-                            ),
+                              'accept': 'application/json',
+                              'Authorization': 'Bearer $token',
+                            },
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),

@@ -13,8 +13,6 @@ import 'package:sehatyuk/templates/form/form_dropdown.dart';
 import 'package:sehatyuk/templates/form/form_text.dart';
 
 class TambahPengingatObat extends StatefulWidget {
-  // const TambahPengingatObat({super.key});
-
   final Obat obat;
   const TambahPengingatObat({Key? key, required this.obat}) : super(key: key);
 
@@ -29,10 +27,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
-  // String poli = "";
-  // String nama_dokter = "";
-  // TextEditingController _poliController = TextEditingController();
-  // TextEditingController _namaDokterController = TextEditingController();
   TextEditingController _namaObatController = TextEditingController();
   String nama_obat = "";
 
@@ -45,10 +39,8 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
   }
 
@@ -68,8 +60,10 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   TextEditingController _dateController = TextEditingController();
   TextEditingController _dosisController = TextEditingController();
   TextEditingController _sendokController = TextEditingController(text: "sdm");
-  TextEditingController _jadwalController = TextEditingController(text: "Sehari");
-  TextEditingController _aturanController = TextEditingController(text: "Sebelum makan");
+  TextEditingController _jadwalController =
+      TextEditingController(text: "Sehari");
+  TextEditingController _aturanController =
+      TextEditingController(text: "Sebelum makan");
 
   String _selectedValueDosis = "";
   String _selectedValuePeriode = "";
@@ -79,7 +73,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
 
   PengingatMinumObatProvider pengingat = PengingatMinumObatProvider();
 
-  Future<bool> createData() async{
+  Future<bool> createData() async {
     int idObat = widget.obat.idObat;
     int idUser = int.parse(_user_id);
     int dosis = int.parse(_dosisController.text);
@@ -87,20 +81,18 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
     String jadwal = _jadwalController.text;
     String aturan = _aturanController.text;
 
-
     PengingatMinumObat newData = PengingatMinumObat(
-      idObat: idObat,
-      idUser: idUser,
-      dosis: dosis,
-      sendok: sendok,
-      jadwal: jadwal,
-      aturan: aturan,
-      obat: {},
-      user: {}
-    );
+        idObat: idObat,
+        idUser: idUser,
+        dosis: dosis,
+        sendok: sendok,
+        jadwal: jadwal,
+        aturan: aturan,
+        obat: {},
+        user: {});
 
     bool isSucceed = await pengingat.createPengingatMinumObat(_token, newData);
-    
+
     return isSucceed;
   }
 
@@ -167,7 +159,12 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                           FormDropdown(
                             inputLabel: "Jadwal *",
                             value: _jadwalController.text,
-                            dropDownItems: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
+                            dropDownItems: [
+                              "Sehari",
+                              "Dua Hari",
+                              "Tiga Hari",
+                              "Seminggu"
+                            ],
                             onChanged: (String? newValue) {
                               setState(() {
                                 _jadwalController.text = newValue!;
@@ -184,97 +181,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                               });
                             },
                           ),
-                          // TextFormField(
-                          //   decoration: InputDecoration(
-                          //     labelText: "Nama Obat *",
-                          //     hintText: widget.obat.namaObat,
-                          //     border: OutlineInputBorder(), // Border default
-                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                          //     ),
-                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
-                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                          //     ),
-                          //   ),
-                          //   // initialValue: _selectedValuePeriode,
-                          //   // onChanged: (newValue) {
-                          //   //   setState(() {
-                          //   //     _selectedValuePeriode = newValue;
-                          //   //   });
-                          //   // },
-                          // ),
-                          // TextFormField(
-                          //   decoration: InputDecoration(
-                          //     labelText: "Dosis *",
-                          //     hintText: "Masukkan dosis (angka)",
-                          //     border: OutlineInputBorder(), // Border default
-                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                          //     ),
-                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
-                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                          //     ),
-                          //   ),
-                          //   keyboardType: TextInputType.number,
-                          //   initialValue: _selectedValuePeriode,
-                          //   onChanged: (newValue) {
-                          //     setState(() {
-                          //       _selectedValuePeriode = newValue;
-                          //     });
-                          //   },
-                          // ),
-                          // formDropdownInputView(
-                          //   inputLabel: "Sendok *",
-                          //   hintText: "Pilih",
-                          //   items: ["sdm", "sdt"],
-                          //   selectedValue: _selectedValueDosis,
-                          //   onChanged: (newValue) {
-                          //     setState(() {
-                          //       _selectedValueDosis = newValue!;
-                          //     });
-                          //   },
-                          // ),
-                          // formDropdownInputView(
-                          //   inputLabel: "Jadwal *",
-                          //   hintText: "Pilih",
-                          //   items: ["Sehari", "Dua Hari", "Tiga Hari", "Seminggu"],
-                          //   selectedValue: _selectedValuePeriode,
-                          //   onChanged: (newValue) {
-                          //     setState(() {
-                          //       _selectedValuePeriode = newValue!;
-                          //     });
-                          //   },
-                          // ),
-                          // formDropdownInputView(
-                          //   inputLabel: "Aturan Minum *",
-                          //   hintText: "Pilih",
-                          //   items: ["Sebelum makan", "Setelah Makan"],
-                          //   selectedValue: _selectedValueAturanMinum,
-                          //   onChanged: (newValue) {
-                          //     setState(() {
-                          //       _selectedValueAturanMinum = newValue!;
-                          //     });
-                          //   },
-                          // ),
-                          // TextFormField(
-                          //   decoration: InputDecoration(
-                          //     labelText: "Aturan *",
-                          //     hintText: "Aturan",
-                          //     border: OutlineInputBorder(), // Border default
-                          //     enabledBorder: OutlineInputBorder( // Border ketika tidak fokus
-                          //       borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                          //     ),
-                          //     focusedBorder: OutlineInputBorder( // Border ketika fokus
-                          //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                          //     ),
-                          //   ),
-                          //   initialValue: _selectedValuePeriode,
-                          //   onChanged: (newValue) {
-                          //     setState(() {
-                          //       _selectedValuePeriode = newValue;
-                          //     });
-                          //   },
-                          // ),
                         ],
                       ),
                     ),
@@ -292,7 +198,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                         fontSize: 18,
                         onPressed: () async {
                           bool isSucceed = await createData();
-                          if(isSucceed){
+                          if (isSucceed) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Berhasil Membuat Pengingat!'),
@@ -303,11 +209,12 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                               return count++ == 3;
                             });
                             Navigator.push(
-                              context, 
-                              MaterialPageRoute(builder: (context) => MedicationReminderPage()),
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MedicationReminderPage()),
                             );
-                          }
-                          else{
+                          } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Gagal Membuat Pengingat!'),
@@ -315,7 +222,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                               ),
                             );
                           }
-                          // Navigator.popUntil(context, MaterialPageRoute(builder: (context) => const MedicationReminderPage()));
                         },
                       ),
                     ),
@@ -339,7 +245,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Teks dan container gambar di kiri
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -351,24 +256,23 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                   letterSpacing: labelLetterSpacing,
                 ),
               ),
-              SizedBox(height: 10), // Spacer
+              SizedBox(height: 10),
               GestureDetector(
-                onTap: () {
-                  // Tambahkan Function
-                },
+                onTap: () {},
                 child: Container(
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey.withOpacity(0.5), // Placeholder color
+                    color: Colors.grey.withOpacity(0.5),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: '${Endpoint.url}obat_image/${widget.obat.idObat}',
+                          imageUrl:
+                              '${Endpoint.url}obat_image/${widget.obat.idObat}',
                           httpHeaders: <String, String>{
                             'accept': 'application/json',
                             'Authorization': 'Bearer $_token',
@@ -413,8 +317,8 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: Theme.of(context).colorScheme.primary),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.primary),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: DropdownButtonFormField<String>(
@@ -425,7 +329,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                   ),
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    fontSize: 12, // Adjust as needed
+                    fontSize: 12,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
@@ -438,7 +342,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                     child: Text(value),
                   );
                 }).toList(),
-                
               ),
             ),
           ),
@@ -447,5 +350,3 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
     );
   }
 }
-
-

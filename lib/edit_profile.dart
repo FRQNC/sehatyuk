@@ -65,7 +65,8 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       _noTelpController.text = userProvider.userData.noTelp;
       _alamatController.text = userProvider.userData.alamat;
       _userId = userProvider.userData.id_user;
-      _jenisKelamin = userProvider.userData.gender == 'L' ? "Laki-laki" : "Perempuan";
+      _jenisKelamin =
+          userProvider.userData.gender == 'L' ? "Laki-laki" : "Perempuan";
     });
   }
 
@@ -183,15 +184,19 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                             photoUrl: p.basename(_fotoUserNew),
                           );
 
-                          String? response = await userProvider.updateUserProfile(userUpdate);
+                          String? response =
+                              await userProvider.updateUserProfile(userUpdate);
 
                           if (response == "success") {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Berhasil memperbarui data')),
+                              SnackBar(
+                                  content: Text('Berhasil memperbarui data')),
                             );
                           } else if (response == "credential_error") {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Email atau No. Telp sudah digunakan')),
+                              SnackBar(
+                                  content: Text(
+                                      'Email atau No. Telp sudah digunakan')),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -237,7 +242,8 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
               SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
-                  FilePickerResult? result = await FilePicker.platform.pickFiles();
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles();
                   if (result != null) {
                     File file = File(result.files.single.path!);
                     setState(() {
@@ -250,22 +256,22 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey.withOpacity(0.5), // Placeholder color
+                    color: Colors.grey.withOpacity(0.5),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      if(_userId.isNotEmpty)
+                      if (_userId.isNotEmpty)
                         CircleAvatar(
-                          backgroundImage: 
-                          _fotoUserNew.isEmpty ?
-                          CachedNetworkImageProvider(
-                            '${Endpoint.url}user_image/$_userId',
-                            headers: <String, String>{
-                              'accept': 'application/json',
-                              'Authorization': 'Bearer $_token',
-                            },
-                          ) : FileImage(File(_fotoUserNew)) as ImageProvider,
+                          backgroundImage: _fotoUserNew.isEmpty
+                              ? CachedNetworkImageProvider(
+                                  '${Endpoint.url}user_image/$_userId',
+                                  headers: <String, String>{
+                                    'accept': 'application/json',
+                                    'Authorization': 'Bearer $_token',
+                                  },
+                                )
+                              : FileImage(File(_fotoUserNew)) as ImageProvider,
                           radius: 60,
                         ),
                       Positioned(

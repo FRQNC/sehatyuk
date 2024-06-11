@@ -49,10 +49,8 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
   }
 
@@ -71,8 +69,6 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
     }
   }
 
-  // TextEditingController _poliController = TextEditingController(text: poli);
-  // TextEditingController _namaDokterController = TextEditingController(text: "Nama Dokter");
   TextEditingController _dateController = TextEditingController();
   TextEditingController _namaLengkapController = TextEditingController();
   TextEditingController _genderController =
@@ -246,7 +242,6 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
                         onPressed: () async {
                           bool isSucceed = await createJanjiTemu(context);
                           if (isSucceed) {
-                            // Navigator.pop(context);
                             print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                             _showDialogBerhasil();
                           } else {
@@ -272,7 +267,7 @@ class _BuatJanjiOtherPageState extends State<BuatJanjiOtherPage> with AppMixin {
 
   _showDialogBerhasil() {
     var route = context.read<RouteProvider>();
-    
+
     return showDialog(
         context: context,
         builder: (context) => Column(
