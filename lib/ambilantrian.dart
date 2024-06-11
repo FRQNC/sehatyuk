@@ -18,8 +18,9 @@ class AmbilAntrianPage extends StatefulWidget {
   final String spesialisasi; // Tambahkan parameter spesialisasi
   final String harga; // Tambahkan parameter harga
   final String id_dokter; // Tambahkan parameter id_dokter
+  final int index; // Tambahkan parameter id_dokter
 
-  const AmbilAntrianPage({Key? key, required this.id, required this.kode, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.id_dokter}) : super(key: key);
+  const AmbilAntrianPage({Key? key, required this.id, required this.kode, required this.tanggal, required this.namadokter, required this.spesialisasi, required this.harga, required this.id_dokter, required this.index}) : super(key: key);
 
   @override
   State<AmbilAntrianPage> createState() => _AmbilAntrianPageState();
@@ -58,6 +59,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
     _token = await auth.getToken();
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
+    await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
     setState(() {});
   }
 
@@ -65,6 +67,12 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
 
   @override
   Widget build(BuildContext context) {
+    var status = context.watch<JanjiTemuProvider>().janjiTemuList[widget.index].status;
+
+    if(status != "Menunggu Ambil Antrian"){
+      _antrianDiambil = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

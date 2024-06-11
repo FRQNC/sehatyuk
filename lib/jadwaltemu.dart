@@ -59,7 +59,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
   @override
   Widget build(BuildContext context) {
     var janji_temu = context.watch<JanjiTemuProvider>();
-    print(janji_temu.janjiTemuList);
+    // print(janji_temu.janjiTemuList);
 
     return Scaffold(
       // appBar: AppBar(
@@ -125,6 +125,19 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                   else{
                     nama = (janji_temu.janjiTemuList[index].isRelasi == 1 ? janji_temu.janjiTemuList[index].relasi["nama_lengkap_relasi"] : janji_temu.janjiTemuList[index].user["nama_lengkap_user"]);
                   }
+                  String status = janji_temu.janjiTemuList[index].status;
+                  bool btnEnabled = true;
+                  String btnText = "";
+                  if(status == "Menunggu Ambil Antrian"){
+                    btnText = "Ambil Antrian";
+                  }
+                  else if(status == "Menunggu Antrian"){
+                    btnText = "Cek Antrian";
+                  }
+                  else {
+                    btnText = status;
+                    btnEnabled = false;
+                  }
                   
                   return JadwalTemuCard(
                       token: _token,
@@ -140,6 +153,9 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       namaDokter: janji_temu.janjiTemuList[index].dokter["nama_lengkap_dokter"],
                       imageDokter: janji_temu.janjiTemuList[index].dokter["foto_dokter"],
                       namaPasien: nama,
+                      status: btnText,
+                      btnEnabled: btnEnabled,
+                      index: index,
                   );
                 },
               ),
@@ -165,6 +181,9 @@ class JadwalTemuCard extends StatelessWidget{
   final String namaDokter;
   final String imageDokter;
   final String namaPasien;
+  final String status;
+  final bool btnEnabled;
+  final int index;
 
   const JadwalTemuCard({
     Key? key,
@@ -181,6 +200,9 @@ class JadwalTemuCard extends StatelessWidget{
     required this.namaDokter,
     required this.imageDokter,
     required this.namaPasien,
+    required this.status,
+    required this.btnEnabled,
+    required this.index,
   }) : super(key: key);
 
 
@@ -513,41 +535,46 @@ class JadwalTemuCard extends StatelessWidget{
                 onTap: () async {
                   _showCancelConfirmationDialog(context);
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                    // height: 26,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Cancel Antrian',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
+                child: Visibility(
+                  visible: btnEnabled,
+                  child: Container(
+                    alignment: Alignment.center,
+                      // height: 26,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(7),
                       ),
-                    ),
+                      child: Center(
+                        child: Text(
+                          'Cancel Antrian',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                  ),
                 ),
               ),
-              SizedBox(width: 10,),
+              Visibility(visible: btnEnabled, child: SizedBox(width: 10,)),
               GestureDetector(
                 onTap: () {
                   // // Navigasi ke halaman baru
                   //   if (janji[5].isEmpty) {
                   //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
                   // print("dokter: $id_dokter");
+                  if(btnEnabled){
                       Navigator.push(          
                         context,
-                        MaterialPageRoute(builder: (context) => AmbilAntrianPage(id: id_janji_temu, kode : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
+                        MaterialPageRoute(builder: (context) => AmbilAntrianPage(id: id_janji_temu, kode : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter, index: index)),
                       );
+                  }
                   //   }
                 },
                 child: Container(
@@ -556,12 +583,12 @@ class JadwalTemuCard extends StatelessWidget{
                   width: 80,
                   decoration: BoxDecoration(
                     // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: btnEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
                     borderRadius: BorderRadius.circular(7),
                   ),
                   child: Center(
                     child: Text(
-                      'Ambil Antrian',
+                      status,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 13,
