@@ -127,16 +127,19 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                   }
                   String status = janji_temu.janjiTemuList[index].status;
                   bool btnEnabled = true;
+                  bool cancelEnabled = true;
                   String btnText = "";
                   if(status == "Menunggu Ambil Antrian"){
                     btnText = "Ambil Antrian";
                   }
                   else if(status == "Menunggu Antrian"){
                     btnText = "Cek Antrian";
+                    cancelEnabled = false;
                   }
                   else {
                     btnText = status;
                     btnEnabled = false;
+                    cancelEnabled = false;
                   }
                   
                   return JadwalTemuCard(
@@ -155,6 +158,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
                       namaPasien: nama,
                       status: btnText,
                       btnEnabled: btnEnabled,
+                      cancelEnabled: cancelEnabled,
                       index: index,
                   );
                 },
@@ -183,6 +187,7 @@ class JadwalTemuCard extends StatelessWidget{
   final String namaPasien;
   final String status;
   final bool btnEnabled;
+  final bool cancelEnabled;
   final int index;
 
   const JadwalTemuCard({
@@ -202,6 +207,7 @@ class JadwalTemuCard extends StatelessWidget{
     required this.namaPasien,
     required this.status,
     required this.btnEnabled,
+    required this.cancelEnabled,
     required this.index,
   }) : super(key: key);
 
@@ -536,7 +542,7 @@ class JadwalTemuCard extends StatelessWidget{
                   _showCancelConfirmationDialog(context);
                 },
                 child: Visibility(
-                  visible: btnEnabled,
+                  visible: cancelEnabled,
                   child: Container(
                     alignment: Alignment.center,
                       height: 40,
