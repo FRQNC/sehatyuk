@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.5 - sideMargin,
-                        height: 35,
+                        height: 40,
                         child: TextButton(
                           onPressed: () {
                             if(!isPhone){
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.5 - sideMargin,
-                        height: 35,
+                        height: 40,
                         child: TextButton(
                           onPressed: () {
                             if(isPhone){
@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     ),
                   ],
                 ),
-                // SizedBox(height: 6,),
+                // SizedBox(height: 10,),
                 Row(
                   children: [
                     Expanded(
@@ -286,7 +286,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         isDense: true,
                         hintText: 'Masukkan Password',
                         hintStyle: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
                         suffixIcon: GestureDetector(
@@ -301,7 +301,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         ),
                       ),
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 14,
                       ),
                     ),
                   ),

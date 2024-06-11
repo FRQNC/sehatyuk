@@ -170,7 +170,8 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                     validator: emailValidator,
                   ),
                   FormWithIcon(
-                    inputLabel: 'Masukkan Password *',
+                    inputLabel: 'Password *',
+                    hintText: 'Masukkan Password',
                     icon: Icons.remove_red_eye,
                     controller: _passwordController,
                     onPressed: () {
@@ -183,6 +184,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                   ),
                   FormWithIcon(
                     inputLabel: 'Konfirmasi Password *',
+                    hintText: 'Konfirmasi Password',
                     icon: Icons.remove_red_eye,
                     controller: _confirmPasswordController,
                     onPressed: () {
