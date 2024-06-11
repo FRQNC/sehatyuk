@@ -91,7 +91,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
               Text(
                 'Jadwal Temu',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -100,7 +100,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin{
               Text(
                 'Lihat semua daftar temu yang sudah Anda buat.',
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 16,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),

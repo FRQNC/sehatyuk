@@ -119,7 +119,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
         title: Text(
           'Tambah Pengingat Minum Obat',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.primary,
           ),

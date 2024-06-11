@@ -87,7 +87,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                       Text(
                         "Jangan lewati obat Anda. Tambahkan pengingat untuk meminum obat.",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       )

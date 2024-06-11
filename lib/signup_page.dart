@@ -130,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                   Text(
                     'Agar Anda dapat terhubung dengan semua fasilitas kesehatan yang pernah dikunjungi.',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 16,
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                   ),

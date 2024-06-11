@@ -75,7 +75,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                 Text(
                   'Cari Dokter',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -85,7 +85,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                   'Cari dokter dengan spesialisasi yang sesuai dengan keluhan anda',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 16,
                     color: Color(0xFF37363B),
                   ),
                 ),

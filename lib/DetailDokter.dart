@@ -150,7 +150,6 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
         title: Padding(
           padding: const EdgeInsets.only(left: 0),
           child: Text(
-            // 'Ujang Suherman',
             widget.doctor.namaLengkap,
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,

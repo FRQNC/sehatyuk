@@ -77,7 +77,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                 style: TextStyle(
                   fontFamily: 'Poppins', // Font family
                   fontWeight: FontWeight.w600, // Semibold weight
-                  fontSize: 16.0,
+                  fontSize: 20.0,
                   color: Color(0xFF4A707A),
                 ),
               ),
@@ -87,7 +87,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin{
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w400,
-                  fontSize: 10.0,
+                  fontSize: 16.0,
                   color: Color(0xFF37363B),
                 ),
               ),

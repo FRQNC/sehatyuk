@@ -45,7 +45,7 @@ class _InformasiObatPageState extends State<InformasiObatPage> with AppMixin {
           'Informasi Obat',
           style: TextStyle(
             fontWeight: semi,
-            fontSize: 16,
+            fontSize: 20,
             color: Theme.of(context).colorScheme.primary,
             letterSpacing: 0.8,
           ),

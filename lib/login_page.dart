@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                           child: Text(
                             'Nomor Telepon',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 18,
                               fontWeight: semi,
                               color: isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
                             ),
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                           child: Text(
                             'Email',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 18,
                               fontWeight: semi,
                               color: !isPhone ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
                             ),
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                 Text(
                   isPhone ? 'Nomor Telepon *' : 'Email *',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 16,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
@@ -216,12 +216,12 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                           isDense: true,
                           hintText: 'Masukkan nomor telepon',
                           hintStyle: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 14,
                         ),
                       ), 
                     ),
@@ -247,12 +247,12 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                           isDense: true,
                           hintText: 'Masukkan email',
                           hintStyle: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 14,
                         ),
                       ), 
                     ),
@@ -262,7 +262,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                 Text(
                   'Masukkan Password *',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 16,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
@@ -286,7 +286,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                         isDense: true,
                         hintText: 'Masukkan Password',
                         hintStyle: TextStyle(
-                          fontSize: 11,
+                          fontSize: 16,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
                         suffixIcon: GestureDetector(
@@ -310,7 +310,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                 Text(
                   'Lupa password?',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 16,
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: bold,  
                   ),
@@ -372,7 +372,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                     Text(
                       'Belum memiliki akun? ',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
@@ -383,7 +383,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin{
                       child: Text(
                         'Daftar',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 16,
                           fontWeight: bold,
                           color: Theme.of(context).colorScheme.primary,
                         ),
