@@ -195,7 +195,6 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                   Row(
                     children: [
                       SizedBox(
-                        // height: 10,
                         width: 20,
                         child: Checkbox(
                           value: isChecked,
@@ -267,7 +266,6 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RoutePage()));
                             } else if (isSucceed == "konfirmasi ulang") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

@@ -41,10 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
   }
 
@@ -65,13 +63,11 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(24.0),
-                // padding: const EdgeInsets.fromLTRB(20.0, 54.0, 20.0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SizedBox(height: 32),
                     Column(
-                      //profile
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Profil",
@@ -106,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                           'Authorization': 'Bearer $_token',
                                                         },
                                                       )
-                                                    : AssetImage('assets/default.jpg') as ImageProvider, // Use a local placeholder image
+                                                    : AssetImage('assets/default.jpg') as ImageProvider,
                                             radius: 37.5),
                                       ),
                                       Expanded(
@@ -196,7 +192,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 20.0),
                     Column(
-                      //informasi umum
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Informasi Umum",
@@ -222,14 +217,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 child: Row(children: <Widget>[
                                   Expanded(
-                                      //icon
                                       flex: 1,
                                       child: Icon(Icons.group,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary)),
                                   const Expanded(
-                                      //text
                                       flex: 3,
                                       child: Text("Relasi",
                                           style: TextStyle(
@@ -237,7 +230,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: Color(0xff37363B),
                                               fontWeight: FontWeight.w500))),
                                   Expanded(
-                                      //arrow
                                       flex: 1,
                                       child: Icon(Icons.chevron_right_sharp,
                                           color: Theme.of(context)
@@ -250,14 +242,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 onPressed: () {},
                                 child: Row(children: <Widget>[
                                   Expanded(
-                                      //icon
                                       flex: 1,
                                       child: Icon(Icons.help,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary)),
                                   const Expanded(
-                                      //text
                                       flex: 3,
                                       child: Text("Pusat Bantuan",
                                           style: TextStyle(
@@ -265,7 +255,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: Color(0xff37363B),
                                               fontWeight: FontWeight.w500))),
                                   Expanded(
-                                      //arrow
                                       flex: 1,
                                       child: Icon(Icons.chevron_right_sharp,
                                           color: Theme.of(context)
@@ -278,14 +267,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 onPressed: () {},
                                 child: Row(children: <Widget>[
                                   Expanded(
-                                      //icon
                                       flex: 1,
                                       child: Icon(Icons.info_outline,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary)),
                                   const Expanded(
-                                      //text
                                       flex: 3,
                                       child: Text("Tentang Aplikasi",
                                           style: TextStyle(
@@ -293,7 +280,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: Color(0xff37363B),
                                               fontWeight: FontWeight.w500))),
                                   Expanded(
-                                      //arrow
                                       flex: 1,
                                       child: Icon(Icons.chevron_right_sharp,
                                           color: Theme.of(context)
@@ -306,7 +292,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 20.0),
                     Column(
-                      // Pengaturan Akun
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Pengaturan Akun",
@@ -333,14 +318,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 child: Row(children: <Widget>[
                                   Expanded(
-                                      //icon
                                       flex: 1,
                                       child: Icon(Icons.password,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary)),
                                   const Expanded(
-                                      //text
                                       flex: 3,
                                       child: Text("Ganti Password",
                                           style: TextStyle(
@@ -348,7 +331,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: Color(0xff37363B),
                                               fontWeight: FontWeight.w500))),
                                   Expanded(
-                                      //arrow
                                       flex: 1,
                                       child: Icon(Icons.chevron_right_sharp,
                                           color: Theme.of(context)
@@ -368,14 +350,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 child: Row(children: <Widget>[
                                   Expanded(
-                                      //icon
                                       flex: 1,
                                       child: Icon(Icons.logout,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary)),
                                   const Expanded(
-                                      //text
                                       flex: 3,
                                       child: Text("Keluar",
                                           style: TextStyle(
@@ -383,7 +363,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               color: Color(0xff37363B),
                                               fontWeight: FontWeight.w500))),
                                   Expanded(
-                                      //arrow
                                       flex: 1,
                                       child: Icon(Icons.chevron_right_sharp,
                                           color: Theme.of(context)
@@ -400,7 +379,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-        ) : Center(child: CircularProgressIndicator()) // Show a loader until initialization is done
+        ) : Center(child: CircularProgressIndicator())
     );
   }
 }

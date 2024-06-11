@@ -40,10 +40,8 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
   String _tipeRelasi = "Orang Tua";
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
   }
 
@@ -164,7 +162,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                       containerWidth: 160,
                       fontSize: 18,
                       onPressed: () async {
-                        // Store the values in the corresponding variables
                         if (_formkey.currentState!.validate()) {
                           _formkey.currentState!.save();
 
@@ -186,23 +183,14 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text('Berhasil menambah relasi')),
-                                  
                             );
-                             Navigator.pop(context);
+                            Navigator.pop(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Gagal menambah relasi')),
                             );
                           }
                         }
-
-                        // Navigate to the RelasiPage
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const RelasiPage(),
-                        //   ),
-                        // );
                       },
                     ),
                   ),
@@ -225,7 +213,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Teks dan container gambar di kiri
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -237,25 +224,22 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                   letterSpacing: labelLetterSpacing,
                 ),
               ),
-              SizedBox(height: 10), // Spacer
+              SizedBox(height: 10),
               GestureDetector(
                 onTap: () async {
-                  // Tambahkan Function
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles();
                   if (result != null) {
                     File file = File(result.files.single.path!);
                     _fotoRelasi = p.basename(file.path);
-                  } else {
-                    // User canceled the picker
-                  }
+                  } else {}
                 },
                 child: Container(
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey.withOpacity(0.5), // Placeholder color
+                    color: Colors.grey.withOpacity(0.5),
                   ),
                   child: Stack(
                     alignment: Alignment.center,

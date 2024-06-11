@@ -28,16 +28,12 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
     AuthService auth = AuthService();
     _token = await auth.getToken();
     _userId = await auth.getId();
-
-    // Fetch data using the provider
     await Provider.of<RekamMedisProvider>(context, listen: false)
         .fetchRekamMedisByUser(_token, int.parse(_userId));
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -159,25 +155,28 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                           rekamMedisProvider.rekamMedisList[index];
 
                       var nama;
-                      if(rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] != 0){
-                        nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]["nama_lengkap_orang_lain"];
-                      }
-                      else{
-                        nama = (rekamMedis.janjiTemu["is_relasi"] == 1 ? rekamMedis.janjiTemu["relasi"]["nama_lengkap_relasi"] : rekamMedis.janjiTemu["user"]["nama_lengkap_user"]);
+                      if (rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] !=
+                          0) {
+                        nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]
+                            ["nama_lengkap_orang_lain"];
+                      } else {
+                        nama = (rekamMedis.janjiTemu["is_relasi"] == 1
+                            ? rekamMedis.janjiTemu["relasi"]
+                                ["nama_lengkap_relasi"]
+                            : rekamMedis.janjiTemu["user"]
+                                ["nama_lengkap_user"]);
                       }
                       return ListItem(
                         Tanggal:
-                            rekamMedis.janjiTemu["tgl_janji_temu"].toString(), 
-                        Spesialis:
-                            rekamMedis.janjiTemu["dokter"]["spesialisasi_dokter"],// rekamMedis.janjiTemu["spesialisasi_dokter"],
-                        Dokter:
-                            rekamMedis.janjiTemu["dokter"]["nama_lengkap_dokter"],// rekamMedis.janjiTemu["nama_lengkap_dokter"], 
-                        Pasien:
-                            nama,// rekamMedis.janjiTemu["nama_lengkap_user"], 
+                            rekamMedis.janjiTemu["tgl_janji_temu"].toString(),
+                        Spesialis: rekamMedis.janjiTemu["dokter"]
+                            ["spesialisasi_dokter"],
+                        Dokter: rekamMedis.janjiTemu["dokter"]
+                            ["nama_lengkap_dokter"],
+                        Pasien: nama,
                         Harga:
-                            rekamMedis.janjiTemu["biaya_janji_temu"].toString(),// rekamMedis.janjiTemu["biaya_janji_temu"], 
-                        Detail:
-                            rekamMedis,
+                            rekamMedis.janjiTemu["biaya_janji_temu"].toString(),
+                        Detail: rekamMedis,
                       );
                     },
                   ),
@@ -343,18 +342,22 @@ class ListItem extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResumeMedisPage(detail: Detail,),
+                                  builder: (context) => ResumeMedisPage(
+                                    detail: Detail,
+                                  ),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
-                              minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              minimumSize: Size(64, 24),
                               textStyle: TextStyle(
-                                fontSize: 12, // Mengatur ukuran teks
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
-                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
                             ),
                             child: Text(
                               'Detail',

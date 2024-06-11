@@ -11,7 +11,6 @@ import 'package:sehatyuk/med_reminder.dart';
 import 'package:sehatyuk/providers/route_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
-// import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sehatyuk/cari_dokter.dart';
 import 'package:sehatyuk/profile_page.dart';
@@ -33,43 +32,34 @@ class _HomePageState extends State<HomePage> {
   String _user_id = "";
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
   }
+
   @override
   void initState() {
-        var welcomeDialog = context.read<WelcomeDialogProvider>();
+    var welcomeDialog = context.read<WelcomeDialogProvider>();
 
     super.initState();
     _fetchToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Panggil method untuk menampilkan pop-up setelah halaman selesai dibangun
-      if(welcomeDialog.openedFirstTime){
+      if (welcomeDialog.openedFirstTime) {
         _showPopup();
       }
     });
   }
 
-  // Future<void> _fetchToken() async {
-  //   // Fetch the token asynchronously
-  //   _token = await auth.getToken();
-  //   _user_id = await auth.getId();
-  // }
-
   void _showPopup() {
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
         var user = context.watch<UserProvider>();
 
-        if(user.userData.namaLengkap == ""){
+        if (user.userData.namaLengkap == "") {
           user.fetchData();
         }
-        
+
         return AlertDialog(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -94,30 +84,17 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  // data.userData.namaLengkap,
-                  "Selamat Datang ${user.userData.namaLengkap}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff4A707A),
-                    letterSpacing: 0.8,
-                  ),
-                  textAlign: TextAlign.start,
-                )
-                // Text(
-                //   // "Selamat Datang ${user.namaLengkap}",
-                //   "Selamat Datang Aurora",
-                //   style: TextStyle(
-                //     fontSize: 18,
-                //     fontWeight: FontWeight.bold,
-                //     color: Color(0xff4A707A),
-                //     letterSpacing: 0.8,
-                //   ),
-                //   textAlign: TextAlign.start,
-                // ),
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    "Selamat Datang ${user.userData.namaLengkap}",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff4A707A),
+                      letterSpacing: 0.8,
+                    ),
+                    textAlign: TextAlign.start,
+                  )),
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -169,12 +146,6 @@ class _HomePageState extends State<HomePage> {
 
   int _currentIndex = 0;
 
-  // final List<Widget> _pages = [
-  //   CariDokterPage(),
-  //   InformasiObatPage(),
-  //   ProfilePage(),
-  // ];
-
   final List<String> images = [
     'assets/images/homePage/1.jpg',
     'assets/images/homePage/f1.png',
@@ -187,18 +158,6 @@ class _HomePageState extends State<HomePage> {
     'assets/images/homePage/f2.png',
     'assets/images/homePage/f4.png'
   ];
-  // final List<String> fitur1 = [
-  //   'assets/images/homePage/f2.png',
-  //   'assets/images/homePage/f1.png',
-  //   'assets/images/homePage/f3.png',
-  //   'assets/images/homePage/f4.png'
-  // ];
-  // final List<String> fitur2 = [
-  //   'assets/images/homePage/f6.png',
-  //   'assets/images/homePage/f5.png',
-  //   'assets/images/homePage/f1.png',
-  //   'assets/images/homePage/f2.png',
-  // ];
 
   final List<String> ft1 = [
     'Buat Janji',
@@ -206,7 +165,7 @@ class _HomePageState extends State<HomePage> {
     'Cari Obat',
     'Pengingat Minum Obat',
   ];
-  
+
   final List<Widget> pages1 = [
     RoutePage(),
     DaftarResumePage(),
@@ -225,26 +184,13 @@ class _HomePageState extends State<HomePage> {
     'Olahraga',
     'Menjaga Kesehatan Jantung'
   ];
-  
-  final List<String> deskripsi= [
+
+  final List<String> deskripsi = [
     'Temukan rekomendasi makanan sehat kaya nutrisi untuk puasa kuat dan lancar.',
     'Temukan rekomendasi olahraga agar tubuh tetap bugar.',
     'Jaga kesehatan jantung Anda sejak dini.'
   ];
   final List<String> categories = ['Makanan', 'Gaya Hidup', 'Jantung'];
-  // final List<Widget> pages1 = [
-  //   DaftarResumePage(),
-  //   CariDokterPage(),
-  //   CariObatPage(),
-  //   MedicationReminderPage(),
-  // ];
-  // final List<Widget> pages2 = [
-  //   JadwalTemuPage(),
-  //   EmptyPage(),
-  //   EmptyPage(),
-  //   EmptyPage(),
-  // ];
-
   int currentPageIndex = 0;
 
   bool fetched = false;
@@ -258,19 +204,12 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // _pages[currentPageIndex],
-            // gambar di atas
             Image.asset(
               'assets/images/homePage/top.png',
-              height: 209, // Sesuaikan dengan tinggi gambar yang diinginkan
-              width: MediaQuery.of(context)
-                  .size
-                  .width, // Lebar gambar mengisi layar penuh
-              fit: BoxFit
-                  .cover, // Menyesuaikan gambar dengan lebar dan tinggi yang telah ditentukan
+              height: 209,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
             ),
-
-            // fitur
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -278,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                 String image = entry.value;
                 return GestureDetector(
                   onTap: () {
-                    if(entry.key == 0){
+                    if (entry.key == 0) {
                       route.pageIndex = 1;
                       Navigator.pushReplacement(
                         context,
@@ -286,8 +225,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => pages1[entry.key],
                         ),
                       );
-                    }
-                    else{
+                    } else {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -333,9 +271,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }).toList(),
             ),
-
             SizedBox(height: 20),
-            // carousel
             CarouselSlider(
               options: CarouselOptions(
                 height: 200,
@@ -375,9 +311,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }).toList(),
             ),
-
             SizedBox(height: 20),
-            // dot di bawah carousel
             AnimatedSmoothIndicator(
               activeIndex: _currentIndex,
               count: images.length,
@@ -390,9 +324,7 @@ class _HomePageState extends State<HomePage> {
                 paintStyle: PaintingStyle.fill,
               ),
             ),
-
             SizedBox(height: 20),
-            // artikel
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -413,155 +345,129 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 10),
             Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  // Navigasi ke halaman yang dituju
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CariArtikelPage()),
-                  );
-                },
-                child: Text(
-                  'Lihat Semua',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF4A707A),
-                    letterSpacing: 0.05,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CariArtikelPage()),
+                    );
+                  },
+                  child: Text(
+                    'Lihat Semua',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFF4A707A),
+                      letterSpacing: 0.05,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 21,
-              ),
-            ],
+                SizedBox(
+                  width: 21,
+                ),
+              ],
             ),
-          SizedBox(
-            height: 15,
-          ),
-          Column(
-            children: articles.asMap().entries.map((entry) {
-              String imagePath = entry.value;
-              int index = entry.key; // Ambil indeks gambar saat ini
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 21),
-                        Container(
-                          height: 88,
-                          width: 88,
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(
-                                5), // Tambahkan borderRadius di dalam BoxDecoration
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                5), // Untuk memastikan gambar terpotong sesuai dengan borderRadius
-                            child: Image.asset(
-                              imagePath, // Gunakan imagePath langsung
-                              height: 65,
-                              width: 65,
-                              fit: BoxFit.cover,
+            SizedBox(
+              height: 15,
+            ),
+            Column(
+              children: articles.asMap().entries.map((entry) {
+                String imagePath = entry.value;
+                int index = entry.key;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(width: 21),
+                          Container(
+                            height: 88,
+                            width: 88,
+                            decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.asset(
+                                imagePath,
+                                height: 65,
+                                width: 65,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                            width:
-                                15), // Tambahkan ruang horizontal di antara gambar dan teks
-                        Expanded(
-                          child: Container(
-                            // height: 88,
-                            width: double
-                                .infinity, // Lebar container mengikuti lebar yang tersedia
-                            // color: Colors.amber,
-                            padding: EdgeInsets.all(
-                                20.0), // Beri padding agar teks terlihat lebih baik
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.0,
-                                      vertical:
-                                          2.0), // Atur padding untuk kontainer kategori
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                        0xFF94B0B7), // Warna latar belakang kontainer kategori
-                                    borderRadius: BorderRadius.circular(
-                                        15), // Atur border radius untuk kontainer kategori
-                                  ),
-                                  child: Text(
-                                    '${categories[index]}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color(
-                                          0xFF37363B), // Warna teks kategori
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.05,
+                          SizedBox(width: 15),
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.0, vertical: 2.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF94B0B7),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Text(
+                                      '${categories[index]}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF37363B),
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.05,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                    height: 4), // Spacer vertikal antara teks
-                                Text(
-                                  judul[
-                                      index], // Mengambil judul dari list berdasarkan index gambar saat ini
-                                  style: TextStyle(
-                                    fontSize:
-                                        13, // Mengatur ukuran teks judul
-                                    color: Color(0xFF37363B),
-                                    fontWeight: FontWeight
-                                        .w600, // Membuat teks judul menjadi tebal
-                                    letterSpacing: 0.08,
+                                  SizedBox(height: 4),
+                                  Text(
+                                    judul[index],
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Color(0xFF37363B),
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.08,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines:
-                                      1, // Hanya menampilkan satu baris untuk judul
-                                  overflow: TextOverflow
-                                      .ellipsis, // Mengatur overflow jika teks terlalu panjang
-                                ),
-                                SizedBox(
-                                    height: 4), // Spacer vertikal antara teks
-                                Text(
-                                  deskripsi[index],
-                                  style: TextStyle(
-                                    fontSize: 12,
+                                  SizedBox(height: 4),
+                                  Text(
+                                    deskripsi[index],
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines:
-                                      2, // Hanya menampilkan dua baris untuk deskripsi
-                                  overflow: TextOverflow
-                                      .ellipsis, // Mengatur overflow jika teks terlalu panjang
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
+                          SizedBox(width: 15),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Divider(
+                          color: Color(0xFFDDDDDA),
                         ),
-                        SizedBox(width: 15),
-                      ],
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal:
-                              20.0), // Atur jarak horizontal dari divider
-                      child: Divider(
-                        color: Color(0xFFDDDDDA),
-                      ), // Tambahkan garis divider di antara setiap item
-                    ), // Tambahkan garis divider di antara setiap item
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-          
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),

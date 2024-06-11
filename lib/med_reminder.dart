@@ -18,8 +18,8 @@ class MedicationReminderPage extends StatefulWidget {
   State<MedicationReminderPage> createState() => _MedicationReminderPageState();
 }
 
-class _MedicationReminderPageState extends State<MedicationReminderPage> with AppMixin {
-
+class _MedicationReminderPageState extends State<MedicationReminderPage>
+    with AppMixin {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
@@ -31,20 +31,19 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
-    await context.read<PengingatMinumObatProvider>().fetchData(_token, _user_id);
+    await context
+        .read<PengingatMinumObatProvider>()
+        .fetchData(_token, _user_id);
   }
 
   @override
   Widget build(BuildContext context) {
     var pengingat_minum_obat = context.watch<PengingatMinumObatProvider>();
 
-    if(pengingat_minum_obat.pengingatMinumObatList.isEmpty){
-      // pengingat_minum_obat.fetchData(_token);
+    if (pengingat_minum_obat.pengingatMinumObatList.isEmpty) {
       pengingat_minum_obat.fetchData(_token, _user_id);
     }
     return Scaffold(
@@ -52,7 +51,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.pop(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
@@ -97,40 +96,44 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                     height: 30,
                   ),
                   Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: pengingat_minum_obat.pengingatMinumObatList.length,
-                      itemBuilder: (context, index) {
-                        return PengingatMinumObatCard(
-                          token: _token,
-                          idPengingat: pengingat_minum_obat.pengingatMinumObatList[index].idPengingat.toString(),
-                          idUser: pengingat_minum_obat.pengingatMinumObatList[index].idUser.toString(),
-                          idObat: pengingat_minum_obat.pengingatMinumObatList[index].idObat.toString(),
-                          // fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].fotoObat,
-                          // namaObat: pengingat_minum_obat.pengingatMinumObatList[index].namaObat,
-                          fotoObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["foto_obat"],
-                          namaObat: pengingat_minum_obat.pengingatMinumObatList[index].obat["nama_obat"],
-                          dosis: pengingat_minum_obat.pengingatMinumObatList[index].dosis.toString(),
-                          sendok: pengingat_minum_obat.pengingatMinumObatList[index].sendok,
-                          jadwal: pengingat_minum_obat.pengingatMinumObatList[index].jadwal,
-                          aturan: pengingat_minum_obat.pengingatMinumObatList[index].aturan,
-
-                          
-                          // onPressed: () {
-                          //   Navigator.push(
-                          //     context, 
-                          //     MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: pengingat_minum_obat.pengingatMinumObatList[index])),
-                          //   );
-
-                          //   // Add your onPressed logic here
-                          // },
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount:
+                            pengingat_minum_obat.pengingatMinumObatList.length,
+                        itemBuilder: (context, index) {
+                          return PengingatMinumObatCard(
+                            token: _token,
+                            idPengingat: pengingat_minum_obat
+                                .pengingatMinumObatList[index].idPengingat
+                                .toString(),
+                            idUser: pengingat_minum_obat
+                                .pengingatMinumObatList[index].idUser
+                                .toString(),
+                            idObat: pengingat_minum_obat
+                                .pengingatMinumObatList[index].idObat
+                                .toString(),
+                            fotoObat: pengingat_minum_obat
+                                .pengingatMinumObatList[index]
+                                .obat["foto_obat"],
+                            namaObat: pengingat_minum_obat
+                                .pengingatMinumObatList[index]
+                                .obat["nama_obat"],
+                            dosis: pengingat_minum_obat
+                                .pengingatMinumObatList[index].dosis
+                                .toString(),
+                            sendok: pengingat_minum_obat
+                                .pengingatMinumObatList[index].sendok,
+                            jadwal: pengingat_minum_obat
+                                .pengingatMinumObatList[index].jadwal,
+                            aturan: pengingat_minum_obat
+                                .pengingatMinumObatList[index].aturan,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                   Column(
                     children: [
                       Padding(
@@ -140,7 +143,11 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> with Ap
                               buttonText: "Tambah",
                               containerWidth: 160,
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const PilihObatUntukPengingatPage()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PilihObatUntukPengingatPage()));
                               },
                               fontSize: 18),
                         ),
@@ -168,7 +175,6 @@ class PengingatMinumObatCard extends StatelessWidget {
   final String sendok;
   final String jadwal;
   final String aturan;
-  // final VoidCallback onPressed;
 
   const PengingatMinumObatCard({
     Key? key,
@@ -182,7 +188,6 @@ class PengingatMinumObatCard extends StatelessWidget {
     required this.sendok,
     required this.jadwal,
     required this.aturan,
-    // required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -200,7 +205,6 @@ class PengingatMinumObatCard extends StatelessWidget {
             Container(
               width: 80,
               height: 80,
-              // color: Colors.amber,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
@@ -210,7 +214,6 @@ class PengingatMinumObatCard extends StatelessWidget {
                       'accept': 'application/json',
                       'Authorization': 'Bearer $token',
                     },
-                    
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -238,24 +241,18 @@ class PengingatMinumObatCard extends StatelessWidget {
                           color: Colors.red,
                         ),
                         onPressed: () async {
-                          bool deleted = await context.read<PengingatMinumObatProvider>().deleteData(token, idPengingat);
-
-                          // bool deleted = await context.read<JanjiTemuProvider>().deleteData(token, id_janji_temu);
+                          bool deleted = await context
+                              .read<PengingatMinumObatProvider>()
+                              .deleteData(token, idPengingat);
                           if (deleted) {
-                            // Jika penghapusan berhasil, lakukan sesuatu, misalnya, tampilkan pesan sukses atau perbarui tampilan
                             print('Pengingat berhasil dihapus');
                           } else {
-                            // Jika penghapusan gagal, lakukan sesuatu, misalnya, tampilkan pesan error
                             print('Gagal menghapus pengingat');
                           }
-                          // Navigator.of(context).pop(); // 
-                          // Tambahkan logika untuk menghapus obat di sini
                         },
                       ),
                     ],
                   ),
-
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -267,43 +264,11 @@ class PengingatMinumObatCard extends StatelessWidget {
                           color: Color(0XFF37363B),
                         ),
                       ),
-                      // Text(
-                      //   sendok,
-                      //   style: TextStyle(
-                      //     fontSize: 10,
-                      //     fontWeight: FontWeight.w600,
-                      //     color: Color(0XFF37363B),
-                      //   ),
-                      // ),
-                      // Text(
-                      //   jadwal,
-                      //   style: TextStyle(
-                      //     fontSize: 10,
-                      //     fontWeight: FontWeight.w600,
-                      //     color: Color(0XFF37363B),
-                      //   ),
-                      // ),
-                      // ElevatedButton(
-                      //   onPressed: onPressed,
-                      //   style: ElevatedButton.styleFrom(
-                      //     padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
-                      //     minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
-                      //     textStyle: TextStyle(
-                      //       fontSize: 12, // Mengatur ukuran teks
-                      //       fontWeight: FontWeight.w500,
-                      //     ),
-                      //     backgroundColor: Theme.of(context).colorScheme.primary,
-                      //   ),
-                      //   child: Text(
-                      //     'Detail',
-                      //     style: TextStyle(
-                      //       color: Color(0xFFFFFFFF),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     aturan,
                     style: TextStyle(

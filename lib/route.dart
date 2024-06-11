@@ -22,23 +22,16 @@ class _RoutePageState extends State<RoutePage> {
     JadwalTemuPage(),
     ProfilePage(),
   ];
-  
-  // int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     var routeIdx = context.watch<RouteProvider>();
-    // currentPageIndex = context.watch<RouteProvider>().
     return Scaffold(
       backgroundColor: Colors.white,
       body: _pages[routeIdx.pageIndex],
-      // body: _pages[currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           routeIdx.pageIndex = index;
-          // setState(() {
-          //   currentPageIndex = index;
-          // });
         },
         indicatorColor: Color(0xFF7697A0),
         selectedIndex: routeIdx.pageIndex,

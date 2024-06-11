@@ -11,14 +11,15 @@ class LoadPage extends StatefulWidget {
 
 class _LoadPageState extends State<LoadPage> with AppMixin {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _navigateToWelcome();
   }
 
   _navigateToWelcome() async {
     await Future.delayed(Duration(milliseconds: 3000), () {});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomePage()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => WelcomePage()));
   }
 
   @override
@@ -41,12 +42,13 @@ class _LoadPageState extends State<LoadPage> with AppMixin {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/images/LoadPage/Logo.png', // Ganti dengan path gambar Anda
-                    height: 150, // Sesuaikan tinggi gambar sesuai kebutuhan
+                  Image.asset(
+                    'assets/images/LoadPage/Logo.png',
+                    height: 150,
                   ),
-                  SizedBox(
-                      height: 10), // Sesuaikan jarak antara gambar dan teks
-                  Text('SEHATYUK!',
+                  SizedBox(height: 10),
+                  Text(
+                    'SEHATYUK!',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -59,7 +61,8 @@ class _LoadPageState extends State<LoadPage> with AppMixin {
             ),
             Spacer(),
             Image(
-                image: AssetImage('assets/images/authenticationPage/bottom_wave.png'),
+                image: AssetImage(
+                    'assets/images/authenticationPage/bottom_wave.png'),
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitHeight),
           ],

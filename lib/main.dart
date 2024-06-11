@@ -18,9 +18,10 @@ import 'package:sehatyuk/providers/rekam_medis_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]).then((value) => runApp(
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => UserProvider()),
@@ -28,17 +29,19 @@ void main() {
             ChangeNotifierProvider(create: (context) => DoctorProvider()),
             ChangeNotifierProvider(create: (context) => ObatProvider()),
             ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),
-            ChangeNotifierProvider(create: (context) => WelcomeDialogProvider()),
+            ChangeNotifierProvider(
+                create: (context) => WelcomeDialogProvider()),
             ChangeNotifierProvider(create: (context) => JanjiTemuProvider()),
-            ChangeNotifierProvider(create: (context) => PengingatMinumObatProvider()),
-            ChangeNotifierProvider(create: (context) => JanjiTemuAsOrangLainProvider()),
+            ChangeNotifierProvider(
+                create: (context) => PengingatMinumObatProvider()),
+            ChangeNotifierProvider(
+                create: (context) => JanjiTemuAsOrangLainProvider()),
             ChangeNotifierProvider(create: (context) => RekamMedisProvider()),
             ChangeNotifierProvider(create: (context) => RouteProvider()),
           ],
           child: const MainApp(),
         ),
-      )
-    );
+      ));
 }
 
 class MainApp extends StatefulWidget {
@@ -49,7 +52,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-
   bool openedFirstTime = true;
 
   @override
@@ -58,18 +60,16 @@ class _MainAppState extends State<MainApp> {
       home: const LoadPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFF4A707A),
-          secondary: const Color(0xFFC2C8C5),
-          tertiary: const Color(0xFF94B0B7),
-          onPrimary: const Color(0xFF37363B),
-          onSecondary: const Color(0xFFDDDDDA),
-          primaryContainer: const Color(0x5ED9D9D9),
-        ),
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: Colors.white
-
-      ),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: const Color(0xFF4A707A),
+            secondary: const Color(0xFFC2C8C5),
+            tertiary: const Color(0xFF94B0B7),
+            onPrimary: const Color(0xFF37363B),
+            onSecondary: const Color(0xFFDDDDDA),
+            primaryContainer: const Color(0x5ED9D9D9),
+          ),
+          fontFamily: 'Poppins',
+          scaffoldBackgroundColor: Colors.white),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -90,7 +90,8 @@ class BulletList extends StatelessWidget {
   final Color color;
   final double letterSpacing;
 
-  BulletList(this.strings, this.fontSize, this.fontWeight, this.color, this.letterSpacing);
+  BulletList(this.strings, this.fontSize, this.fontWeight, this.color,
+      this.letterSpacing);
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +137,7 @@ class BulletList extends StatelessWidget {
   }
 }
 
-mixin AppMixin{
+mixin AppMixin {
   FontWeight bold = FontWeight.w700;
   FontWeight semi = FontWeight.w600;
   FontWeight medium = FontWeight.w500;
@@ -157,7 +158,6 @@ mixin AppMixin{
       return 'Email tidak boleh kosong';
     }
 
-    // Regular expression for validating an email address
     final RegExp emailRegExp = RegExp(
       r'^[a-zA-Z0-9.a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
     );
@@ -174,7 +174,6 @@ mixin AppMixin{
       return 'Nomor telepon tidak boleh kosong';
     }
 
-    // Regular expression for validating a phone number (only digits)
     final RegExp phoneRegExp = RegExp(
       r'^\d{10,15}$',
     );

@@ -34,10 +34,8 @@ class _CariDokterPageState extends State<CariDokterPage> {
   }
 
   Future<void> _fetchToken() async {
-    // Fetch the token asynchronously
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    // Once token is fetched, trigger a rebuild of the widget tree
     await context.read<DoctorProvider>().fetchData(_token);
     setState(() {});
   }
@@ -47,21 +45,6 @@ class _CariDokterPageState extends State<CariDokterPage> {
     var doctor = context.watch<DoctorProvider>();
 
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   leading: GestureDetector(
-      //     onTap: (){
-      //       Navigator.pop(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => HomePage()),
-      //       );
-      //     },
-      //     child: Icon(
-      //       Icons.arrow_back_rounded,
-      //       color: Theme.of(context).colorScheme.primary,
-      //     ),
-      //   ),
-      // ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
@@ -99,7 +82,8 @@ class _CariDokterPageState extends State<CariDokterPage> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Cari Dokter',
-                    suffixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+                    suffixIcon: Icon(Icons.search,
+                        color: Theme.of(context).colorScheme.primary),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF94B0B7),
@@ -121,7 +105,8 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       ),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     hintStyle: TextStyle(
                       fontSize: 10,
                       color: Color(0xFFC2C8C5),
@@ -141,7 +126,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end, // Align to the end (right)
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
                           onPressed: () {
@@ -167,36 +152,50 @@ class _CariDokterPageState extends State<CariDokterPage> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tht.png', text: 'THT', onTap: () {
-                        setState(() {
-                          selectedSpecialty = 'Sp. THT';
-                        });
-                      }),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/jantung.png', text: 'Jantung', onTap: () {
-                        setState(() {
-                          selectedSpecialty = 'Sp. Jantung';
-                        });
-                      }),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/kulit.png', text: 'Kulit', onTap: () {
-                        setState(() {
-                          selectedSpecialty = 'Sp. Kulit';
-                        });
-                      }),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/mata.png', text: 'Mata', onTap: () {
-                        setState(() {
-                          selectedSpecialty = 'Sp. Mata';
-                        });
-                      }),
-                      DoctorSpecialtyItem(imagePath: 'assets/images/cariDokterPage/tulang.png', text: 'Tulang', onTap: () {
-                        setState(() {
-                          selectedSpecialty = 'Sp. Tulang';
-                        });
-                      }),
+                      DoctorSpecialtyItem(
+                          imagePath: 'assets/images/cariDokterPage/tht.png',
+                          text: 'THT',
+                          onTap: () {
+                            setState(() {
+                              selectedSpecialty = 'Sp. THT';
+                            });
+                          }),
+                      DoctorSpecialtyItem(
+                          imagePath: 'assets/images/cariDokterPage/jantung.png',
+                          text: 'Jantung',
+                          onTap: () {
+                            setState(() {
+                              selectedSpecialty = 'Sp. Jantung';
+                            });
+                          }),
+                      DoctorSpecialtyItem(
+                          imagePath: 'assets/images/cariDokterPage/kulit.png',
+                          text: 'Kulit',
+                          onTap: () {
+                            setState(() {
+                              selectedSpecialty = 'Sp. Kulit';
+                            });
+                          }),
+                      DoctorSpecialtyItem(
+                          imagePath: 'assets/images/cariDokterPage/mata.png',
+                          text: 'Mata',
+                          onTap: () {
+                            setState(() {
+                              selectedSpecialty = 'Sp. Mata';
+                            });
+                          }),
+                      DoctorSpecialtyItem(
+                          imagePath: 'assets/images/cariDokterPage/tulang.png',
+                          text: 'Tulang',
+                          onTap: () {
+                            setState(() {
+                              selectedSpecialty = 'Sp. Tulang';
+                            });
+                          }),
                     ],
                   ),
                 ),
                 SizedBox(height: 32),
-                // Tampilkan daftar dokter sesuai dengan hasil pencarian
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -216,11 +215,14 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       itemBuilder: (context, index) {
                         var currentDoctor = doctor.doctors[index];
                         if (searchQuery.isNotEmpty &&
-                            !currentDoctor.namaLengkap.toLowerCase().contains(searchQuery.toLowerCase())) {
-                          return Container(); // Jika tidak cocok dengan pencarian, kembalikan widget kosong
+                            !currentDoctor.namaLengkap
+                                .toLowerCase()
+                                .contains(searchQuery.toLowerCase())) {
+                          return Container();
                         }
-                        if (selectedSpecialty.isNotEmpty && currentDoctor.spesialis != selectedSpecialty) {
-                          return Container(); // Jika tidak cocok dengan spesialisasi, kembalikan widget kosong
+                        if (selectedSpecialty.isNotEmpty &&
+                            currentDoctor.spesialis != selectedSpecialty) {
+                          return Container();
                         }
                         return DoctorCard(
                           token: _token,
@@ -228,12 +230,15 @@ class _CariDokterPageState extends State<CariDokterPage> {
                           imagePath: currentDoctor.foto,
                           specialty: currentDoctor.spesialis,
                           doctorName: currentDoctor.namaLengkap,
-                          experience: '${currentDoctor.pengalaman.toString()} tahun | ${currentDoctor.rating.toString()}',
+                          experience:
+                              '${currentDoctor.pengalaman.toString()} tahun | ${currentDoctor.rating.toString()}',
                           price: currentDoctor.harga.toString(),
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => DetailDokterPage(doctor: currentDoctor)),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailDokterPage(doctor: currentDoctor)),
                             );
                           },
                         );
@@ -391,13 +396,15 @@ class DoctorCard extends StatelessWidget {
                       ElevatedButton(
                         onPressed: onPressed,
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8), // Mengatur padding
-                          minimumSize: Size(64, 24), // Mengatur ukuran minimum tombol
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          minimumSize: Size(64, 24),
                           textStyle: TextStyle(
-                            fontSize: 12, // Mengatur ukuran teks
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
-                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                         ),
                         child: Text(
                           'Detail',

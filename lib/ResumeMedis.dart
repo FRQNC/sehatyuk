@@ -22,24 +22,24 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
   int usia = 0;
   String gender = "";
   late RekamMedis data;
-  
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     data = widget.detail;
-    if(data.janjiTemu['id_janji_temu_as_orang_lain'] != 0){
-      pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
+    if (data.janjiTemu['id_janji_temu_as_orang_lain'] != 0) {
+      pasien =
+          data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
       bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
-      usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
+      usia = calculateAge(
+          data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
       gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
-    }
-    else if(data.janjiTemu['is_relasi'] == 1){
+    } else if (data.janjiTemu['is_relasi'] == 1) {
       pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
       bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
       usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
       gender = data.janjiTemu['relasi']['gender_relasi'];
-    }
-    else{
+    } else {
       pasien = data.janjiTemu['user']['nama_lengkap_user'];
       bpjs = data.janjiTemu['user']['no_bpjs_user'];
       usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
@@ -67,44 +67,6 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
-    // if(data.janjiTemu['id_janji_temu_as_orang_lain'] == 0){
-    //   pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
-    //   bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
-    //   usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
-    //   gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
-    // }
-    // else if(data.janjiTemu['is_relasi'] == 1){
-    //   pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
-    //   bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
-    //   usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
-    //   gender = data.janjiTemu['relasi']['gender_relasi'];
-    // }
-    // else{
-    //   pasien = data.janjiTemu['user']['nama_lengkap_user'];
-    //   bpjs = data.janjiTemu['user']['no_bpjs_user'];
-    //   usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
-    //   gender = data.janjiTemu['user']['gender_user'];
-    // }
-
-    // if(type == 1){
-    //   pasien = data.janjiTemu['user']['nama_lengkap_user'];
-    //   bpjs = data.janjiTemu['user']['no_bpjs_user'];
-    //   usia = calculateAge(data.janjiTemu['user']['tgl_lahir_user']);
-    //   gender = data.janjiTemu['user']['gender_user'];
-    // }
-    // else if(type == 2){
-    //   pasien = data.janjiTemu['relasi']['nama_lengkap_relasi'];
-    //   bpjs = data.janjiTemu['relasi']['no_bpjs_relasi'];
-    //   usia = calculateAge(data.janjiTemu['relasi']['tgl_lahir_relasi']);
-    //   gender = data.janjiTemu['relasi']['gender_relasi'];
-    // }
-    // else{
-    //   pasien = data.janjiTemu['janji_temu_as_orang_lain']['nama_lengkap_orang_lain'];
-    //   bpjs = data.janjiTemu['janji_temu_as_orang_lain']['no_bpjs_orang_lain'];
-    //   usia = calculateAge(data.janjiTemu['janji_temu_as_orang_lain']['tgl_lahir_orang_lain']);
-    //   gender = data.janjiTemu['janji_temu_as_orang_lain']['gender_orang_lain'];
-    // }
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -235,15 +197,15 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                            Text(
-                              'Terakhir Bertemu',
-                              style: TextStyle(
-                                color: Color(0xff4A707A),
-                                fontSize: 14,
-                                fontWeight: bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                        Text(
+                          'Terakhir Bertemu',
+                          style: TextStyle(
+                            color: Color(0xff4A707A),
+                            fontSize: 14,
+                            fontWeight: bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
                         Text(
                           '${data.janjiTemu['dokter']['spesialisasi_dokter']} | ${data.janjiTemu['dokter']['nama_lengkap_dokter']}',
                           style: TextStyle(
@@ -264,14 +226,14 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           height: 10,
                         ),
                         Text(
-                              'Hasil Diagnosis',
-                              style: TextStyle(
-                                color: Color(0xff4A707A),
-                                fontSize: 14,
-                                fontWeight: bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                          'Hasil Diagnosis',
+                          style: TextStyle(
+                            color: Color(0xff4A707A),
+                            fontSize: 14,
+                            fontWeight: bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
                         Text(
                           data.hasilDiagnosis,
                           style: TextStyle(
@@ -292,14 +254,14 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           height: 10,
                         ),
                         Text(
-                              'Pengobatan atau Tindakan',
-                              style: TextStyle(
-                                color: Color(0xff4A707A),
-                                fontSize: 14,
-                                fontWeight: bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                          'Pengobatan atau Tindakan',
+                          style: TextStyle(
+                            color: Color(0xff4A707A),
+                            fontSize: 14,
+                            fontWeight: bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
                         Text(
                           data.pengobatan,
                           style: TextStyle(
@@ -320,14 +282,14 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           height: 10,
                         ),
                         Text(
-                              'Obat dan Dosis',
-                              style: TextStyle(
-                                color: Color(0xff4A707A),
-                                fontSize: 14,
-                                fontWeight: bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                          'Obat dan Dosis',
+                          style: TextStyle(
+                            color: Color(0xff4A707A),
+                            fontSize: 14,
+                            fontWeight: bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
                         Text(
                           '${data.obat['nama_obat']} | ${data.dosisobat}',
                           style: TextStyle(
@@ -348,14 +310,14 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                           height: 10,
                         ),
                         Text(
-                              'Catatan',
-                              style: TextStyle(
-                                color: Color(0xff4A707A),
-                                fontSize: 14,
-                                fontWeight: bold,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
+                          'Catatan',
+                          style: TextStyle(
+                            color: Color(0xff4A707A),
+                            fontSize: 14,
+                            fontWeight: bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
                         Text(
                           data.catatan,
                           style: TextStyle(
@@ -400,7 +362,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
               primary: Color(0xFF4A707A),
               secondary: Color(0xFFC2C8C5),
               tertiary: Color(0xFF94B0B7),
-              onPrimary: Color(0xFFDDDDDA), // body text color
+              onPrimary: Color(0xFFDDDDDA),
               onSecondary: Color(0xFF37363B),
             ),
           ),
