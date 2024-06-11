@@ -329,7 +329,7 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                               ),
                             ),
                         Text(
-                          data.obat + ' | 1 tetes 2x sehari',
+                          '${data.obat['nama_obat']} | ${data.dosisobat}',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 14,
