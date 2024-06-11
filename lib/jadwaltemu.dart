@@ -344,7 +344,7 @@ class JadwalTemuCard extends StatelessWidget{
                           //   },
                           //   child: Container(
                           //     alignment: Alignment.center,
-                          //       // height: 26,
+                          //       // height: 60,
                           //       width: 80,
                           //       decoration: BoxDecoration(
                           //         // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
@@ -421,7 +421,7 @@ class JadwalTemuCard extends StatelessWidget{
                         //       },
                         //       child: Container(
                         //         alignment: Alignment.center,
-                        //         // height: 26,
+                        //         // height: 60,
                         //         width: 80,
                         //         decoration: BoxDecoration(
                         //           // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
@@ -469,7 +469,7 @@ class JadwalTemuCard extends StatelessWidget{
                 //         },
                 //         child: Container(
                 //           alignment: Alignment.center,
-                //           // height: 26,
+                //           // height: 60,
                 //           width: 80,
                 //           decoration: BoxDecoration(
                 //             // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
@@ -497,7 +497,7 @@ class JadwalTemuCard extends StatelessWidget{
                 //         },
                 //         child: Container(
                 //           alignment: Alignment.center,
-                //             // height: 26,
+                //             // height: 60,
                 //             width: 80,
                 //             decoration: BoxDecoration(
                 //               // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
@@ -525,7 +525,7 @@ class JadwalTemuCard extends StatelessWidget{
                 // )
             ],
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 15,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -539,24 +539,27 @@ class JadwalTemuCard extends StatelessWidget{
                   visible: btnEnabled,
                   child: Container(
                     alignment: Alignment.center,
-                      // height: 26,
-                      width: 80,
+                      height: 40,
+                      width: 150,
                       decoration: BoxDecoration(
                         // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Color.fromARGB(255, 145, 60, 60),
                         borderRadius: BorderRadius.circular(7),
                       ),
-                      child: Center(
-                        child: Text(
-                          'Cancel Antrian',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            'Cancel Antrian',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            // maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
                         ),
                       ),
                   ),
@@ -565,38 +568,36 @@ class JadwalTemuCard extends StatelessWidget{
               Visibility(visible: btnEnabled, child: SizedBox(width: 10,)),
               GestureDetector(
                 onTap: () {
-                  // // Navigasi ke halaman baru
-                  //   if (janji[5].isEmpty) {
-                  //     // Navigasi ke halaman baru jika kondisi terpenuhi 325
-                  // print("dokter: $id_dokter");
                   if(btnEnabled){
                       Navigator.push(          
                         context,
                         MaterialPageRoute(builder: (context) => AmbilAntrianPage(id: id_janji_temu, kode : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter, index: index)),
                       );
                   }
-                  //   }
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  // height: 26,
-                  width: 80,
+                  height: 40,
+                  width: 150,
                   decoration: BoxDecoration(
                     // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
-                    color: btnEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+                    color: btnEnabled ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.tertiary,
                     borderRadius: BorderRadius.circular(7),
                   ),
-                  child: Center(
-                    child: Text(
-                      status,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        status,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        // maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -607,7 +608,7 @@ class JadwalTemuCard extends StatelessWidget{
               //   },
               //   child: Container(
               //     alignment: Alignment.center,
-              //       // height: 26,
+              //       // height: 60,
               //       width: 80,
               //       decoration: BoxDecoration(
               //         // color: janji[5].isEmpty ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
