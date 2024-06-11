@@ -17,6 +17,7 @@ class DaftarResumePage extends StatefulWidget {
 class _DaftarResumePageState extends State<DaftarResumePage> {
   String _token = "";
   String _userId = "";
+  String _searchQuery = "";
 
   @override
   void initState() {
@@ -60,6 +61,20 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
             return Center(child: Text('Tidak ada rekam medis.'));
           }
 
+          var filteredList = rekamMedisProvider.rekamMedisList.where((rekamMedis) {
+            var nama;
+            if (rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] != 0) {
+              nama = rekamMedis.janjiTemu["janji_temu_as_orang_lain"]
+                  ["nama_lengkap_orang_lain"];
+            } else {
+              nama = (rekamMedis.janjiTemu["is_relasi"] == 1
+                  ? rekamMedis.janjiTemu["relasi"]["nama_lengkap_relasi"]
+                  : rekamMedis.janjiTemu["user"]["nama_lengkap_user"]);
+            }
+
+            return nama.toLowerCase().contains(_searchQuery.toLowerCase());
+          }).toList();
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -90,6 +105,11 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                     margin: EdgeInsets.only(
                         top: 30.0, left: 10.0, right: 10.0, bottom: 20),
                     child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xFFF5F5F5),
@@ -111,48 +131,13 @@ class _DaftarResumePageState extends State<DaftarResumePage> {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Filter',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12.0,
-                              color: Color(0xFF37363B),
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Icon(Icons.tune,
-                              color: Theme.of(context).colorScheme.primary),
-                        ],
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFFF5F5F5)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Color(0xFF94B0B7)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: rekamMedisProvider.rekamMedisList.length,
+                    itemCount: filteredList.length,
                     itemBuilder: (context, index) {
-                      final rekamMedis =
-                          rekamMedisProvider.rekamMedisList[index];
+                      final rekamMedis = filteredList[index];
 
                       var nama;
                       if (rekamMedis.janjiTemu["id_janji_temu_as_orang_lain"] !=
