@@ -53,6 +53,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
     await context.read<RelasiProvider>().fetchData(_user_id, _token);
+    await context.read<DoctorProvider>().fetchDataJadwal(_token, widget.doctor.id.toString());
     setState(() {});
   }
 
@@ -120,10 +121,6 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin{
   Widget build(BuildContext context) {
     var value = context.watch<DoctorProvider>();
     List<Relasi> relasi = context.watch<RelasiProvider>().relasiList;
-
-    if(value.jadwal_dokter.isEmpty || (!value.jadwal_dokter.isEmpty && value.jadwal_dokter[0].idDokter != widget.doctor.id)){
-      value.fetchDataJadwal(_token, widget.doctor.id.toString());
-    }
 
     if(!fetched){
       _fillRelasiList(relasi);

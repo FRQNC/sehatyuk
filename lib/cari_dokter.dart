@@ -38,16 +38,13 @@ class _CariDokterPageState extends State<CariDokterPage> {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
+    await context.read<DoctorProvider>().fetchData(_token);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     var doctor = context.watch<DoctorProvider>();
-
-    if (doctor.doctors.isEmpty) {
-      doctor.fetchData(_token);
-    }
 
     return Scaffold(
       // appBar: AppBar(

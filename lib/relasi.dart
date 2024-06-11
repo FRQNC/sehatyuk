@@ -24,8 +24,6 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
   String _token = "";
   String _user_id = "";
 
-  List<Relasi> relasiList = [];
-
   @override
   void initState() {
     super.initState();
@@ -38,13 +36,12 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
     _user_id = await auth.getId();
     // Once token is fetched, trigger a rebuild of the widget tree
     setState(() {});
-    var relasiProvider = context.read<RelasiProvider>();
-    await relasiProvider.fetchData(_user_id, _token);
-    relasiList = relasiProvider.relasiList;
+    await context.read<RelasiProvider>().fetchData(_user_id, _token);
   }
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
+    var relasiList = context.watch<RelasiProvider>().relasiList;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
