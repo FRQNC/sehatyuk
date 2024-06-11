@@ -40,5 +40,4 @@ class Doctor {
       poli: json['poli'],
     );
   }
-
 }

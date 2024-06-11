@@ -377,27 +377,6 @@ class _ResumeMedisPageState extends State<ResumeMedisPage> with AppMixin {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  child: Text(
-                    'Unduh\nDiagnosa',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 21,
-                      fontWeight: semi,
-                      color: Colors.white,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

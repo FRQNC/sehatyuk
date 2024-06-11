@@ -7,9 +7,19 @@ import 'package:sehatyuk/providers/endpoint.dart';
 class PengingatMinumObatProvider extends ChangeNotifier {
   List<PengingatMinumObat> _pengingatMinumObatList = [];
 
-  List<PengingatMinumObat> get pengingatMinumObatList => _pengingatMinumObatList;
+  List<PengingatMinumObat> get pengingatMinumObatList =>
+      _pengingatMinumObatList;
 
-  PengingatMinumObat _dataPengingatMinumObat = PengingatMinumObat(idPengingat: 0, idObat: 0, idUser: 0,dosis: 0, sendok: '', jadwal: '', aturan: '', obat: {}, user: {});
+  PengingatMinumObat _dataPengingatMinumObat = PengingatMinumObat(
+      idPengingat: 0,
+      idObat: 0,
+      idUser: 0,
+      dosis: 0,
+      sendok: '',
+      jadwal: '',
+      aturan: '',
+      obat: {},
+      user: {});
 
   PengingatMinumObat get dataPengingatMinumObat => _dataPengingatMinumObat;
 
@@ -18,7 +28,8 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> createPengingatMinumObat(String token, PengingatMinumObat pengingat_minum_obat) async {
+  Future<bool> createPengingatMinumObat(
+      String token, PengingatMinumObat pengingat_minum_obat) async {
     final response = await http.post(
       Uri.parse('${Endpoint.url}create_pengingat_minum_obat/'),
       headers: <String, String>{
@@ -30,24 +41,19 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      _pengingatMinumObatList.add(PengingatMinumObat.fromJson(json.decode(response.body)));
+      _pengingatMinumObatList
+          .add(PengingatMinumObat.fromJson(json.decode(response.body)));
       notifyListeners();
-      // login(context, user);
-      // return loginEmail(context, user.email, user.password); // registration successful
       return true;
     } else {
-      // String result = response.body;
-      // if(result.contains("Error: Email sudah digunakan") || result.contains("Error: No telp sudah digunakan")){
-      //   return "credential_error";
-      // }
-      // return "failed";
       return false;
     }
   }
 
   Future<bool> deleteData(String token, String idPengingat) async {
     try {
-      final url = Uri.parse('${Endpoint.url}delete_pengingat_minum_obat_by_id/$idPengingat');
+      final url = Uri.parse(
+          '${Endpoint.url}delete_pengingat_minum_obat_by_id/$idPengingat');
       final response = await http.delete(
         url,
         headers: {
@@ -57,8 +63,8 @@ class PengingatMinumObatProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        // Hapus item dari daftar lokal
-        _pengingatMinumObatList.removeWhere((pengingat) => pengingat.idPengingat.toString() == idPengingat);
+        _pengingatMinumObatList.removeWhere(
+            (pengingat) => pengingat.idPengingat.toString() == idPengingat);
         notifyListeners();
         return true;
       } else {
@@ -70,10 +76,10 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     }
   }
 
-
   Future<void> fetchData(String token, String idUser) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_pengingat_minum_obat/$idUser'); // url read obat
+      final url = Uri.parse(
+          '${Endpoint.url}get_pengingat_minum_obat/$idUser'); // url read obat
       final response = await http.get(
         url,
         headers: {
@@ -85,43 +91,16 @@ class PengingatMinumObatProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
-        _pengingatMinumObatList = responseData.map((data) => PengingatMinumObat.fromJson(data)).toList();
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        _pengingatMinumObatList = responseData
+            .map((data) => PengingatMinumObat.fromJson(data))
+            .toList();
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
-
-  // Future<void> fetchDataById(String token, String id) async {
-  //   try {
-  //     final url = Uri.parse('${Endpoint.url}get_pengingat_minum_obat_by_id/$id'); // url read obat
-  //     final response = await http.get(
-  //       url,
-  //       headers: {
-  //         'accept': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //     );
-  //     print(response.statusCode);
-
-  //     if (response.statusCode == 200) {
-  //       final dynamic responseData = json.decode(response.body);
-  //       _dataPengingatMinumObat = PengingatMinumObat.fromJson(responseData);
-  //       notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
-  //     } else {
-  //       throw Exception('Failed to load data');
-  //     }
-  //   } catch (error) {
-  //     print('Error: $error');
-  //     notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-  //     // Handle error sesuai dengan kebutuhan aplikasi Anda
-  //   }
-  // }
 }
-
-

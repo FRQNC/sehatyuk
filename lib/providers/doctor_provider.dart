@@ -9,7 +9,18 @@ import 'package:sehatyuk/providers/endpoint.dart';
 class DoctorProvider extends ChangeNotifier {
   List<Doctor> _doctors = [];
   List<JadwalDokter> _jadwal_dokter = [];
-  Doctor _dataDokter = Doctor(id: 0, namaLengkap: '', spesialis: '', pengalaman: 0, alumnus: '', harga: 0, minatKlinis: '', foto: '', rating: 0, idPoli: 0, poli: {});
+  Doctor _dataDokter = Doctor(
+      id: 0,
+      namaLengkap: '',
+      spesialis: '',
+      pengalaman: 0,
+      alumnus: '',
+      harga: 0,
+      minatKlinis: '',
+      foto: '',
+      rating: 0,
+      idPoli: 0,
+      poli: {});
   List<Doctor> _dataDokterJoin = [];
 
   List<Doctor> get doctors => _doctors;
@@ -21,6 +32,7 @@ class DoctorProvider extends ChangeNotifier {
     _doctors = value;
     notifyListeners();
   }
+
   set jadwal_dokter(List<JadwalDokter> value) {
     _jadwal_dokter = value;
     notifyListeners();
@@ -28,7 +40,7 @@ class DoctorProvider extends ChangeNotifier {
 
   Future<void> fetchData(String token) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_dokter/'); // url read doctornya
+      final url = Uri.parse('${Endpoint.url}get_dokter/');
       final response = await http.get(
         url,
         headers: {
@@ -40,19 +52,19 @@ class DoctorProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         _doctors = responseData.map((data) => Doctor.fromJson(data)).toList();
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
+
   Future<void> fetchDataById(String token, int id) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_dokter_by_id/$id'); // url read doctornya
+      final url = Uri.parse('${Endpoint.url}get_dokter_by_id/$id');
       final response = await http.get(
         url,
         headers: {
@@ -64,30 +76,28 @@ class DoctorProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final dynamic responseData = json.decode(response.body);
         _dataDokter = Doctor.fromJson(responseData);
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
-    }
-  }
-
-  Future<void> fetchDataJoin(String token, List<JanjiTemu> janji_temu) async{
-    _dataDokterJoin.clear();
-    for(int i = 0; i < janji_temu.length; i++){
-      await fetchDataById(token, janji_temu[i].idDokter);
-      _dataDokterJoin.add(_dataDokter);
-      // print(_dataDokterJoin[i].namaLengkap);
       notifyListeners();
     }
   }
-  
+
+  Future<void> fetchDataJoin(String token, List<JanjiTemu> janji_temu) async {
+    _dataDokterJoin.clear();
+    for (int i = 0; i < janji_temu.length; i++) {
+      await fetchDataById(token, janji_temu[i].idDokter);
+      _dataDokterJoin.add(_dataDokter);
+      notifyListeners();
+    }
+  }
+
   Future<void> fetchDataJadwal(String token, String id) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_jadwal_dokter_by_id/$id'); // url read doctornya
+      final url = Uri.parse('${Endpoint.url}get_jadwal_dokter_by_id/$id');
       final response = await http.get(
         url,
         headers: {
@@ -98,16 +108,15 @@ class DoctorProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
-        _jadwal_dokter = responseData.map((data) => JadwalDokter.fromJson(data)).toList();
-        // print(_jadwal_dokter[0].idDokter);
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        _jadwal_dokter =
+            responseData.map((data) => JadwalDokter.fromJson(data)).toList();
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
 }

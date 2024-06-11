@@ -1,15 +1,14 @@
 class RekamMedis {
-final int idRekamMedis;
-final int idJanjiTemu;
-final int idObat;
-final String hasilDiagnosis;
-final String pengobatan;
-final String dosisobat;
-final String catatan;
-final Map<String, dynamic> janjiTemu;
-final Map<String, dynamic> obat;
+  final int idRekamMedis;
+  final int idJanjiTemu;
+  final int idObat;
+  final String hasilDiagnosis;
+  final String pengobatan;
+  final String dosisobat;
+  final String catatan;
+  final Map<String, dynamic> janjiTemu;
+  final Map<String, dynamic> obat;
 
-  // Constructor
   RekamMedis({
     required this.idRekamMedis,
     required this.idJanjiTemu,

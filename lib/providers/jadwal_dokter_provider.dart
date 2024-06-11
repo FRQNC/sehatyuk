@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
 
-class JadwalDokterProvider extends ChangeNotifier{
+class JadwalDokterProvider extends ChangeNotifier {
   List<JadwalDokter> _jadwalDokter = [];
   List<JadwalDokter> get jadwalDokter => _jadwalDokter;
 
@@ -16,17 +16,15 @@ class JadwalDokterProvider extends ChangeNotifier{
   Future<void> fetchData(String token) async {
     try {
       final url = Uri.parse('${Endpoint.url}get_jadwal_dokter/');
-      final response = await http.get(
-        url,
-        headers: {
-          'accept' : 'application/json',
-          'Authorization': 'Bearer $token', 
-        }
-      );
+      final response = await http.get(url, headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
-        _jadwalDokter = responseData.map((data) => JadwalDokter.fromJson(data)).toList();
+        _jadwalDokter =
+            responseData.map((data) => JadwalDokter.fromJson(data)).toList();
         notifyListeners();
       } else {
         throw Exception('Failed to load data');

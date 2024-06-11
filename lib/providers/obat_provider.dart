@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/models/obat.dart'; // Pastikan Anda memiliki model Obat yang sesuai
+import 'package:sehatyuk/models/obat.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
@@ -9,7 +9,17 @@ class ObatProvider extends ChangeNotifier {
 
   List<Obat> get obats => _obats;
 
-  Obat _dataObat = Obat(idObat: 0, namaObat: '', deskripsiObat: '', komposisiObat: '', dosisObat: '', peringatanObat: '', efekSampingObat: '', fotoObat: '', idJenisObat: 0, jenisObat: {});
+  Obat _dataObat = Obat(
+      idObat: 0,
+      namaObat: '',
+      deskripsiObat: '',
+      komposisiObat: '',
+      dosisObat: '',
+      peringatanObat: '',
+      efekSampingObat: '',
+      fotoObat: '',
+      idJenisObat: 0,
+      jenisObat: {});
 
   Obat get dataObat => _dataObat;
 
@@ -20,7 +30,7 @@ class ObatProvider extends ChangeNotifier {
 
   Future<void> fetchData(String token) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_obat/'); // url read obat
+      final url = Uri.parse('${Endpoint.url}get_obat/');
       final response = await http.get(
         url,
         headers: {
@@ -28,26 +38,23 @@ class ObatProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-      
-      // print(response.statusCode);
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
         _obats = responseData.map((data) => Obat.fromJson(data)).toList();
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
 
   Future<void> fetchDataById(String token, String id) async {
     try {
-      final url = Uri.parse('${Endpoint.url}get_obat_by_id/$id'); // url read obat
+      final url = Uri.parse('${Endpoint.url}get_obat_by_id/$id');
       final response = await http.get(
         url,
         headers: {
@@ -60,14 +67,13 @@ class ObatProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final dynamic responseData = json.decode(response.body);
         _dataObat = Obat.fromJson(responseData);
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
 
@@ -75,6 +81,9 @@ class ObatProvider extends ChangeNotifier {
     if (query.isEmpty) {
       return _obats;
     }
-    return _obats.where((obat) => obat.namaObat.toLowerCase().contains(query.toLowerCase())).toList();
+    return _obats
+        .where(
+            (obat) => obat.namaObat.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 }

@@ -40,7 +40,7 @@ class Relasi {
 
   Map<String, dynamic> toJson() {
     return {
-      'id_user' : id_user,
+      'id_user': id_user,
       'nama_lengkap_relasi': namaLengkap,
       'no_bpjs_relasi': noBPJS,
       'tgl_lahir_relasi': tanggalLahir,

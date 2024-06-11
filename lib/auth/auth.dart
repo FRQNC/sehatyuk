@@ -32,8 +32,7 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      // login(context, user);
-      return loginEmail(context, user.email, user.password); // registration successful
+      return loginEmail(context, user.email, user.password); 
     } else {
       String result = response.body;
       if(result.contains("Error: Email sudah digunakan") || result.contains("Error: No telp sudah digunakan")){
