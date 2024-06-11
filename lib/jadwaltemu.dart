@@ -546,7 +546,7 @@ class JadwalTemuCard extends StatelessWidget{
                   // print("dokter: $id_dokter");
                       Navigator.push(          
                         context,
-                        MaterialPageRoute(builder: (context) => AmbilAntrianPage(id : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
+                        MaterialPageRoute(builder: (context) => AmbilAntrianPage(id: id_janji_temu, kode : kode_janji_temu, tanggal : tgl_janji_temu, namadokter : namaDokter, spesialisasi: spesialisasi, harga : biaya_janji_temu, id_dokter: id_dokter)),
                       );
                   //   }
                 },
