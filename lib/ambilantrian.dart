@@ -84,7 +84,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
           'Ambil Nomor Antrian',
           style: TextStyle(
             fontWeight: semi,
-            fontSize: 16,
+            fontSize: 20,
             color: Theme.of(context).colorScheme.primary,
             letterSpacing: 0.8,
           ),
@@ -110,6 +110,27 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin{
                 ),
               ],
             ),
+            SizedBox(height: 20), // Add some space between the image and the button
+              ElevatedButton(
+                onPressed: () {
+                  // Define the action when the button is pressed
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15), // Button padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30), // Rounded corners
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  
+                ),
+                child: Text(
+                  'Ambil Antrian',
+                  style: TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 24,
+                  ),
+                ),
+              )
           ],
         ),
       ),

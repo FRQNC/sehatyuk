@@ -88,7 +88,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
         _pengingatMinumObatList = responseData.map((data) => PengingatMinumObat.fromJson(data)).toList();
         notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
       } else {
-        throw Exception('sdasa');
+        throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
