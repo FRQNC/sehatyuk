@@ -339,6 +339,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                       ),
                     ],
                   ),
+                  SizedBox(height: 15,)
                 ],
               ),
             ),

@@ -359,7 +359,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               const Divider(height: 5),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
