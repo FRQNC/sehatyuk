@@ -7,8 +7,6 @@ import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/route.dart';
 
 class UserProvider extends ChangeNotifier {
-  // int? _userId;
-  // String? _token = "";
   Users _userData = Users(
       namaLengkap: '',
       tanggalLahir: '',
@@ -18,17 +16,10 @@ class UserProvider extends ChangeNotifier {
       noTelp: '',
       email: '',
       password: '',
-      photoUrl: ''); // tambahkan variabel untuk menyimpan data pengguna
-  Users get userData => _userData; // Getter untuk mengakses data pengguna
+      photoUrl: '');
+  Users get userData => _userData;
 
   AuthService auth = AuthService();
-
-  // Future<void> setUserFromJson(Map<String, dynamic> json) async {
-  //   _token = json["access_token"];
-  //   _userId = json["user_id"];
-  //   notifyListeners();
-  //   print(_userId.toString() + "AAAAAAAAAAAAAAAAAAAAAAA");
-  // }
 
   Future<String> register(BuildContext context, Users user) async {
     final response = await http.post(Uri.parse(Endpoint.url + "create_user/"),
@@ -47,7 +38,6 @@ class UserProvider extends ChangeNotifier {
           "password_user": user.password,
         }));
     if (response.statusCode == 200) {
-      // loginByEmail(context, user.email, user.password);
       return loginByEmail(context, user.email, user.password);
       ;
     } else {
@@ -132,8 +122,7 @@ class UserProvider extends ChangeNotifier {
       _userData = updatedUser;
       notifyListeners();
       return "success";
-    }
-    else{
+    } else {
       String result = response.body;
       if (result.contains("Error: Email sudah digunakan") ||
           result.contains("Error: No telp sudah digunakan")) {
@@ -143,7 +132,8 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> updateUserPassword(String oldPassword, String newPassword) async{
+  Future<String> updateUserPassword(
+      String oldPassword, String newPassword) async {
     String id = await auth.getId();
     String token = await auth.getToken();
 
@@ -153,16 +143,13 @@ class UserProvider extends ChangeNotifier {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode({
-        "old_password" : oldPassword,
-        "new_password" : newPassword
-      }),
+      body: jsonEncode(
+          {"old_password": oldPassword, "new_password": newPassword}),
     );
 
     if (response.statusCode == 200) {
       return "success";
-    }
-    else{
+    } else {
       String result = response.body;
       if (result.contains("Error: Password tidak sesuai")) {
         return "wrong_password";

@@ -8,8 +8,6 @@ class PengingatMinumObat {
   final String aturan;
   Map<String, dynamic> obat;
   final Map<String, dynamic> user;
-  // Map<String, dynamic> namaObat;
-  // Map<String, dynamic> fotoObat;
 
   PengingatMinumObat({
     this.idPengingat,
@@ -21,8 +19,6 @@ class PengingatMinumObat {
     required this.aturan,
     required this.obat,
     required this.user,
-    // required this.namaObat,
-    // required this.fotoObat,
   });
 
   factory PengingatMinumObat.fromJson(Map<String, dynamic> json) {
@@ -36,8 +32,6 @@ class PengingatMinumObat {
       aturan: json['aturan'],
       obat: json['obat'],
       user: json['user'],
-      // namaObat: json['nama_obat'],
-      // fotoObat: json['foto_obat'],
     );
   }
 

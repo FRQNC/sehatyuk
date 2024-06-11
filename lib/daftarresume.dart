@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/ResumeMedis.dart';
-import 'package:sehatyuk/detail_resume.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/models/rekam_medis.dart';
 import 'package:sehatyuk/providers/rekam_medis_provider.dart';

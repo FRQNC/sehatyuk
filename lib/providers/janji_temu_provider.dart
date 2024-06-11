@@ -30,15 +30,8 @@ class JanjiTemuProvider extends ChangeNotifier {
     print(janji_temu.idOrangLain);
 
     if (response.statusCode == 200) {
-      // login(context, user);
-      // return loginEmail(context, user.email, user.password); // registration successful
       return true;
     } else {
-      // String result = response.body;
-      // if(result.contains("Error: Email sudah digunakan") || result.contains("Error: No telp sudah digunakan")){
-      //   return "credential_error";
-      // }
-      // return "failed";
       return false;
     }
   }
@@ -56,15 +49,15 @@ class JanjiTemuProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
-        _janjiTemuList = responseData.map((data) => JanjiTemu.fromJson(data)).toList();
-        notifyListeners(); // Memberi tahu pendengar tentang perubahan pada data
+        _janjiTemuList =
+            responseData.map((data) => JanjiTemu.fromJson(data)).toList();
+        notifyListeners();
       } else {
         throw Exception('Failed to load data');
       }
     } catch (error) {
       print('Error: $error');
-      notifyListeners(); // Memberi tahu pendengar bahwa terjadi kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      notifyListeners();
     }
   }
 
@@ -80,17 +73,16 @@ class JanjiTemuProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        // Jika penghapusan berhasil, kita perlu menghapus item dari daftar janji temu lokal
-        _janjiTemuList.removeWhere((janjiTemu) => janjiTemu.id.toString() == id);
-        notifyListeners(); // Memberi tahu pendengar bahwa ada perubahan pada data
-        return true; // Penghapusan berhasil
+        _janjiTemuList
+            .removeWhere((janjiTemu) => janjiTemu.id.toString() == id);
+        notifyListeners();
+        return true;
       } else {
-        return false; // Penghapusan gagal
+        return false;
       }
     } catch (error) {
       print('Error: $error');
-      return false; // Penghapusan gagal karena kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      return false;
     }
   }
 
@@ -106,25 +98,22 @@ class JanjiTemuProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        // Jika penghapusan berhasil, kita perlu menghapus item dari daftar janji temu lokal
         final updatedJanjiTemu = JanjiTemu.fromJson(json.decode(response.body));
-      
-        // Update the status of the item in the local list
-        final index = _janjiTemuList.indexWhere((janjiTemu) => janjiTemu.id == updatedJanjiTemu.id);
+
+        final index = _janjiTemuList
+            .indexWhere((janjiTemu) => janjiTemu.id == updatedJanjiTemu.id);
         if (index != -1) {
           _janjiTemuList[index] = updatedJanjiTemu;
-          notifyListeners(); // Notify listeners about the data change
+          notifyListeners();
         }
-        
-        return true; // Penghapusan berhasil
+
+        return true;
       } else {
-        return false; // Penghapusan gagal
+        return false;
       }
     } catch (error) {
       print('Error: $error');
-      return false; // Penghapusan gagal karena kesalahan
-      // Handle error sesuai dengan kebutuhan aplikasi Anda
+      return false;
     }
   }
-
-} 
+}

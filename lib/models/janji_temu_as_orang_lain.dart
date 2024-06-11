@@ -31,7 +31,7 @@ class JanjiTemuAsOrangLain {
       id_user: json['id_user'],
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'nama_lengkap_orang_lain': namaOrangLain,
@@ -43,5 +43,4 @@ class JanjiTemuAsOrangLain {
       'id_user': id_user,
     };
   }
-
 }
