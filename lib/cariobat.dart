@@ -22,6 +22,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin {
   String _token = "";
   String _user_id = "";
   String searchQuery = "";
+  bool _isInitialized = false;
 
   TextEditingController searchController = TextEditingController();
   @override
@@ -33,16 +34,16 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin {
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    setState(() {});
+    var obatProvider = Provider.of<ObatProvider>(context, listen: false);
+    await obatProvider.fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var obat = context.watch<ObatProvider>();
-
-    if (obat.obats.isEmpty) {
-      obat.fetchData(_token);
-    }
 
     var filteredObats = obat.searchObats(searchQuery);
 
@@ -130,7 +131,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin {
                 ),
               ),
               SizedBox(height: 24),
-              Consumer<ObatProvider>(
+              _isInitialized ? Consumer<ObatProvider>(
                 builder: (context, obat, _) {
                   return GridView.count(
                     shrinkWrap: true,
@@ -155,7 +156,7 @@ class _CariObatPageState extends State<CariObatPage> with AppMixin {
                     }).toList(),
                   );
                 },
-              ),
+              ) : Center(child: CircularProgressIndicator(),),
             ],
           ),
         ),

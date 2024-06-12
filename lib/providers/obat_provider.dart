@@ -3,8 +3,12 @@ import 'package:sehatyuk/models/obat.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
+import 'package:sehatyuk/auth/auth.dart';
+
 
 class ObatProvider extends ChangeNotifier {
+  AuthService auth = AuthService();
+
   List<Obat> _obats = [];
 
   List<Obat> get obats => _obats;
@@ -28,7 +32,8 @@ class ObatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchData(String token) async {
+  Future<void> fetchData() async {
+    String token = await auth.getToken();
     try {
       final url = Uri.parse('${Endpoint.url}get_obat/');
       final response = await http.get(
@@ -52,7 +57,8 @@ class ObatProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchDataById(String token, String id) async {
+  Future<void> fetchDataById(String id) async {
+    String token = await auth.getToken();
     try {
       final url = Uri.parse('${Endpoint.url}get_obat_by_id/$id');
       final response = await http.get(

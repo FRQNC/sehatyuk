@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/models/users.dart';
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin {
   double sideMargin = 20;
   bool isPhone = true;
   bool _obscureText = true;
+  bool _isLoading = false;
 
   void _closeKeyboard() {
     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -61,6 +63,7 @@ class _LoginPageState extends State<LoginPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+     var userProvider = Provider.of<UserProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         _closeKeyboard();
@@ -344,8 +347,11 @@ class _LoginPageState extends State<LoginPage> with AppMixin {
                 Center(
                   child: Container(
                     width: 150,
-                    child: TextButton(
+                    child: _isLoading ? Center(child: CircularProgressIndicator()) : TextButton(
                       onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
                         String isSucceed;
                         if (isPhone)
                           isSucceed = await _loginPhone();
@@ -374,6 +380,9 @@ class _LoginPageState extends State<LoginPage> with AppMixin {
                             ),
                           );
                         }
+                        setState(() {
+                          _isLoading = false;
+                        });
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,

@@ -17,7 +17,8 @@ import 'package:sehatyuk/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
-import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,43 +31,50 @@ class _HomePageState extends State<HomePage> {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
+
+  UserProvider user = UserProvider();
 
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    setState(() {});
+    _fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   void initState() {
-    var welcomeDialog = context.read<WelcomeDialogProvider>();
-
     super.initState();
     _fetchToken();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (welcomeDialog.openedFirstTime) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool? openedFirstTime = prefs.getBool('openedFirstTime');
+
+      if (openedFirstTime == null || openedFirstTime == true) {
         _showPopup();
+        await prefs.setBool('openedFirstTime', false);
       }
     });
+  }
+
+  Future<void> _fetchData() async{
+    user = Provider.of<UserProvider>(context, listen: false);
+    await user.fetchData();
   }
 
   void _showPopup() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        var user = context.watch<UserProvider>();
-
-        if (user.userData.namaLengkap == "") {
-          user.fetchData();
-        }
-
         return AlertDialog(
           backgroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: Column(
+          content: _isInitialized ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,12 +144,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ],
-          ),
+          ) : Center(child: CircularProgressIndicator(),),
         );
       },
     );
-    var welcomeDialog = context.read<WelcomeDialogProvider>();
-    welcomeDialog.changeOpenedFirstTime = false;
   }
 
   int _currentIndex = 0;

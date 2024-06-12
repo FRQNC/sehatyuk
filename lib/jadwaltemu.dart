@@ -28,6 +28,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
 
   void alterChecked(bool? newBool) {
     setState(() {
@@ -44,8 +45,11 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    setState(() {});
     await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
+    setState(() {
+      _isInitialized = true;
+    });
+
   }
 
   List<Doctor> doctorJoin = [];
@@ -84,7 +88,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
                   ),
                 ),
                 SizedBox(height: 16),
-                ListView.builder(
+                _isInitialized ? ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: janji_temu.janjiTemuList.length,
@@ -146,7 +150,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
                       index: index,
                     );
                   },
-                ),
+                ) : Center(child: CircularProgressIndicator()),
               ],
             ),
           ),
@@ -376,7 +380,7 @@ class JadwalTemuCard extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
                           child: Text(
-                            'Cancel Antrian',
+                            'Cancel Janji',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 13,

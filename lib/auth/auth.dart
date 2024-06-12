@@ -12,6 +12,14 @@ class AuthService {
 
   // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+  }
+
+
   Future<String> register(BuildContext context, Users user) async {
     final response = await http.post(
       Uri.parse('${Endpoint.url}create_user/'),
@@ -124,6 +132,12 @@ class AuthService {
     return prefs.getString('token') ?? "";
   }
 
+  Future<void> removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+  }
+  
+
   Future<void> setId(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('id', value);
@@ -132,5 +146,15 @@ class AuthService {
   Future<String> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('id') ?? "";
+  }
+
+  Future<void> removeId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('id');
+  }
+
+  Future<void> removeAuth() async{
+    await removeToken();
+    await removeId();
   }
 }

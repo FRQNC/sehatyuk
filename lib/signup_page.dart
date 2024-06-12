@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
@@ -25,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
   bool? isChecked = false;
   bool _obscureText = true;
   bool _obscureTextConfirm = true;
+  bool _isLoading = false;
 
   void _closeKeyboard() {
     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -88,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
   
   @override
   Widget build(BuildContext context) {
+     var userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         _closeKeyboard();
@@ -257,8 +260,11 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                   Center(
                     child: Container(
                       width: 150,
-                      child: TextButton(
+                      child: _isLoading ? Center(child: CircularProgressIndicator()) : TextButton(
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
                           if (_formKey.currentState!.validate()) {
                             String isSucceed = await _register();
                             if (isSucceed == "sukses") {
@@ -292,6 +298,9 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                               );
                             }
                           }
+                          setState(() {
+                            _isLoading = false;
+                          });
                         },
                         style: TextButton.styleFrom(
                           backgroundColor:

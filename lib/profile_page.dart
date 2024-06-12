@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/LoadPage.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/edit_profile.dart';
 import 'package:sehatyuk/ganti_password.dart';
@@ -9,6 +10,9 @@ import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/relasi.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
+
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
@@ -53,6 +57,17 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _refreshData() async {
     await Provider.of<UserProvider>(context, listen: false).fetchData();
   }
+
+  Future<void> _logout() async {
+  auth.removeAuth();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var routeProvider = Provider.of<RouteProvider>(context, listen: false);
+  prefs.setBool("openedFirstTime", true);
+  await Navigator.of(context).pushReplacement(
+    MaterialPageRoute(builder: (context) => LoadPage()),
+  );
+  routeProvider.pageIndex = 0;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -341,12 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               const Divider(height: 5),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const WelcomePage(),
-                                      ));
+                                  _logout();
                                 },
                                 child: Row(children: <Widget>[
                                   Expanded(

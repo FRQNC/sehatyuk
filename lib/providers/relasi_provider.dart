@@ -17,6 +17,15 @@ class RelasiProvider extends ChangeNotifier {
 
   AuthService auth = AuthService();
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+    notifyListeners();
+  }
+
+
   Future<void> fetchData(String id, String token) async {
     try {
       final url = Uri.parse("${Endpoint.url}get_relasi/$id");
@@ -41,6 +50,7 @@ class RelasiProvider extends ChangeNotifier {
   }
 
   Future<int> addRelasi(String token, Relasi relasi) async{
+    _setLoading(true);
     final response = await http.post(
       Uri.parse("${Endpoint.url}create_relasi/"),
       headers: <String, String>{
@@ -50,6 +60,7 @@ class RelasiProvider extends ChangeNotifier {
       },
       body: json.encode(relasi.toJson())
     );
+    _setLoading(false);
     if(response.statusCode == 200){
       return response.statusCode;
     }

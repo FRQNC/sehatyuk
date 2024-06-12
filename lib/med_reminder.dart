@@ -23,29 +23,37 @@ class _MedicationReminderPageState extends State<MedicationReminderPage>
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchToken();
+    _initializeData();
   }
 
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     setState(() {});
-    await context
-        .read<PengingatMinumObatProvider>()
-        .fetchData(_token, _user_id);
+  }
+
+  Future<void> _fetchData() async{
+    var medReminderProvider = Provider.of<PengingatMinumObatProvider>(context, listen: false);
+    await medReminderProvider.fetchData(_token, _user_id);
+  }
+
+  Future<void> _initializeData() async{
+    await _fetchToken();
+    await _fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var pengingat_minum_obat = context.watch<PengingatMinumObatProvider>();
 
-    if (pengingat_minum_obat.pengingatMinumObatList.isEmpty) {
-      pengingat_minum_obat.fetchData(_token, _user_id);
-    }
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -62,7 +70,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage>
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _isInitialized ? SingleChildScrollView(
         child: Column(
           children: [
             Padding(
@@ -159,7 +167,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage>
             ),
           ],
         ),
-      ),
+      ) :  Center(child: CircularProgressIndicator()),
     );
   }
 }

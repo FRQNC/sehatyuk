@@ -28,8 +28,17 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+    notifyListeners();
+  }
+
   Future<bool> createPengingatMinumObat(
       String token, PengingatMinumObat pengingat_minum_obat) async {
+    _setLoading(true);
     final response = await http.post(
       Uri.parse('${Endpoint.url}create_pengingat_minum_obat/'),
       headers: <String, String>{
@@ -39,7 +48,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
       },
       body: jsonEncode(pengingat_minum_obat.toJson()),
     );
-
+    _setLoading(false);
     if (response.statusCode == 200) {
       _pengingatMinumObatList
           .add(PengingatMinumObat.fromJson(json.decode(response.body)));
@@ -54,6 +63,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
     try {
       final url = Uri.parse(
           '${Endpoint.url}delete_pengingat_minum_obat_by_id/$idPengingat');
+      _setLoading(true);
       final response = await http.delete(
         url,
         headers: {
@@ -61,7 +71,7 @@ class PengingatMinumObatProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-
+    _setLoading(false);
       if (response.statusCode == 200) {
         _pengingatMinumObatList.removeWhere(
             (pengingat) => pengingat.idPengingat.toString() == idPengingat);

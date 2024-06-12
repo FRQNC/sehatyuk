@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/LoadPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_as_orang_lain_provider.dart';
@@ -13,8 +14,10 @@ import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/providers/relasi_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
-import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
 import 'package:sehatyuk/providers/rekam_medis_provider.dart';
+import 'package:sehatyuk/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sehatyuk/auth/auth.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +32,6 @@ void main() {
             ChangeNotifierProvider(create: (context) => DoctorProvider()),
             ChangeNotifierProvider(create: (context) => ObatProvider()),
             ChangeNotifierProvider(create: (context) => JadwalDokterProvider()),
-            ChangeNotifierProvider(
-                create: (context) => WelcomeDialogProvider()),
             ChangeNotifierProvider(create: (context) => JanjiTemuProvider()),
             ChangeNotifierProvider(
                 create: (context) => PengingatMinumObatProvider()),
@@ -44,40 +45,59 @@ void main() {
       ));
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  bool openedFirstTime = true;
+  Future<Map<String, dynamic>> _checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    bool openedFirstTime = prefs.getBool('openedFirstTime') ?? true;
+    return {'token': token, 'openedFirstTime': openedFirstTime};
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoadPage(),
+      home: FutureBuilder<Map<String, dynamic>>(
+        future: _checkAuth(),
+        builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          } else if (snapshot.hasData) {
+            String? token = snapshot.data!['token'];
+            if (token != null && token.isNotEmpty) {
+              return RoutePage();
+            } else {
+              return LoadPage();
+            }
+          } else {
+            return LoadPage();
+          }
+        },
+      ),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color(0xFF4A707A),
-            secondary: const Color(0xFFC2C8C5),
-            tertiary: const Color(0xFF94B0B7),
-            onPrimary: const Color(0xFF37363B),
-            onSecondary: const Color(0xFFDDDDDA),
-            primaryContainer: const Color(0x5ED9D9D9),
-          ),
-          fontFamily: 'Poppins',
-          scaffoldBackgroundColor: Colors.white),
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color(0xFF4A707A),
+          secondary: const Color(0xFFC2C8C5),
+          tertiary: const Color(0xFF94B0B7),
+          onPrimary: const Color(0xFF37363B),
+          onSecondary: const Color(0xFFDDDDDA),
+          primaryContainer: const Color(0x5ED9D9D9),
+        ),
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: Colors.white,
+      ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        Locale('en', ''),
-        Locale('id', 'ID'),
+        const Locale('en', ''),
+        const Locale('id', 'ID'),
       ],
     );
   }

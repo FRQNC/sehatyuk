@@ -24,6 +24,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
   String _user_id = "";
   String searchQuery = "";
   String selectedSpecialty = "";
+  bool _isInitialized = false;
 
   TextEditingController searchController = TextEditingController();
 
@@ -37,7 +38,9 @@ class _CariDokterPageState extends State<CariDokterPage> {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     await context.read<DoctorProvider>().fetchData(_token);
-    setState(() {});
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -208,7 +211,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    ListView.builder(
+                    _isInitialized ? ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: doctor.doctors.length,
@@ -243,7 +246,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                           },
                         );
                       },
-                    ),
+                    ) : Center(child: CircularProgressIndicator(),),
                   ],
                 ),
               ],

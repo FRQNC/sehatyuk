@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/med_reminder.dart';
@@ -98,6 +99,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
 
   @override
   Widget build(BuildContext context) {
+    var pengingatMinumObatProvider = Provider.of<PengingatMinumObatProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -192,7 +194,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Center(
-                      child: PrimaryButton(
+                      child: pengingatMinumObatProvider.isLoading ? Center(child: CircularProgressIndicator()): PrimaryButton(
                         buttonText: "Simpan",
                         containerWidth: 160,
                         fontSize: 18,

@@ -57,6 +57,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+     var userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         _closeKeyboard();
@@ -134,7 +135,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                   Center(
                     child: Container(
                       width: 150,
-                      child: TextButton(
+                      child: userProvider.isLoading ? Center(child: CircularProgressIndicator()) : TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();

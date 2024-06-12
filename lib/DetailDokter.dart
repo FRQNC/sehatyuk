@@ -38,6 +38,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -53,7 +54,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
     await context
         .read<DoctorProvider>()
         .fetchDataJadwal(_token, widget.doctor.id.toString());
-    setState(() {});
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   double boxHeight = 35.0;
@@ -156,7 +159,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _isInitialized ? SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
           child: Column(
@@ -165,7 +168,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                 alignment: Alignment.centerLeft,
                 children: [
                   Container(
-                    height: 105,
+                    height: MediaQuery.of(context).size.height * 0.12,
                   ),
                   Positioned(
                     top: 0,
@@ -178,7 +181,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                           width: MediaQuery.of(context).size.width -
                               2 * sideMargin -
                               60,
-                          height: 105,
+                          height: MediaQuery.of(context).size.height * 0.12,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             color: boxColor,
@@ -297,7 +300,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                           'Authorization': 'Bearer $_token',
                         },
                       ),
-                      radius: 47.5),
+                      radius: MediaQuery.of(context).size.height * 0.054),
                 ],
               ),
               SizedBox(
@@ -510,11 +513,12 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
             ],
           ),
         ),
-      ),
+      ) : Center(child: CircularProgressIndicator(),),
     );
   }
 
   _showDialogJanji(remainingJadwal) {
+    var janjiTemuProvider = Provider.of<JanjiTemuProvider>(context, listen: false);
     return showDialog(
         context: context,
         barrierColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
@@ -595,9 +599,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                         });
                                       },
                                       child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.1,
+                                        constraints: BoxConstraints(
+                                          minHeight: MediaQuery.of(context).size.height * 0.1
+                                        ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
@@ -734,7 +738,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                             height: 40,
                           ),
                           Center(
-                            child: TextButton(
+                            child: janjiTemuProvider.isLoading ? CircularProgressIndicator() : TextButton(
                               onPressed: () async {
                                 if (selected != -1) {
                                   if (selectedPerson == "-1") {

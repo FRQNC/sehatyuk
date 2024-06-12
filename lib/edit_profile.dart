@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
@@ -38,6 +39,8 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   final TextEditingController _noTelpController = TextEditingController();
   final TextEditingController _alamatController = TextEditingController();
 
+  bool _isInitialized = false;
+
   @override
   void initState() {
     super.initState();
@@ -47,12 +50,14 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   Future<void> _initializeData() async {
     await _fetchToken();
     await _fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _userId = await auth.getId();
-    setState(() {});
   }
 
   Future<void> _fetchData() async {
@@ -72,6 +77,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -91,7 +97,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _isInitialized ? SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: sideMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,7 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: PrimaryButton(
+                    child: userProvider.isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
@@ -214,7 +220,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
             ),
           ],
         ),
-      ),
+      ) : Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -243,7 +249,10 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
               GestureDetector(
                 onTap: () async {
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                      await FilePicker.platform.pickFiles(
+                        allowCompression: true,
+                        allowedExtensions: ['jpg','jpeg','png']
+                      );
                   if (result != null) {
                     File file = File(result.files.single.path!);
                     setState(() {

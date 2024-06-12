@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
 import 'package:sehatyuk/relasi.dart';
@@ -53,6 +54,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+    var relasiProvider = Provider.of<RelasiProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -157,7 +159,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: PrimaryButton(
+                    child: relasiProvider.isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
@@ -228,7 +230,10 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
               GestureDetector(
                 onTap: () async {
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                      await FilePicker.platform.pickFiles(
+                        allowCompression: true,
+                        allowedExtensions: ['jpg', 'jpeg', 'png']
+                      );
                   if (result != null) {
                     File file = File(result.files.single.path!);
                     _fotoRelasi = p.basename(file.path);
