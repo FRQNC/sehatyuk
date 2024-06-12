@@ -211,65 +211,68 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: fitur1.asMap().entries.map((entry) {
-                String image = entry.value;
-                return GestureDetector(
-                  onTap: () {
-                    if (entry.key == 0) {
-                      route.pageIndex = 1;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pages1[entry.key],
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pages1[entry.key],
-                        ),
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ClipOval(
-                          child: Image.asset(
-                            image,
-                            height: 65,
-                            width: 65,
-                            fit: BoxFit.cover,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: fitur1.asMap().entries.map((entry) {
+                  String image = entry.value;
+                  return GestureDetector(
+                    onTap: () {
+                      if (entry.key == 0) {
+                        route.pageIndex = 1;
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => pages1[entry.key],
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Container(
-                          width: 88,
-                          height: 45,
-                          child: Text(
-                            ft1[entry.key],
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF37363B),
-                              letterSpacing: 0.05,
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => pages1[entry.key],
+                          ),
+                        );
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ClipOval(
+                            child: Image.asset(
+                              image,
+                              height: 65,
+                              width: 65,
+                              fit: BoxFit.cover,
                             ),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.fade,
-                            maxLines: 3,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 4),
+                          Container(
+                            width: 88,
+                            height: 45,
+                            child: Text(
+                              ft1[entry.key],
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF37363B),
+                                letterSpacing: 0.05,
+                              ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.fade,
+                              maxLines: 3,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
             SizedBox(height: 20),
             CarouselSlider(
