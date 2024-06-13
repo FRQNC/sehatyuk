@@ -111,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             backgroundImage:
                                                 _token.isNotEmpty
                                                     ? CachedNetworkImageProvider(
-                                                        '${Endpoint.url}user_image/${data.userData.id_user}',
+                                                        '${Endpoint.url}user_image/${data.userData.id_user}/${data.userData.photoUrl}',
                                                         headers: <String, String>{
                                                           'accept': 'application/json',
                                                           'Authorization': 'Bearer $_token',

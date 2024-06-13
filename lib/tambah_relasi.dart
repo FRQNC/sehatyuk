@@ -40,11 +40,68 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
   String _jenisKelamin = "Laki-laki";
   String _tipeRelasi = "Orang Tua";
 
+  bool _isLoading = false;
+
+  File? _selectedFile;
+
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     setState(() {});
   }
+
+  Future<void> _addRelasiAndUploadImage() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  if (_formkey.currentState!.validate()) {
+    _formkey.currentState!.save();
+
+    // Create Relasi object
+    Relasi relasi = Relasi(
+      id_user: int.parse(_user_id),
+      namaLengkap: _namaLengkapController.text,
+      noBPJS: _noBPJSController.text,
+      tanggalLahir: _dateController.text,
+      gender: _jenisKelamin,
+      noTelp: _noTelpController.text,
+      alamat: _alamatController.text,
+      photoUrl: p.basename(_fotoRelasi),
+      tipe: _tipeRelasi,
+    );
+
+    // Add relasi
+    final response = await relasiProvider.addRelasi(_token, relasi);
+    if (response['statusCode'] == 200) {
+      // Fetch the new relasi ID
+      final int idRelasi = response['id_relasi'];
+
+      // Upload the image if selected
+      if (_selectedFile != null) {
+        final uploadResponse = await relasiProvider.addRelasiImage(idRelasi, _selectedFile!);
+        if (uploadResponse != "Success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to upload image')),
+          );
+        }
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Successfully added relasi')),
+      );
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add relasi')),
+      );
+    }
+  }
+
+  setState(() {
+    _isLoading = false;
+  });
+}
 
   @override
   void initState() {
@@ -159,41 +216,11 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: relasiProvider.isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
+                    child: _isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
-                      onPressed: () async {
-                        if (_formkey.currentState!.validate()) {
-                          _formkey.currentState!.save();
-
-                          Relasi relasi = Relasi(
-                              id_user: int.parse(_user_id),
-                              namaLengkap: _namaLengkapController.text,
-                              noBPJS: _noBPJSController.text,
-                              tanggalLahir: _dateController.text,
-                              gender: _jenisKelamin,
-                              noTelp: _noTelpController.text,
-                              alamat: _alamatController.text,
-                              photoUrl: _fotoRelasi,
-                              tipe: _tipeRelasi);
-
-                          int? response =
-                              await relasiProvider.addRelasi(_token, relasi);
-
-                          if (response == 200) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Berhasil menambah relasi')),
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Gagal menambah relasi')),
-                            );
-                          }
-                        }
-                      },
+                      onPressed: () async {await _addRelasiAndUploadImage();},
                     ),
                   ),
                 )
@@ -231,12 +258,15 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 onTap: () async {
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
-                        allowCompression: true,
+                        type: FileType.custom,
                         allowedExtensions: ['jpg', 'jpeg', 'png']
                       );
                   if (result != null) {
                     File file = File(result.files.single.path!);
-                    _fotoRelasi = p.basename(file.path);
+                    setState(() {
+                      _selectedFile = file;
+                      _fotoRelasi = file.path;
+                    });
                   } else {}
                 },
                 child: Container(
@@ -250,10 +280,13 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                     alignment: Alignment.center,
                     children: [
                       Center(
-                        child: Icon(
+                        child: (_fotoRelasi.isEmpty) ? Icon(
                           Icons.person,
                           size: 60,
                           color: Color(0xFF4A707A),
+                        ) : CircleAvatar(
+                          backgroundImage: FileImage(File(_fotoRelasi)) as ImageProvider,
+                          radius: 60,
                         ),
                       ),
                       Positioned(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/auth/auth.dart';
@@ -5,6 +7,9 @@ import 'dart:convert';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/route.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
+
 
 class UserProvider extends ChangeNotifier {
   Users _userData = Users(
@@ -140,6 +145,52 @@ class UserProvider extends ChangeNotifier {
       return "failed";
     }
   }
+
+Future<String> updateUserImage(File file) async {
+  String id = await auth.getId();
+  String token = await auth.getToken();
+
+  try {
+    // Detect the file's MIME type
+    String? mimeType = lookupMimeType(file.path);
+    if (mimeType == null) {
+      mimeType = 'application/octet-stream'; // Fallback to default
+    }
+
+    // Create multipart request
+    var request = http.MultipartRequest('POST', Uri.parse("${Endpoint.url}upload_user_image/$id"))
+      ..headers['Authorization'] = 'Bearer $token'
+      ..files.add(await http.MultipartFile.fromPath(
+        'file',
+        file.path,
+        contentType: MediaType.parse(mimeType),
+      ));
+
+    // Log request details
+    print('Sending request to: ${request.url}');
+    print('Headers: ${request.headers}');
+    print('Files: ${request.files.map((f) => f.filename).join(', ')}');
+
+    // Send request
+    var response = await request.send();
+
+    // Get response data
+    var responseData = await http.Response.fromStream(response);
+
+    // Log response details
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${responseData.body}');
+
+    if (response.statusCode == 200) {
+      return "success";
+    } else {
+      return "failed: ${responseData.body}";
+    }
+  } catch (e) {
+    print('Exception: $e');
+    return "failed: $e";
+  }
+}
 
   Future<String> updateUserPassword(
       String oldPassword, String newPassword) async {

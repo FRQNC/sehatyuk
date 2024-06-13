@@ -31,6 +31,9 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   String _userId = "";
   String _fotoUserNew = "";
   String _jenisKelamin = "Laki-laki";
+  bool _isLoading = false;
+  File? _selectedFile;
+  String _userPhoto = "";
 
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _namaLengkapController = TextEditingController();
@@ -70,6 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       _noTelpController.text = userProvider.userData.noTelp;
       _alamatController.text = userProvider.userData.alamat;
       _userId = userProvider.userData.id_user;
+      _userPhoto = userProvider.userData.photoUrl;
       _jenisKelamin =
           userProvider.userData.gender == 'L' ? "Laki-laki" : "Perempuan";
     });
@@ -170,14 +174,16 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: userProvider.isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
+                    child: _isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
                       onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-
                           Users userUpdate = Users(
                             id_user: _userId,
                             email: _emailController.text,
@@ -190,8 +196,12 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                             photoUrl: p.basename(_fotoUserNew),
                           );
 
-                          String? response =
-                              await userProvider.updateUserProfile(userUpdate);
+                          String? response;
+
+                          response = await userProvider.updateUserProfile(userUpdate);
+                          if(_selectedFile != null){
+                              response = await userProvider.updateUserImage(_selectedFile!);
+                          }
 
                           if (response == "success") {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -209,6 +219,10 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                               SnackBar(content: Text('Gagal memperbarui data')),
                             );
                           }
+
+                          setState(() {
+                            _isLoading = false;
+                          });
 
                           Navigator.pop(context, true);
                         }
@@ -250,12 +264,14 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 onTap: () async {
                   FilePickerResult? result =
                       await FilePicker.platform.pickFiles(
-                        allowCompression: true,
+                        type: FileType.custom,
                         allowedExtensions: ['jpg','jpeg','png']
                       );
                   if (result != null) {
                     File file = File(result.files.single.path!);
+                    print("file name is ${p.basename(file.path)}");
                     setState(() {
+                      _selectedFile = file;
                       _fotoUserNew = file.path;
                     });
                   }
@@ -274,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                         CircleAvatar(
                           backgroundImage: _fotoUserNew.isEmpty
                               ? CachedNetworkImageProvider(
-                                  '${Endpoint.url}user_image/$_userId',
+                                  '${Endpoint.url}user_image/$_userId/$_userPhoto',
                                   headers: <String, String>{
                                     'accept': 'application/json',
                                     'Authorization': 'Bearer $_token',
