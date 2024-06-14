@@ -62,6 +62,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
   double boxHeight = 35.0;
   bool? isChecked = false;
   bool fetched = false;
+  bool _isLoading = false;
 
   List<String> days = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
   int i = 0;
@@ -574,7 +575,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                             constraints: BoxConstraints(
                                 maxHeight:
                                     MediaQuery.of(context).size.height * 0.3),
-                            child: remainingJadwal.length > 1 ? ListView(
+                            child: remainingJadwal.length > 0 ? ListView(
                               children: [
                                 GridView.builder(
                                   shrinkWrap: true,
@@ -753,7 +754,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                             height: 40,
                           ),
                           Center(
-                            child: janjiTemuProvider.isLoading
+                            child: _isLoading
                                 ? CircularProgressIndicator()
                                 : TextButton(
                                     onPressed: () async {
@@ -791,9 +792,15 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                                 int.tryParse(selectedPerson ??
                                                         "0") ??
                                                     0;
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
                                             bool isSucceed =
                                                 await createJanjiTemu(
                                                     selectedPersonValue);
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
                                             if (isSucceed) {
                                               Navigator.pop(context);
                                               _showDialogBerhasil(

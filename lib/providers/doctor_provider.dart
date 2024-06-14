@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/models/jadwal_dokter.dart';
@@ -5,6 +7,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/models/janji_temu.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
+import 'dart:core';
 
 class DoctorProvider extends ChangeNotifier {
   List<Doctor> _doctors = [];
@@ -110,6 +113,17 @@ class DoctorProvider extends ChangeNotifier {
         final List<dynamic> responseData = json.decode(response.body);
         _jadwal_dokter =
             responseData.map((data) => JadwalDokter.fromJson(data)).toList();
+            DateTime now = new DateTime.now();
+            DateTime date = new DateTime(now.year, now.month, now.day);
+            for(int i = _jadwal_dokter.length - 1;i >= 0;i--){
+              if(_jadwal_dokter[i].tanggalJadwalDokter.isBefore(date)){
+                print("$i ${_jadwal_dokter[i].tanggalJadwalDokter} | date now : $date");
+                _jadwal_dokter.removeAt(i);
+              }
+            }
+            for (var element in _jadwal_dokter) {
+              print(element.tanggalJadwalDokter); 
+            }
         notifyListeners();
       } else {
         throw Exception('Failed to load data');

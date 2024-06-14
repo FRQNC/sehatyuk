@@ -248,15 +248,15 @@ class _HomePageState extends State<HomePage> {
                         ClipOval(
                           child: Image.asset(
                             image,
-                            height: MediaQuery.of(context).size.width * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.2,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 8),
                         Container(
-                          width: 88,
-                          height: 45,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.05,
                           child: Text(
                             ft1[entry.key],
                             style: TextStyle(

@@ -46,9 +46,11 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
-    setState(() {
-      _isInitialized = true;
-    });
+    if(mounted){
+      setState(() {
+        _isInitialized = true;
+      });
+    }
 
   }
 
@@ -486,7 +488,7 @@ class JadwalTemuCard extends StatelessWidget{
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Apakah Anda yakin ingin membatalkan antrian ini?'),
+                Text('Apakah Anda yakin ingin membatalkan janji temu ini?'),
               ],
             ),
           ),

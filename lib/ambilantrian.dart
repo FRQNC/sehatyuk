@@ -67,7 +67,9 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     await context.read<JanjiTemuProvider>().fetchData(_token, _user_id);
-    setState(() {});
+    if(mounted){
+      setState(() {});
+    }
   }
 
   bool _antrianDiambil = false;
@@ -458,9 +460,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
               visible: !_antrianDiambil,
               child: ElevatedButton(
                 onPressed: () async {
-                  setState(() {
-                    _antrianDiambil = !_antrianDiambil;
-                  });
+                  if(mounted){
+                    setState(() {
+                      _antrianDiambil = !_antrianDiambil;
+                    });
+                  }
                   await context
                       .read<JanjiTemuProvider>()
                       .alter_status(_token, id);
