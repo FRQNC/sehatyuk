@@ -179,9 +179,6 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                       containerWidth: 160,
                       fontSize: 18,
                       onPressed: () async {
-                        setState(() {
-                          _isLoading = true;
-                        });
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           Users userUpdate = Users(
@@ -198,6 +195,9 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
 
                           String? response;
 
+                        setState(() {
+                          _isLoading = true;
+                        });
                           response = await userProvider.updateUserProfile(userUpdate);
                           if(_selectedFile != null){
                               response = await userProvider.updateUserImage(_selectedFile!);
@@ -229,7 +229,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                           setState(() {
                             _isLoading = false;
                           });
-                          
+
                           if(mounted){
                             Navigator.pop(context, true);
                           }

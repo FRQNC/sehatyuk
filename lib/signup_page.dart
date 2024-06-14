@@ -262,10 +262,10 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                       width: 150,
                       child: _isLoading ? Center(child: CircularProgressIndicator()) : TextButton(
                         onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
                           setState(() {
                             _isLoading = true;
                           });
-                          if (_formKey.currentState!.validate()) {
                             String isSucceed = await _register();
                             if (isSucceed == "sukses") {
                               ScaffoldMessenger.of(context).showSnackBar(

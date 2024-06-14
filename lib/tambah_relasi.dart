@@ -51,12 +51,12 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
   }
 
   Future<void> _addRelasiAndUploadImage() async {
-  setState(() {
-    _isLoading = true;
-  });
 
   if (_formkey.currentState!.validate()) {
     _formkey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
 
     // Create Relasi object
     Relasi relasi = Relasi(
