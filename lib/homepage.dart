@@ -242,45 +242,42 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ClipOval(
-                            child: Image.asset(
-                              image,
-                              height: 65,
-                              width: 65,
-                              fit: BoxFit.cover,
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ClipOval(
+                          child: Image.asset(
+                            image,
+                            height: MediaQuery.of(context).size.width * 0.2,
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 4),
-                          Container(
-                            width: 88,
-                            height: 45,
-                            child: Text(
-                              ft1[entry.key],
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF37363B),
-                                letterSpacing: 0.05,
-                              ),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.fade,
-                              maxLines: 3,
+                        ),
+                        SizedBox(height: 4),
+                        Container(
+                          width: 88,
+                          height: 45,
+                          child: Text(
+                            ft1[entry.key],
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF37363B),
+                              letterSpacing: 0.05,
                             ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                            maxLines: 3,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.05),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200,
@@ -333,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                 paintStyle: PaintingStyle.fill,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.1),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
