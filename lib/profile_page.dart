@@ -1,14 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sehatyuk/LoadPage.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/edit_profile.dart';
 import 'package:sehatyuk/ganti_password.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
-import 'package:sehatyuk/welcome.dart';
+import 'package:sehatyuk/tentang_aplikasi.dart';
 import 'package:sehatyuk/relasi.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sehatyuk/providers/route_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({super.key});
@@ -54,6 +59,27 @@ class _ProfilePageState extends State<ProfilePage> {
     await Provider.of<UserProvider>(context, listen: false).fetchData();
   }
 
+  Future<void> _logout() async {
+  auth.removeAuth();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var routeProvider = Provider.of<RouteProvider>(context, listen: false);
+  prefs.setBool("openedFirstTime", true);
+  await Navigator.of(context).pushReplacement(
+    MaterialPageRoute(builder: (context) => LoadPage()),
+  );
+  routeProvider.pageIndex = 0;
+}
+
+  void _launchURL(BuildContext context, String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             backgroundImage:
                                                 _token.isNotEmpty
                                                     ? CachedNetworkImageProvider(
-                                                        '${Endpoint.url}user_image/${data.userData.id_user}',
+                                                        '${Endpoint.url}user_image/${data.userData.id_user}/${data.userData.photoUrl}',
                                                         headers: <String, String>{
                                                           'accept': 'application/json',
                                                           'Authorization': 'Bearer $_token',
@@ -239,7 +265,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const Divider(height: 5),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _launchURL(context, "https://github.com/FRQNC/sehatyuk");
+                                },
                                 child: Row(children: <Widget>[
                                   Expanded(
                                       flex: 1,
@@ -264,7 +292,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const Divider(height: 5),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                   Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                               TentangAplikasiPage()));
+                                },
                                 child: Row(children: <Widget>[
                                   Expanded(
                                       flex: 1,
@@ -341,12 +375,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               const Divider(height: 5),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const WelcomePage(),
-                                      ));
+                                  _logout();
                                 },
                                 child: Row(children: <Widget>[
                                   Expanded(

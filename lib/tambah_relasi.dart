@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
-import 'package:sehatyuk/relasi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:sehatyuk/models/relasi.dart';
@@ -39,11 +39,68 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
   String _jenisKelamin = "Laki-laki";
   String _tipeRelasi = "Orang Tua";
 
+  bool _isLoading = false;
+
+  File? _selectedFile;
+
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     setState(() {});
   }
+
+  Future<void> _addRelasiAndUploadImage() async {
+
+  if (_formkey.currentState!.validate()) {
+    _formkey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Create Relasi object
+    Relasi relasi = Relasi(
+      id_user: int.parse(_user_id),
+      namaLengkap: _namaLengkapController.text,
+      noBPJS: _noBPJSController.text,
+      tanggalLahir: _dateController.text,
+      gender: _jenisKelamin,
+      noTelp: _noTelpController.text,
+      alamat: _alamatController.text,
+      photoUrl: p.basename(_fotoRelasi),
+      tipe: _tipeRelasi,
+    );
+
+    // Add relasi
+    final response = await relasiProvider.addRelasi(_token, relasi);
+    if (response['statusCode'] == 200) {
+      // Fetch the new relasi ID
+      final int idRelasi = response['id_relasi'];
+
+      // Upload the image if selected
+      if (_selectedFile != null) {
+        final uploadResponse = await relasiProvider.addRelasiImage(idRelasi, _selectedFile!);
+        if (uploadResponse != "Success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal upload image')),
+          );
+        }
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Berhasil menambah relasi')),
+      );
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal menambahkan relasi')),
+      );
+    }
+  }
+
+  setState(() {
+    _isLoading = false;
+  });
+}
 
   @override
   void initState() {
@@ -53,6 +110,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<RelasiProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -112,7 +170,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           },
                         ),
                         FormText(
-                          validator: notNullValidator,
                           inputLabel: "Nomor BPJS/Asuransi",
                           hintText: "Masukkan nomor BPJS/Asuransi",
                           controller: _noBPJSController,
@@ -157,41 +214,11 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: PrimaryButton(
+                    child: _isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
-                      onPressed: () async {
-                        if (_formkey.currentState!.validate()) {
-                          _formkey.currentState!.save();
-
-                          Relasi relasi = Relasi(
-                              id_user: int.parse(_user_id),
-                              namaLengkap: _namaLengkapController.text,
-                              noBPJS: _noBPJSController.text,
-                              tanggalLahir: _dateController.text,
-                              gender: _jenisKelamin,
-                              noTelp: _noTelpController.text,
-                              alamat: _alamatController.text,
-                              photoUrl: _fotoRelasi,
-                              tipe: _tipeRelasi);
-
-                          int? response =
-                              await relasiProvider.addRelasi(_token, relasi);
-
-                          if (response == 200) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Berhasil menambah relasi')),
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Gagal menambah relasi')),
-                            );
-                          }
-                        }
-                      },
+                      onPressed: () async {await _addRelasiAndUploadImage();},
                     ),
                   ),
                 )
@@ -228,10 +255,16 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
               GestureDetector(
                 onTap: () async {
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                      await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'jpeg', 'png']
+                      );
                   if (result != null) {
                     File file = File(result.files.single.path!);
-                    _fotoRelasi = p.basename(file.path);
+                    setState(() {
+                      _selectedFile = file;
+                      _fotoRelasi = file.path;
+                    });
                   } else {}
                 },
                 child: Container(
@@ -245,10 +278,13 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                     alignment: Alignment.center,
                     children: [
                       Center(
-                        child: Icon(
+                        child: (_fotoRelasi.isEmpty) ? Icon(
                           Icons.person,
                           size: 60,
                           color: Color(0xFF4A707A),
+                        ) : CircleAvatar(
+                          backgroundImage: FileImage(File(_fotoRelasi)) as ImageProvider,
+                          radius: 60,
                         ),
                       ),
                       Positioned(
@@ -275,63 +311,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding formDropdownInputView({
-    required String inputLabel,
-    required String value,
-    required List<String> dropDownItems,
-    required void Function(String?) onChanged,
-    double labelFontSize = 14,
-    double labelLetterSpacing = 1.5,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: DropdownButtonFormField<String>(
-                value: value,
-                onChanged: onChanged,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Colors.white,
-                    filled: true),
-                items:
-                    dropDownItems.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  );
-                }).toList(),
-                dropdownColor: Colors.white,
-              ),
-            ),
           ),
         ],
       ),

@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/models/janji_temu.dart';
-import 'package:sehatyuk/models/doctor.dart';
-import 'package:sehatyuk/models/jadwal_dokter.dart';
 
 class JanjiTemuProvider extends ChangeNotifier {
   List<JanjiTemu> _janjiTemuList = [];
@@ -15,7 +13,17 @@ class JanjiTemuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+    notifyListeners();
+  }
+
+
   Future<bool> createJanjiTemu(String token, JanjiTemu janji_temu) async {
+    _setLoading(true);
     final response = await http.post(
       Uri.parse('${Endpoint.url}create_janji_temu/'),
       headers: <String, String>{
@@ -25,7 +33,7 @@ class JanjiTemuProvider extends ChangeNotifier {
       },
       body: jsonEncode(janji_temu.toJson()),
     );
-
+    _setLoading(false);
     print(response.statusCode);
     print(janji_temu.idOrangLain);
 
@@ -64,6 +72,7 @@ class JanjiTemuProvider extends ChangeNotifier {
   Future<bool> deleteData(String token, String id) async {
     try {
       final url = Uri.parse('${Endpoint.url}delete_janji_temu/$id');
+      _setLoading(true);
       final response = await http.delete(
         url,
         headers: {
@@ -71,7 +80,7 @@ class JanjiTemuProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-
+      _setLoading(false);
       if (response.statusCode == 200) {
         _janjiTemuList
             .removeWhere((janjiTemu) => janjiTemu.id.toString() == id);

@@ -22,6 +22,7 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -32,8 +33,20 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    setState(() {});
     await context.read<RelasiProvider>().fetchData(_user_id, _token);
+    setState(() {
+      _isInitialized = true;
+    });
+  }
+
+  Future<void> _refreshData() async{
+    setState(() {
+      _isInitialized = false;
+    });
+    await context.read<RelasiProvider>().fetchData(_user_id, _token);
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -90,14 +103,14 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            ListView.builder(
+                            _isInitialized ? ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: relasiList.length,
                                 itemBuilder: (context, index) {
                                   return relasiItemView(
                                       relasiList[index], _token);
-                                })
+                                }) : Center(child: CircularProgressIndicator(),)
                           ],
                         ),
                       )
@@ -111,12 +124,15 @@ class _RelasiPageState extends State<RelasiPage> with AppMixin {
                           child: PrimaryButton(
                               buttonText: "Tambah",
                               containerWidth: 160,
-                              onPressed: () {
-                                Navigator.push(
+                              onPressed: () async {
+                                final refresh = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const TambahRelasiPage()));
+                                if(refresh){
+                                  await _refreshData();
+                                }
                               },
                               fontSize: 15),
                         ),

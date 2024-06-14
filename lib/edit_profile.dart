@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
@@ -30,6 +31,9 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   String _userId = "";
   String _fotoUserNew = "";
   String _jenisKelamin = "Laki-laki";
+  bool _isLoading = false;
+  File? _selectedFile;
+  String _userPhoto = "";
 
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _namaLengkapController = TextEditingController();
@@ -37,6 +41,8 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   final TextEditingController _noBPJSController = TextEditingController();
   final TextEditingController _noTelpController = TextEditingController();
   final TextEditingController _alamatController = TextEditingController();
+
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -47,12 +53,14 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
   Future<void> _initializeData() async {
     await _fetchToken();
     await _fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _userId = await auth.getId();
-    setState(() {});
   }
 
   Future<void> _fetchData() async {
@@ -65,6 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
       _noTelpController.text = userProvider.userData.noTelp;
       _alamatController.text = userProvider.userData.alamat;
       _userId = userProvider.userData.id_user;
+      _userPhoto = userProvider.userData.photoUrl;
       _jenisKelamin =
           userProvider.userData.gender == 'L' ? "Laki-laki" : "Perempuan";
     });
@@ -72,6 +81,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -91,7 +101,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _isInitialized ? SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: sideMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,14 +174,13 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Center(
-                    child: PrimaryButton(
+                    child: _isLoading ? Center(child: CircularProgressIndicator()) : PrimaryButton(
                       buttonText: "Simpan",
                       containerWidth: 160,
                       fontSize: 18,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-
                           Users userUpdate = Users(
                             id_user: _userId,
                             email: _emailController.text,
@@ -184,27 +193,46 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                             photoUrl: p.basename(_fotoUserNew),
                           );
 
-                          String? response =
-                              await userProvider.updateUserProfile(userUpdate);
+                          String? response;
 
-                          if (response == "success") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Berhasil memperbarui data')),
-                            );
-                          } else if (response == "credential_error") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Email atau No. Telp sudah digunakan')),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Gagal memperbarui data')),
-                            );
+                        setState(() {
+                          _isLoading = true;
+                        });
+                          response = await userProvider.updateUserProfile(userUpdate);
+                          if(_selectedFile != null){
+                              response = await userProvider.updateUserImage(_selectedFile!);
                           }
 
-                          Navigator.pop(context, true);
+                          if (response == "success") {
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Berhasil memperbarui data')),
+                              );
+                            }
+                          } else if (response == "credential_error") {
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Email atau No. Telp sudah digunakan')),
+                              );
+                            }
+                          } else {
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Gagal memperbarui data')),
+                              );
+                            }
+                          }
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+
+                          if(mounted){
+                            Navigator.pop(context, true);
+                          }
                         }
                       },
                     ),
@@ -214,7 +242,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
             ),
           ],
         ),
-      ),
+      ) : Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -243,10 +271,15 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
               GestureDetector(
                 onTap: () async {
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles();
+                      await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg','jpeg','png']
+                      );
                   if (result != null) {
                     File file = File(result.files.single.path!);
+                    print("file name is ${p.basename(file.path)}");
                     setState(() {
+                      _selectedFile = file;
                       _fotoUserNew = file.path;
                     });
                   }
@@ -265,7 +298,7 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                         CircleAvatar(
                           backgroundImage: _fotoUserNew.isEmpty
                               ? CachedNetworkImageProvider(
-                                  '${Endpoint.url}user_image/$_userId',
+                                  '${Endpoint.url}user_image/$_userId/$_userPhoto',
                                   headers: <String, String>{
                                     'accept': 'application/json',
                                     'Authorization': 'Bearer $_token',

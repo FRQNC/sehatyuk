@@ -48,7 +48,7 @@ class FormDropdown extends StatelessWidget {
                 onChanged: onChanged,
                 decoration: InputDecoration(
                   isCollapsed: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  contentPadding: EdgeInsets.fromLTRB(0,4,8,4),
                   border: InputBorder.none,
                   fillColor: Colors.white,
                   filled: true,

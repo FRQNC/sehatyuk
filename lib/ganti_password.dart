@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
-import 'package:sehatyuk/route.dart';
-import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/templates/form/form_with_icon.dart';
 
 class GantiPasswordPage extends StatefulWidget {
@@ -41,22 +36,9 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
 
   AuthService auth = AuthService();
 
-  Future<String> _updatePassword() async {
-    String oldPassword = _oldPasswordController.text;
-    String newPassword = _newPasswordController.text;
-    String confirmPassword = _confirmPasswordController.text;
-
-    if (newPassword == confirmPassword) {
-      String result = await Provider.of<UserProvider>(context, listen: false)
-          .updateUserPassword(oldPassword, newPassword);
-      return result;
-    } else {
-      return "new_password_mismatch";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+     var userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         _closeKeyboard();
@@ -105,6 +87,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureText,
+                    validator: notNullValidator,
                   ),
                   FormWithIcon(
                     inputLabel: 'Masukkan Password Baru *',
@@ -116,6 +99,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureTextNew,
+                    validator: notNullValidator,
                   ),
                   FormWithIcon(
                     inputLabel: 'Konfirmasi Password Baru *',
@@ -127,6 +111,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureTextConfirm,
+                    validator: notNullValidator,
                   ),
                   SizedBox(
                     height: 40,
@@ -134,7 +119,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                   Center(
                     child: Container(
                       width: 150,
-                      child: TextButton(
+                      child: userProvider.isLoading ? Center(child: CircularProgressIndicator()) : TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();

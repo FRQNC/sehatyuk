@@ -1,5 +1,5 @@
 name: sehatyuk
-description: "A new Flutter project."
+description: "Sehatyuk is a mobile application that allows users to make appointments with doctors."
 publish_to: 'none'
 version: 0.1.0
 
@@ -19,6 +19,9 @@ dependencies:
   cached_network_image: ^3.2.0
   file_picker: ^8.0.3
   flutter_launcher_icons: ^0.13.1
+  mime: ^1.0.5
+  http_parser: ^4.0.2
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

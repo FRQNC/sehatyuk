@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/route.dart';
@@ -11,6 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
 
   // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void _setLoading(bool loading) {
+    _isLoading = loading;
+  }
+
 
   Future<String> register(BuildContext context, Users user) async {
     final response = await http.post(
@@ -124,6 +130,12 @@ class AuthService {
     return prefs.getString('token') ?? "";
   }
 
+  Future<void> removeToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+  }
+  
+
   Future<void> setId(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('id', value);
@@ -132,5 +144,15 @@ class AuthService {
   Future<String> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('id') ?? "";
+  }
+
+  Future<void> removeId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('id');
+  }
+
+  Future<void> removeAuth() async{
+    await removeToken();
+    await removeId();
   }
 }

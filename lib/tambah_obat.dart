@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/med_reminder.dart';
@@ -29,6 +29,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   String _user_id = "";
   TextEditingController _namaObatController = TextEditingController();
   String nama_obat = "";
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -65,11 +66,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   TextEditingController _aturanController =
       TextEditingController(text: "Sebelum makan");
 
-  String _selectedValueDosis = "";
-  String _selectedValuePeriode = "";
-  String _selectedValueHari = "";
-  String _selectedValueKaliSehari = "";
-  String _selectedValueAturanMinum = "";
 
   PengingatMinumObatProvider pengingat = PengingatMinumObatProvider();
 
@@ -98,6 +94,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<PengingatMinumObatProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -192,11 +189,14 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Center(
-                      child: PrimaryButton(
+                      child: _isLoading ? Center(child: CircularProgressIndicator()): PrimaryButton(
                         buttonText: "Simpan",
                         containerWidth: 160,
                         fontSize: 18,
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
                           bool isSucceed = await createData();
                           if (isSucceed) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -222,6 +222,9 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                               ),
                             );
                           }
+                          setState(() {
+                            _isLoading = false;
+                          });
                         },
                       ),
                     ),

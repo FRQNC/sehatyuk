@@ -24,6 +24,7 @@ class _PilihObatUntukPengingatPageState
   String _token = "";
   String _user_id = "";
   String searchQuery = "";
+  bool _isInitialized = false;
 
   TextEditingController searchController = TextEditingController();
   @override
@@ -35,8 +36,10 @@ class _PilihObatUntukPengingatPageState
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    context.read<ObatProvider>().fetchData(_token);
-    setState(() {});
+    context.read<ObatProvider>().fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -119,7 +122,7 @@ class _PilihObatUntukPengingatPageState
                     SizedBox(
                       height: 10,
                     ),
-                    Consumer<ObatProvider>(
+                    _isInitialized ? Consumer<ObatProvider>(
                       builder: (context, obat, _) {
                         return GridView.count(
                           shrinkWrap: true,
@@ -141,7 +144,7 @@ class _PilihObatUntukPengingatPageState
                           }).toList(),
                         );
                       },
-                    ),
+                    ) : Center(child: CircularProgressIndicator(),),
                   ],
                 ),
               ),

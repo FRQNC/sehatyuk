@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/homepage.dart';
-import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/DetailDokter.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +22,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
   String _user_id = "";
   String searchQuery = "";
   String selectedSpecialty = "";
+  bool _isInitialized = false;
 
   TextEditingController searchController = TextEditingController();
 
@@ -37,7 +36,9 @@ class _CariDokterPageState extends State<CariDokterPage> {
     _token = await auth.getToken();
     _user_id = await auth.getId();
     await context.read<DoctorProvider>().fetchData(_token);
-    setState(() {});
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
@@ -208,7 +209,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    ListView.builder(
+                    _isInitialized ? ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: doctor.doctors.length,
@@ -243,7 +244,7 @@ class _CariDokterPageState extends State<CariDokterPage> {
                           },
                         );
                       },
-                    ),
+                    ) : Center(child: CircularProgressIndicator(),),
                   ],
                 ),
               ],

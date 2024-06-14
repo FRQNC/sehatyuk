@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/DetailDokter.dart';
 
 class CariArtikelPage extends StatefulWidget {
   const CariArtikelPage({super.key});

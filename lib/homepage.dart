@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/daftarresume.dart';
-import 'package:sehatyuk/informasiobat.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
-import 'package:sehatyuk/kosong.dart';
 import 'package:sehatyuk/med_reminder.dart';
 import 'package:sehatyuk/providers/route_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/providers/endpoint.dart';
-import 'package:sehatyuk/providers/welcome_dialog_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,43 +24,50 @@ class _HomePageState extends State<HomePage> {
   AuthService auth = AuthService();
   String _token = "";
   String _user_id = "";
+  bool _isInitialized = false;
+
+  UserProvider user = UserProvider();
 
   Future<void> _fetchToken() async {
     _token = await auth.getToken();
     _user_id = await auth.getId();
-    setState(() {});
+    _fetchData();
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   void initState() {
-    var welcomeDialog = context.read<WelcomeDialogProvider>();
-
     super.initState();
     _fetchToken();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (welcomeDialog.openedFirstTime) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool? openedFirstTime = prefs.getBool('openedFirstTime');
+
+      if (openedFirstTime == null || openedFirstTime == true) {
         _showPopup();
+        await prefs.setBool('openedFirstTime', false);
       }
     });
+  }
+
+  Future<void> _fetchData() async{
+    user = Provider.of<UserProvider>(context, listen: false);
+    await user.fetchData();
   }
 
   void _showPopup() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        var user = context.watch<UserProvider>();
-
-        if (user.userData.namaLengkap == "") {
-          user.fetchData();
-        }
-
         return AlertDialog(
           backgroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: Column(
+          content: _isInitialized ? Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,12 +137,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ],
-          ),
+          ) : Center(child: CircularProgressIndicator(),),
         );
       },
     );
-    var welcomeDialog = context.read<WelcomeDialogProvider>();
-    welcomeDialog.changeOpenedFirstTime = false;
   }
 
   int _currentIndex = 0;
@@ -211,46 +210,46 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: fitur1.asMap().entries.map((entry) {
-                String image = entry.value;
-                return GestureDetector(
-                  onTap: () {
-                    if (entry.key == 0) {
-                      route.pageIndex = 1;
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pages1[entry.key],
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pages1[entry.key],
-                        ),
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: fitur1.asMap().entries.map((entry) {
+                  String image = entry.value;
+                  return GestureDetector(
+                    onTap: () {
+                      if (entry.key == 0) {
+                        route.pageIndex = 1;
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => pages1[entry.key],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => pages1[entry.key],
+                          ),
+                        );
+                      }
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ClipOval(
                           child: Image.asset(
                             image,
-                            height: 65,
-                            width: 65,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15,
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 8),
                         Container(
-                          width: 88,
-                          height: 45,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.height * 0.05,
                           child: Text(
                             ft1[entry.key],
                             style: TextStyle(
@@ -267,11 +266,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.05),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200,
@@ -324,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                 paintStyle: PaintingStyle.fill,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.1),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
