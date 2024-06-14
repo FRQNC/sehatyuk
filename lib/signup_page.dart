@@ -183,6 +183,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                       
                     },
                     obscureText: _obscureText,
+                    validator: notNullValidator,
                   ),
                   FormWithIcon(
                     inputLabel: 'Konfirmasi Password *',
@@ -195,6 +196,7 @@ class _SignUpPageState extends State<SignUpPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureTextConfirm,
+                    validator: notNullValidator,
                   ),
                   Row(
                     children: [

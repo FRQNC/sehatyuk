@@ -87,6 +87,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureText,
+                    validator: notNullValidator,
                   ),
                   FormWithIcon(
                     inputLabel: 'Masukkan Password Baru *',
@@ -98,6 +99,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureTextNew,
+                    validator: notNullValidator,
                   ),
                   FormWithIcon(
                     inputLabel: 'Konfirmasi Password Baru *',
@@ -109,6 +111,7 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
                       });
                     },
                     obscureText: _obscureTextConfirm,
+                    validator: notNullValidator,
                   ),
                   SizedBox(
                     height: 40,

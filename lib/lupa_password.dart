@@ -176,6 +176,7 @@ class LupaPasswordPageState extends State<LupaPasswordPage> with AppMixin {
                               });
                             },
                             obscureText: _obscureTextNew,
+                            validator: notNullValidator,
                           ),
                           FormWithIcon(
                             inputLabel: 'Konfirmasi Password Baru *',
@@ -187,6 +188,7 @@ class LupaPasswordPageState extends State<LupaPasswordPage> with AppMixin {
                               });
                             },
                             obscureText: _obscureTextConfirm,
+                            validator: notNullValidator,
                           ),
                         ],
                       )),
