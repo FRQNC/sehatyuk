@@ -7,11 +7,13 @@ import 'package:sehatyuk/edit_profile.dart';
 import 'package:sehatyuk/ganti_password.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
+import 'package:sehatyuk/tentang_aplikasi.dart';
 import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/relasi.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sehatyuk/providers/route_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -68,6 +70,16 @@ class _ProfilePageState extends State<ProfilePage> {
   );
   routeProvider.pageIndex = 0;
 }
+
+  void _launchURL(BuildContext context, String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +266,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const Divider(height: 5),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _launchURL(context, "https://github.com/FRQNC/sehatyuk");
+                                },
                                 child: Row(children: <Widget>[
                                   Expanded(
                                       flex: 1,
@@ -279,7 +293,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               const Divider(height: 5),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                   Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                               TentangAplikasiPage()));
+                                },
                                 child: Row(children: <Widget>[
                                   Expanded(
                                       flex: 1,
