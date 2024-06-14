@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/LoadPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_as_orang_lain_provider.dart';
@@ -19,7 +18,6 @@ import 'package:sehatyuk/providers/pengingat_minum_obat_provider.dart';
 import 'package:sehatyuk/providers/rekam_medis_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sehatyuk/auth/auth.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

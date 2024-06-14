@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/profile_page.dart';
 import 'package:sehatyuk/providers/route_provider.dart';

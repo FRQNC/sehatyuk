@@ -8,7 +8,6 @@ import 'package:sehatyuk/ganti_password.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/tentang_aplikasi.dart';
-import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/relasi.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

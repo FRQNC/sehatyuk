@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sehatyuk/providers/endpoint.dart';

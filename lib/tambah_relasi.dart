@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/templates/button/primary_button.dart';
-import 'package:sehatyuk/relasi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:sehatyuk/models/relasi.dart';
@@ -111,7 +110,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
-    var relasiProvider = Provider.of<RelasiProvider>(context, listen: false);
+    Provider.of<RelasiProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(

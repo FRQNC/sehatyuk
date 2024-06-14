@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/login_page.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
-import 'package:sehatyuk/route.dart';
-import 'package:sehatyuk/welcome.dart';
 import 'package:sehatyuk/templates/form/form_with_icon.dart';
 
 class GantiPasswordPage extends StatefulWidget {

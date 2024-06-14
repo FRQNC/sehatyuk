@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/route.dart';

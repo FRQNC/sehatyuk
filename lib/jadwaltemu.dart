@@ -2,18 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sehatyuk/ambilantrian.dart';
-import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/homepage.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:intl/intl.dart';
 import 'package:sehatyuk/models/doctor.dart';
-import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:sehatyuk/providers/user_provider.dart';
 
 class JadwalTemuPage extends StatefulWidget {
   const JadwalTemuPage({super.key});

@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/models/janji_temu.dart';
-import 'package:sehatyuk/models/doctor.dart';
-import 'package:sehatyuk/models/jadwal_dokter.dart';
 
 class JanjiTemuProvider extends ChangeNotifier {
   List<JanjiTemu> _janjiTemuList = [];

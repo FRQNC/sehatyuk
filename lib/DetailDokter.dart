@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/janji_orang_lain.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/cari_dokter.dart';
@@ -20,9 +19,7 @@ import 'package:sehatyuk/auth/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
-import 'package:sehatyuk/providers/jadwal_dokter_provider.dart';
 import 'package:sehatyuk/models/doctor.dart';
-import 'package:sehatyuk/models/jadwal_dokter.dart';
 import 'package:sehatyuk/providers/janji_temu_provider.dart';
 
 class DetailDokterPage extends StatefulWidget {

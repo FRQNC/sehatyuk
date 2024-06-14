@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sehatyuk/models/janji_temu_as_orang_lain.dart';
 import 'package:sehatyuk/providers/endpoint.dart';
-import 'package:sehatyuk/models/janji_temu.dart';
-import 'package:sehatyuk/models/doctor.dart';
-import 'package:sehatyuk/models/jadwal_dokter.dart';
 
 class JanjiTemuAsOrangLainProvider extends ChangeNotifier {
   JanjiTemuAsOrangLain _item = JanjiTemuAsOrangLain(

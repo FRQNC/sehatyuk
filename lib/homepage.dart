@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:sehatyuk/artikel.dart';
 import 'package:sehatyuk/cariobat.dart';
 import 'package:sehatyuk/cari_artikel.dart';
 import 'package:sehatyuk/daftarresume.dart';
-import 'package:sehatyuk/informasiobat.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
-import 'package:sehatyuk/kosong.dart';
 import 'package:sehatyuk/med_reminder.dart';
 import 'package:sehatyuk/providers/route_provider.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
 import 'package:sehatyuk/route.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/providers/endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

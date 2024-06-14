@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sehatyuk/daftarresume.dart';
 import 'package:sehatyuk/main.dart';
-import 'package:sehatyuk/cari_dokter.dart';
-import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/models/rekam_medis.dart';
 
 class ResumeMedisPage extends StatefulWidget {

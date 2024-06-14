@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/jadwaltemu.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/models/doctor.dart';
 import 'package:sehatyuk/models/janji_temu.dart';

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:sehatyuk/auth/auth.dart';
-import 'package:sehatyuk/homepage.dart';
-import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/DetailDokter.dart';
 import 'package:sehatyuk/providers/doctor_provider.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
 import 'package:sehatyuk/main.dart';
@@ -67,11 +66,6 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   TextEditingController _aturanController =
       TextEditingController(text: "Sebelum makan");
 
-  String _selectedValueDosis = "";
-  String _selectedValuePeriode = "";
-  String _selectedValueHari = "";
-  String _selectedValueKaliSehari = "";
-  String _selectedValueAturanMinum = "";
 
   PengingatMinumObatProvider pengingat = PengingatMinumObatProvider();
 
@@ -100,7 +94,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
 
   @override
   Widget build(BuildContext context) {
-    var pengingatMinumObatProvider = Provider.of<PengingatMinumObatProvider>(context, listen: false);
+    Provider.of<PengingatMinumObatProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
