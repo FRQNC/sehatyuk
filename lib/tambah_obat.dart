@@ -30,6 +30,7 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
   String _user_id = "";
   TextEditingController _namaObatController = TextEditingController();
   String nama_obat = "";
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -194,11 +195,14 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Center(
-                      child: pengingatMinumObatProvider.isLoading ? Center(child: CircularProgressIndicator()): PrimaryButton(
+                      child: _isLoading ? Center(child: CircularProgressIndicator()): PrimaryButton(
                         buttonText: "Simpan",
                         containerWidth: 160,
                         fontSize: 18,
                         onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
                           bool isSucceed = await createData();
                           if (isSucceed) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -224,6 +228,9 @@ class _TambahPengingatObatState extends State<TambahPengingatObat>
                               ),
                             );
                           }
+                          setState(() {
+                            _isLoading = false;
+                          });
                         },
                       ),
                     ),

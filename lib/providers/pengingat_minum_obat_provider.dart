@@ -97,7 +97,6 @@ class PengingatMinumObatProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-      print(response.body);
 
       if (response.statusCode == 200) {
         final List<dynamic> responseData = json.decode(response.body);
