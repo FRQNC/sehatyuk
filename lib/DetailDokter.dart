@@ -159,371 +159,372 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
           ),
         ),
       ),
-      body: _isInitialized ? SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
-          child: Column(
-            children: [
-              Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.12,
-                ),
-                child: Stack(
-                  alignment: Alignment.centerLeft,
+      body: _isInitialized
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: sideMargin, right: sideMargin, top: 8),
+                child: Column(
                   children: [
                     Container(
                       constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.12
+                        minHeight: MediaQuery.of(context).size.height * 0.15,
                       ),
-                    ),
-                    Positioned(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      top: 0,
+                      decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: boxColor,
+                          ),
                       child: Row(
                         children: [
-                          SizedBox(
-                            width: 60,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width - 2 * sideMargin - 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                              color: boxColor,
+                          Expanded(
+                            flex: 3,
+                            child: CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
+                              '${Endpoint.url}dokter_image/${widget.doctor.id}',
+                              headers: <String, String>{
+                                'accept': 'application/json',
+                                'Authorization': 'Bearer $_token',
+                              },
                             ),
+                            radius: MediaQuery.of(context).size.height * 0.054),
+                            ),
+                          Expanded(
+                            flex: 7,
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 40,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width - 2 * sideMargin - 130,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                widget.doctor.namaLengkap,
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
-                                                  fontSize: 15,
-                                                  fontWeight: semi,
-                                                  letterSpacing: 0.8,
-                                                ),
-                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
-                                              ),
-                                            ),
-                                            Image(
-                                              image: AssetImage(
-                                                  'assets/images/detailDokterPage/ri_service-fill.png'),
-                                            ),
-                                            Text(
-                                              " ${widget.doctor.pengalaman} tahun",
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                                fontSize: 12,
-                                                fontWeight: medium,
-                                                letterSpacing: 0.8,
-                                              ),
-                                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "${widget.doctor.spesialis}",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
-                                            fontSize: 15,
-                                            letterSpacing: 0.8,
-                                          ),
-                                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color: Color(0xFFDDDDDA),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width - 2 * sideMargin - 130,
                                           child: Row(
                                             children: [
-                                              Text(
-                                                "${widget.doctor.rating} ",
-                                                style: TextStyle(
-                                                  color: Color(0xFFFFC107),
-                                                  fontSize: 15,
-                                                  fontWeight: semi,
-                                                  letterSpacing: 0.8,
+                                              Expanded(
+                                                child: Text(
+                                                  widget.doctor.namaLengkap,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                    fontSize: 15,
+                                                    fontWeight: semi,
+                                                    letterSpacing: 0.8,
+                                                  ),
+                                                  textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                 ),
-                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               ),
                                               Image(
                                                 image: AssetImage(
-                                                    'assets/images/detailDokterPage/stars.png'),
+                                                    'assets/images/detailDokterPage/ri_service-fill.png'),
                                               ),
                                               Text(
-                                                ' 16 ulasan',
+                                                " ${widget.doctor.pengalaman} tahun",
                                                 style: TextStyle(
                                                   color: Theme.of(context)
                                                       .colorScheme
-                                                      .onPrimary,
+                                                      .primary,
                                                   fontSize: 12,
-                                                  letterSpacing: 0.5,
+                                                  fontWeight: medium,
+                                                  letterSpacing: 0.8,
                                                 ),
                                                 textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                          child: Text(
+                                            widget.doctor.spesialis,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary,
+                                              fontSize: 15,
+                                              letterSpacing: 0.8,
+                                            ),
+                                          textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)),
+                                              color: Color(0xFFDDDDDA),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "${widget.doctor.rating} ",
+                                                    style: TextStyle(
+                                                      color: Color(0xFFFFC107),
+                                                      fontSize: 15,
+                                                      fontWeight: semi,
+                                                      letterSpacing: 0.8,
+                                                    ),
+                                                    textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                                  ),
+                                                  Image(
+                                                    image: AssetImage(
+                                                        'assets/images/detailDokterPage/stars.png'),
+                                                  ),
+                                                  Text(
+                                                    ' 16 ulasan',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                      fontSize: 12,
+                                                      letterSpacing: 0.5,
+                                                    ),
+                                                    textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                             ),
-                          ),
+                            ),
                         ],
                       ),
                     ),
-                    CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          '${Endpoint.url}dokter_image/${widget.doctor.id}',
-                          headers: <String, String>{
-                            'accept': 'application/json',
-                            'Authorization': 'Bearer $_token',
-                          },
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: boxColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, right: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Image(
+                                            image: AssetImage(
+                                                'assets/images/detailDokterPage/map_university.png'),
+                                          ),
+                                          Text(
+                                            ' Alumnus',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: semi,
+                                              letterSpacing: 0.8,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image(
+                                        image: AssetImage(
+                                            'assets/images/detailDokterPage/dollar.png'),
+                                      ),
+                                      Text(
+                                        'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          fontSize: 14,
+                                          fontWeight: semi,
+                                          letterSpacing: 0.8,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                widget.doctor.alumnus,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 14,
+                                  fontWeight: medium,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                height: 5,
+                                color: dividerColor,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          8.0, 6.0, 8.0, 6.0),
+                                      child: Row(
+                                        children: [
+                                          Image(
+                                            image: AssetImage(
+                                                'assets/images/detailDokterPage/yes_no.png'),
+                                          ),
+                                          Text(
+                                            ' Kondisi dan Minat Klinis',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: semi,
+                                              letterSpacing: 0.8,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              BulletList(
+                                minatKlinis,
+                                14,
+                                medium,
+                                Theme.of(context).colorScheme.onPrimary,
+                                0.8,
+                              ),
+                            ],
+                          ),
                         ),
-                        radius: MediaQuery.of(context).size.height * 0.054),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: boxColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                  ),
+                                  Text(
+                                    ' Informasi Tambahan',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      fontSize: 14,
+                                      fontWeight: semi,
+                                      letterSpacing: 0.8,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Harga yang tertera hanya tarif awal, belum termasuk dengan biaya peralatan lainnya.',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  fontSize: 14,
+                                  letterSpacing: 0.8,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          _showDialogJanji(remainingJadwal);
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ),
+                        child: Text(
+                          'Buat Janji',
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: semi,
+                            color: Colors.white,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: boxColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Row(
-                                  children: [
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/images/detailDokterPage/map_university.png'),
-                                    ),
-                                    Text(
-                                      ' Alumnus',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: semi,
-                                        letterSpacing: 0.8,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/detailDokterPage/dollar.png'),
-                                ),
-                                Text(
-                                  'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary,
-                                    fontSize: 14,
-                                    fontWeight: semi,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          widget.doctor.alumnus,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 14,
-                            fontWeight: medium,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Divider(
-                          height: 5,
-                          color: dividerColor,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    8.0, 6.0, 8.0, 6.0),
-                                child: Row(
-                                  children: [
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/images/detailDokterPage/yes_no.png'),
-                                    ),
-                                    Text(
-                                      ' Kondisi dan Minat Klinis',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: semi,
-                                        letterSpacing: 0.8,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        BulletList(
-                          minatKlinis,
-                          14,
-                          medium,
-                          Theme.of(context).colorScheme.onPrimary,
-                          0.8,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: boxColor,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.info_outline,
-                            ),
-                            Text(
-                              ' Informasi Tambahan',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 14,
-                                fontWeight: semi,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Harga yang tertera hanya tarif awal, belum termasuk dengan biaya peralatan lainnya.',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 14,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () {
-                    _showDialogJanji(remainingJadwal);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                  child: Text(
-                    'Buat Janji',
-                    style: TextStyle(
-                      fontSize: 21,
-                      fontWeight: semi,
-                      color: Colors.white,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ) : Center(child: CircularProgressIndicator(),),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
   _showDialogJanji(remainingJadwal) {
-    var janjiTemuProvider = Provider.of<JanjiTemuProvider>(context, listen: false);
+    var janjiTemuProvider =
+        Provider.of<JanjiTemuProvider>(context, listen: false);
     return showDialog(
         context: context,
         barrierColor: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
@@ -571,9 +572,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                           ),
                           Container(
                             constraints: BoxConstraints(
-                              maxHeight: MediaQuery.of(context).size.height * 0.3
-                            ),
-                            child: ListView(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.3),
+                            child: remainingJadwal.length > 1 ? ListView(
                               children: [
                                 GridView.builder(
                                   shrinkWrap: true,
@@ -607,8 +608,10 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                       },
                                       child: Container(
                                         constraints: BoxConstraints(
-                                          minHeight: MediaQuery.of(context).size.height * 0.1
-                                        ),
+                                            minHeight: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.1),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
@@ -625,7 +628,8 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0), //if i remove this, it wont overflow
+                                          padding: const EdgeInsets.all(
+                                              8.0), //if i remove this, it wont overflow
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -673,7 +677,7 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                   },
                                 ),
                               ],
-                            ),
+                            ) : Center(child: Text("Tidak ada jadwal yang tersedia")),
                           ),
                           SizedBox(
                             height: 10,
@@ -749,86 +753,96 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                             height: 40,
                           ),
                           Center(
-                            child: janjiTemuProvider.isLoading ? CircularProgressIndicator() : TextButton(
-                              onPressed: () async {
-                                if (selected != -1) {
-                                  if (selectedPerson == "-1") {
-                                    if (selectedPerson != null) {
-                                      Navigator.pop(context);
-                                      final response = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BuatJanjiOtherPage(
-                                                    doctor: widget.doctor,
-                                                    selectedDate: selectedDate,
-                                                  )));
+                            child: janjiTemuProvider.isLoading
+                                ? CircularProgressIndicator()
+                                : TextButton(
+                                    onPressed: () async {
+                                      if (selected != -1) {
+                                        if (selectedPerson == "-1") {
+                                          if (selectedPerson != null) {
+                                            Navigator.pop(context);
+                                            final response =
+                                                await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BuatJanjiOtherPage(
+                                                              doctor:
+                                                                  widget.doctor,
+                                                              selectedDate:
+                                                                  selectedDate,
+                                                            )));
 
-                                      if (response != null) {
-                                        _showDialogJanji(remainingJadwal);
-                                      }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text('Pilih Tanggal!'),
-                                          duration: Duration(seconds: 1),
-                                        ),
-                                      );
-                                    }
-                                  } else {
-                                    if (selectedPerson != null) {
-                                      int selectedPersonValue =
-                                          int.tryParse(selectedPerson ?? "0") ??
-                                              0;
-                                      bool isSucceed = await createJanjiTemu(
-                                          selectedPersonValue);
-                                      if (isSucceed) {
-                                        Navigator.pop(context);
-                                        _showDialogBerhasil(remainingJadwal);
+                                            if (response != null) {
+                                              _showDialogJanji(remainingJadwal);
+                                            }
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text('Pilih Tanggal!'),
+                                                duration: Duration(seconds: 1),
+                                              ),
+                                            );
+                                          }
+                                        } else {
+                                          if (selectedPerson != null) {
+                                            int selectedPersonValue =
+                                                int.tryParse(selectedPerson ??
+                                                        "0") ??
+                                                    0;
+                                            bool isSucceed =
+                                                await createJanjiTemu(
+                                                    selectedPersonValue);
+                                            if (isSucceed) {
+                                              Navigator.pop(context);
+                                              _showDialogBerhasil(
+                                                  remainingJadwal);
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      'Pilih Buat Janji Untuk Siapa!'),
+                                                  duration:
+                                                      Duration(seconds: 1),
+                                                ),
+                                              );
+                                            }
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    'Pilih Buat Janji Untuk Siapa!'),
+                                                duration: Duration(seconds: 1),
+                                              ),
+                                            );
+                                          }
+                                        }
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            content: Text(
-                                                'Pilih Buat Janji Untuk Siapa!'),
+                                            content: Text('Pilih Tanggal!'),
                                             duration: Duration(seconds: 1),
                                           ),
                                         );
                                       }
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Pilih Buat Janji Untuk Siapa!'),
-                                          duration: Duration(seconds: 1),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Pilih Tanggal!'),
-                                      duration: Duration(seconds: 1),
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
-                                  );
-                                }
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                              ),
-                              child: Text(
-                                'Buat Janji',
-                                style: TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: semi,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                                    child: Text(
+                                      'Buat Janji',
+                                      style: TextStyle(
+                                        fontSize: 21,
+                                        fontWeight: semi,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                           ),
                         ],
                       ),
