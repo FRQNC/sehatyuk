@@ -40,7 +40,6 @@ class RelasiProvider extends ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-      print(response.body);
       if (response.statusCode == 200) {
         final List<dynamic> responseData = jsonDecode(response.body);
         _relasiList = responseData.map((data) => Relasi.fromJson(data)).toList();
@@ -77,7 +76,6 @@ class RelasiProvider extends ChangeNotifier {
 
   Future<String> addRelasiImage(int id_relasi, File file) async {
   String token = await auth.getToken();
-  print("id relasi add image $id_relasi");
   try {
     // Detect the file's MIME type
     String? mimeType = lookupMimeType(file.path);

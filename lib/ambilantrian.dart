@@ -92,6 +92,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
           color: Theme.of(context).colorScheme.primary,
         ),
         title: Text(
+          textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
           'Ambil Nomor Antrian',
           style: TextStyle(
             fontWeight: semi,
@@ -113,8 +114,8 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 400,
-                    width: 400,
+                    height: MediaQuery.of(context).size.width * 0.80,
+                    width: MediaQuery.of(context).size.width * 0.80,
                     child: Image.asset(
                       'assets/images/ambilAntrianPage/sehatyuk_qrcode.png',
                       fit: BoxFit.cover,
@@ -183,6 +184,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                               children: [
                                                 Expanded(
                                                   child: Text(
+                                                    textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                     kode,
                                                     style: TextStyle(
                                                       color: Theme.of(context)
@@ -195,6 +197,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                                   ),
                                                 ),
                                                 Text(
+                                                  textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                   tanggal,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
@@ -214,10 +217,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           Row(
                                             children: [
                                               Text(
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                 spesialisasi,
                                                 style: TextStyle(
                                                   letterSpacing: 0.8,
-                                                  fontSize: 15,
+                                                  fontSize: 12,
                                                   fontWeight: medium,
                                                   color: Theme.of(context)
                                                       .colorScheme
@@ -225,9 +229,10 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                                 ),
                                               ),
                                               Text(
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                 ' | ',
                                                 style: TextStyle(
-                                                  fontSize: 15,
+                                                  fontSize: 12,
                                                   fontWeight: light,
                                                   color: Theme.of(context)
                                                       .colorScheme
@@ -235,10 +240,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                                 ),
                                               ),
                                               Text(
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                                 namadokter,
                                                 style: TextStyle(
                                                   letterSpacing: 0.8,
-                                                  fontSize: 15,
+                                                  fontSize: 12,
                                                   fontWeight: medium,
                                                   color: Theme.of(context)
                                                       .colorScheme
@@ -252,12 +258,13 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           ),
                                           Expanded(
                                             child: Text(
+                                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(harga))}',
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onPrimary,
-                                                fontSize: 15,
+                                                fontSize: 12,
                                                 letterSpacing: 0.8,
                                               ),
                                             ),
@@ -342,10 +349,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
+                                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               'No. Antrian Anda:',
                                               style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 15,
+                                                fontSize: 12,
                                                 fontWeight: semi,
                                                 letterSpacing: 0.8,
                                               ),
@@ -357,12 +365,13 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           height: 10,
                                         ),
                                         Text(
+                                          textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                           '5',
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onPrimary,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: semi,
                                             letterSpacing: 0.8,
                                           ),
@@ -402,10 +411,11 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
+                                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               'Antrian Saat Ini:',
                                               style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 15,
+                                                fontSize: 12,
                                                 fontWeight: semi,
                                                 letterSpacing: 0.8,
                                               ),
@@ -417,12 +427,13 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                                           height: 10,
                                         ),
                                         Text(
+                                          textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                           '2',
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onPrimary,
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             fontWeight: semi,
                                             letterSpacing: 0.8,
                                           ),
@@ -462,6 +473,7 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 child: Text(
+                  textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                   'Ambil Antrian',
                   style: TextStyle(
                     color: Color(0xFFFFFFFF),

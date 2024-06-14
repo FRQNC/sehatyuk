@@ -204,27 +204,35 @@ class _EditProfilePageState extends State<EditProfilePage> with AppMixin {
                           }
 
                           if (response == "success") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('Berhasil memperbarui data')),
-                            );
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Berhasil memperbarui data')),
+                              );
+                            }
                           } else if (response == "credential_error") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      'Email atau No. Telp sudah digunakan')),
-                            );
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Email atau No. Telp sudah digunakan')),
+                              );
+                            }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Gagal memperbarui data')),
-                            );
+                            if(mounted){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Gagal memperbarui data')),
+                              );
+                            }
                           }
 
                           setState(() {
                             _isLoading = false;
                           });
-
-                          Navigator.pop(context, true);
+                          
+                          if(mounted){
+                            Navigator.pop(context, true);
+                          }
                         }
                       },
                     ),

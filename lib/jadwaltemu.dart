@@ -158,7 +158,7 @@ class _JadwalTemuPageState extends State<JadwalTemuPage> with AppMixin {
   }
 }
 
-class JadwalTemuCard extends StatelessWidget {
+class JadwalTemuCard extends StatelessWidget{
   final String token;
   final String id_janji_temu;
   final String kode_janji_temu;
@@ -232,60 +232,75 @@ class JadwalTemuCard extends StatelessWidget {
                           Text(
                             kode_janji_temu,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               letterSpacing: 0.8,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
+                            textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                           ),
                           Text(
                             ' | ',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               letterSpacing: 0.8,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
+                            textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                           ),
                           Text(
                             tgl_janji_temu,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 14,
                               letterSpacing: 0.8,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
+                            textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                           ),
                         ],
                       ),
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Text(
-                            spesialisasi,
-                            style: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primary,
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                              spesialisasi,
+                              style: TextStyle(
+                                fontSize: 12,
+                                letterSpacing: 0.8,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                             ),
                           ),
-                          Text(
-                            ' | ',
-                            style: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primary,
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              ' | ',
+                              style: TextStyle(
+                                fontSize: 12,
+                                letterSpacing: 0.8,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                             ),
                           ),
-                          Text(
-                            namaDokter,
-                            style: TextStyle(
-                              fontSize: 15,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primary,
+                          Expanded(
+                            flex: 6,
+                            child: Text(
+                              namaDokter,
+                              style: TextStyle(
+                                fontSize: 12,
+                                letterSpacing: 0.8,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                             ),
                           ),
                         ],
@@ -295,9 +310,10 @@ class JadwalTemuCard extends StatelessWidget {
                         namaPasien,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontSize: 12,
                           color: Color(0xFF94B0B7),
                         ),
+                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                       ),
                       SizedBox(height: 10),
                       SizedBox(height: 8),
@@ -307,9 +323,10 @@ class JadwalTemuCard extends StatelessWidget {
                             'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(int.parse(biaya_janji_temu))}',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                              fontSize: 12,
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
+                            textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                           ),
                           SizedBox(width: 32),
                         ],
@@ -362,32 +379,35 @@ class JadwalTemuCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () async {
-                    _showCancelConfirmationDialog(context);
-                  },
-                  child: Visibility(
-                    visible: cancelEnabled,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 40,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 145, 60, 60),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            'Cancel Janji',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () async {
+                      _showCancelConfirmationDialog(context);
+                    },
+                    child: Visibility(
+                      visible: cancelEnabled,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 145, 60, 60),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              'Cancel Janji',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
@@ -399,46 +419,49 @@ class JadwalTemuCard extends StatelessWidget {
                     child: SizedBox(
                       width: 10,
                     )),
-                GestureDetector(
-                  onTap: () {
-                    if (btnEnabled) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AmbilAntrianPage(
-                                id: id_janji_temu,
-                                kode: kode_janji_temu,
-                                tanggal: tgl_janji_temu,
-                                namadokter: namaDokter,
-                                spesialisasi: spesialisasi,
-                                harga: biaya_janji_temu,
-                                id_dokter: id_dokter,
-                                index: index)),
-                      );
-                    }
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 40,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: btnEnabled
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.tertiary,
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          status,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (btnEnabled) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AmbilAntrianPage(
+                                  id: id_janji_temu,
+                                  kode: kode_janji_temu,
+                                  tanggal: tgl_janji_temu,
+                                  namadokter: namaDokter,
+                                  spesialisasi: spesialisasi,
+                                  harga: biaya_janji_temu,
+                                  id_dokter: id_dokter,
+                                  index: index)),
+                        );
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      decoration: BoxDecoration(
+                        color: btnEnabled
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.tertiary,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            status,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),

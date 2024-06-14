@@ -164,144 +164,151 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
           padding: EdgeInsets.only(left: sideMargin, right: sideMargin, top: 8),
           child: Column(
             children: [
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                  ),
-                  Positioned(
-                    top: 0,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 60,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width -
-                              2 * sideMargin -
-                              60,
-                          height: MediaQuery.of(context).size.height * 0.12,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: boxColor,
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.12,
+                ),
+                child: Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.12
+                      ),
+                    ),
+                    Positioned(
+                      height: MediaQuery.of(context).size.height * 0.12,
+                      top: 0,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 60,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 40,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          2 * sideMargin -
-                                          130,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              widget.doctor.namaLengkap,
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary,
-                                                fontSize: 15,
-                                                fontWeight: semi,
-                                                letterSpacing: 0.8,
-                                              ),
-                                            ),
-                                          ),
-                                          Image(
-                                            image: AssetImage(
-                                                'assets/images/detailDokterPage/ri_service-fill.png'),
-                                          ),
-                                          Text(
-                                            " ${widget.doctor.pengalaman} tahun",
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontSize: 12,
-                                              fontWeight: medium,
-                                              letterSpacing: 0.8,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "${widget.doctor.spesialis}",
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                          fontSize: 15,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        color: Color(0xFFDDDDDA),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5.0, right: 5.0),
+                          Container(
+                            width: MediaQuery.of(context).size.width - 2 * sideMargin - 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              color: boxColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 40,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width - 2 * sideMargin - 130,
                                         child: Row(
                                           children: [
-                                            Text(
-                                              "${widget.doctor.rating} ",
-                                              style: TextStyle(
-                                                color: Color(0xFFFFC107),
-                                                fontSize: 15,
-                                                fontWeight: semi,
-                                                letterSpacing: 0.8,
+                                            Expanded(
+                                              child: Text(
+                                                widget.doctor.namaLengkap,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                  fontSize: 15,
+                                                  fontWeight: semi,
+                                                  letterSpacing: 0.8,
+                                                ),
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                               ),
                                             ),
                                             Image(
                                               image: AssetImage(
-                                                  'assets/images/detailDokterPage/stars.png'),
+                                                  'assets/images/detailDokterPage/ri_service-fill.png'),
                                             ),
                                             Text(
-                                              ' 16 ulasan',
+                                              " ${widget.doctor.pengalaman} tahun",
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .colorScheme
-                                                    .onPrimary,
+                                                    .primary,
                                                 fontSize: 12,
-                                                letterSpacing: 0.5,
+                                                fontWeight: medium,
+                                                letterSpacing: 0.8,
                                               ),
+                                              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Expanded(
+                                        child: Text(
+                                          "${widget.doctor.spesialis}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary,
+                                            fontSize: 15,
+                                            letterSpacing: 0.8,
+                                          ),
+                                        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Color(0xFFDDDDDA),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${widget.doctor.rating} ",
+                                                style: TextStyle(
+                                                  color: Color(0xFFFFC107),
+                                                  fontSize: 15,
+                                                  fontWeight: semi,
+                                                  letterSpacing: 0.8,
+                                                ),
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                              ),
+                                              Image(
+                                                image: AssetImage(
+                                                    'assets/images/detailDokterPage/stars.png'),
+                                              ),
+                                              Text(
+                                                ' 16 ulasan',
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.5,
+                                                ),
+                                                textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                        '${Endpoint.url}dokter_image/${widget.doctor.id}',
-                        headers: <String, String>{
-                          'accept': 'application/json',
-                          'Authorization': 'Bearer $_token',
-                        },
+                        ],
                       ),
-                      radius: MediaQuery.of(context).size.height * 0.054),
-                ],
+                    ),
+                    CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                          '${Endpoint.url}dokter_image/${widget.doctor.id}',
+                          headers: <String, String>{
+                            'accept': 'application/json',
+                            'Authorization': 'Bearer $_token',
+                          },
+                        ),
+                        radius: MediaQuery.of(context).size.height * 0.054),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 15,
@@ -349,26 +356,24 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                 ),
                               ),
                             ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        'assets/images/detailDokterPage/dollar.png'),
+                            Row(
+                              children: [
+                                Image(
+                                  image: AssetImage(
+                                      'assets/images/detailDokterPage/dollar.png'),
+                                ),
+                                Text(
+                                  'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary,
+                                    fontSize: 14,
+                                    fontWeight: semi,
+                                    letterSpacing: 0.8,
                                   ),
-                                  Text(
-                                    'Rp ${NumberFormat.currency(locale: 'id_ID', symbol: '').format(widget.doctor.harga)}',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
-                                      fontSize: 14,
-                                      fontWeight: semi,
-                                      letterSpacing: 0.8,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             )
                           ],
                         ),
@@ -565,7 +570,9 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                             height: 20,
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height * 0.3
+                            ),
                             child: ListView(
                               children: [
                                 GridView.builder(
@@ -602,8 +609,23 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                         constraints: BoxConstraints(
                                           minHeight: MediaQuery.of(context).size.height * 0.1
                                         ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary,
+                                          border: Border.all(
+                                            color: selected == index
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .primary
+                                                : Colors.transparent,
+                                            width: 2,
+                                          ),
+                                        ),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                          padding: const EdgeInsets.all(8.0), //if i remove this, it wont overflow
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -618,43 +640,32 @@ class _DetailDokterPageState extends State<DetailDokterPage> with AppMixin {
                                                   fontSize: 14,
                                                 ),
                                               ),
-                                              Text(
-                                                date,
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .tertiary,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
+                                              Flexible(
+                                                child: Text(
+                                                  date,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .tertiary,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
                                               ),
-                                              Expanded(child: Container()),
-                                              Text(
-                                                '$start - $end',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onPrimary,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12,
+                                              // Expanded(child: Container(color: Colors.blue,)),
+                                              Flexible(
+                                                child: Text(
+                                                  '$start - $end',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
                                               ),
                                             ],
-                                          ),
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
-                                          border: Border.all(
-                                            color: selected == index
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .primary
-                                                : Colors.transparent,
-                                            width: 2,
                                           ),
                                         ),
                                       ),

@@ -82,18 +82,18 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
         final uploadResponse = await relasiProvider.addRelasiImage(idRelasi, _selectedFile!);
         if (uploadResponse != "Success") {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to upload image')),
+            SnackBar(content: Text('Gagal upload image')),
           );
         }
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully added relasi')),
+        SnackBar(content: Text('Berhasil menambah relasi')),
       );
       Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add relasi')),
+        SnackBar(content: Text('Gagal menambahkan relasi')),
       );
     }
   }
@@ -171,7 +171,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                           },
                         ),
                         FormText(
-                          validator: notNullValidator,
                           inputLabel: "Nomor BPJS/Asuransi",
                           hintText: "Masukkan nomor BPJS/Asuransi",
                           controller: _noBPJSController,
@@ -313,63 +312,6 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Padding formDropdownInputView({
-    required String inputLabel,
-    required String value,
-    required List<String> dropDownItems,
-    required void Function(String?) onChanged,
-    double labelFontSize = 14,
-    double labelLetterSpacing = 1.5,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            inputLabel,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: labelFontSize,
-              letterSpacing: labelLetterSpacing,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: DropdownButtonFormField<String>(
-                value: value,
-                onChanged: onChanged,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Colors.white,
-                    filled: true),
-                items:
-                    dropDownItems.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  );
-                }).toList(),
-                dropdownColor: Colors.white,
-              ),
-            ),
           ),
         ],
       ),
