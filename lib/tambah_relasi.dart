@@ -79,7 +79,7 @@ class _TambahRelasiPageState extends State<TambahRelasiPage> with AppMixin {
       // Upload the image if selected
       if (_selectedFile != null) {
         final uploadResponse = await relasiProvider.addRelasiImage(idRelasi, _selectedFile!);
-        if (uploadResponse != "Success") {
+        if (uploadResponse != "success") {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Gagal upload image')),
           );
