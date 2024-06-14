@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sehatyuk/auth/auth.dart';
+import 'package:sehatyuk/lupa_password.dart';
 import 'package:sehatyuk/main.dart';
 import 'package:sehatyuk/models/users.dart';
 import 'package:sehatyuk/providers/user_provider.dart';
@@ -333,12 +334,18 @@ class _LoginPageState extends State<LoginPage> with AppMixin {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  'Lupa password?',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: bold,
+                TextButton(
+                  onPressed: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const LupaPasswordPage()));
+                  },
+                  child: Text(
+                    'Lupa password?',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: bold,
+                    ),
                   ),
                 ),
                 SizedBox(

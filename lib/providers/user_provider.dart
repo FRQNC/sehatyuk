@@ -218,6 +218,37 @@ Future<String> updateUserImage(File file) async {
     }
   }
 
+  Future<String> forgetPassword(String email_user, String no_telp_user, String tgl_lahir_user, String? new_password) async {
+    _setLoading(true);
+    Map<String, dynamic> data = {
+      "email_user": email_user,
+      "no_telp_user": no_telp_user,
+      "tgl_lahir_user": tgl_lahir_user,
+    };
+
+    if (new_password != null) {
+      data["new_password"] = new_password;
+    }
+    print(data);
+    final response = await http.post(
+      Uri.parse("${Endpoint.url}forget_password/"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+     _setLoading(false);
+    if (response.statusCode == 200) {
+      return "success";
+    } else {
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody.containsKey("detail")) {
+        return responseBody["detail"];
+      }
+      return "error";
+    }
+  }
+
   Future<void> fetchData() async {
     try {
       String id = await auth.getId();

@@ -41,20 +41,6 @@ class _GantiPasswordPageState extends State<GantiPasswordPage> with AppMixin {
 
   AuthService auth = AuthService();
 
-  Future<String> _updatePassword() async {
-    String oldPassword = _oldPasswordController.text;
-    String newPassword = _newPasswordController.text;
-    String confirmPassword = _confirmPasswordController.text;
-
-    if (newPassword == confirmPassword) {
-      String result = await Provider.of<UserProvider>(context, listen: false)
-          .updateUserPassword(oldPassword, newPassword);
-      return result;
-    } else {
-      return "new_password_mismatch";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
      var userProvider = Provider.of<UserProvider>(context);
