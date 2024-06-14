@@ -115,13 +115,19 @@ class _AmbilAntrianPageState extends State<AmbilAntrianPage> with AppMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.width * 0.80,
-                    width: MediaQuery.of(context).size.width * 0.80,
-                    child: Image.asset(
-                      'assets/images/ambilAntrianPage/sehatyuk_qrcode.png',
-                      fit: BoxFit.cover,
-                    ),
+                  Column(
+                    children: [
+                  Center(child: Text("Tunjukkan kode QR ke petugas.", style: TextStyle(fontSize: 16),),),
+                  SizedBox(height: 15,),
+                      Container(
+                        height: MediaQuery.of(context).size.width * 0.80,
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        child: Image.asset(
+                          'assets/images/ambilAntrianPage/sehatyuk_qrcode.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
